@@ -7,6 +7,7 @@
     - NodeJS 20.15.0
     - React 18
     - Bootstrap 5
+    - ExpressJS 4.17.3 back end
 
 
 ## Setting up
