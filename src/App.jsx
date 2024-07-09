@@ -1,33 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
+import LandingPage from './components/LandingPage/LandingPage'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./layout/Layout"
+import { ToastContainer } from 'react-toastify';
+import { Flip } from 'react-toastify';
+
+
+
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
+import "./css/App.css"
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <LandingPage />
+
+      < BrowserRouter >
+          <Layout>
+            <Routes>
+
+              <Route exact path="/" element={<LandingPage />} />
+              <Route exact path="/customers" element={<LandingPage />} />
+              {/* <Route exact path="/add-cat" element={<PetForm petType={"cat"} formType={"new"} />} />
+              <Route exact path="/add-dog" element={<PetForm petType={"dog"} formType={"new"} />} />
+              <Route exact path="/add-customer" element={<AddCustomer />} />
+              <Route exact path="/add-vet" element={<AddVet />} />
+              <Route exact path="/gallery" element={<Gallery />} /> */}
+
+            </Routes>
+
+            {/* Add the toast container once with our chosen details and we can call it from anywhere in the app */}
+            <ToastContainer
+              transition={Flip}
+              position="top-right"
+              autoClose={20000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+
+          </Layout>
+        </BrowserRouter>
+
     </>
   )
 }

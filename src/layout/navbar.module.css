@@ -1,0 +1,9 @@
+
+/* Hide the sidebar if we are on a desktop */
+@media screen and (min-width: 768px) {
+    .bar-hide{
+       display: none;
+    }
+   
+   
+     }

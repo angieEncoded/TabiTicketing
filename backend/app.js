@@ -19,11 +19,12 @@ app.get("/", (req, res) => {
     res.render('index.html');
 });
 
-
+// todo - factor this out into its ouwn route
 app.get("/customers", async (req, res, next) => {
-    const [customers] = await Customer.fetchAll();
+    const [customers] = await Customer.fetchActive();
     res.send(customers)
 })
+
 
 app.get("/users", async (req, res, next) => {
     const [users] = await Customer.fetchAll();

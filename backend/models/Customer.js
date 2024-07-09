@@ -53,8 +53,8 @@ module.exports = class Customer {
         this.status = status;
     }
 
-    static fetchAll() {
-        return db.execute("select * from customers")
+    static fetchActive() {
+        return db.execute("select * from customers where status = 'active'")
     }
 
 }

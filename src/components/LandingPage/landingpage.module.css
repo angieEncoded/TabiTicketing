@@ -1,0 +1,8 @@
+.tabi-table {
+    table-layout: fixed;
+}
+
+.my-class {
+    display: inline-block;
+    max-width: 10rem;
+  }
