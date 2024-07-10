@@ -4,11 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./layout/Layout"
 import { ToastContainer } from 'react-toastify';
 import { Flip } from 'react-toastify';
-
-
-
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import "./css/App.css"
 
 function App() {
@@ -16,19 +11,12 @@ function App() {
 
   return (
     <>
-      <LandingPage />
-
       < BrowserRouter >
           <Layout>
             <Routes>
 
               <Route exact path="/" element={<LandingPage />} />
               <Route exact path="/customers" element={<LandingPage />} />
-              {/* <Route exact path="/add-cat" element={<PetForm petType={"cat"} formType={"new"} />} />
-              <Route exact path="/add-dog" element={<PetForm petType={"dog"} formType={"new"} />} />
-              <Route exact path="/add-customer" element={<AddCustomer />} />
-              <Route exact path="/add-vet" element={<AddVet />} />
-              <Route exact path="/gallery" element={<Gallery />} /> */}
 
             </Routes>
 

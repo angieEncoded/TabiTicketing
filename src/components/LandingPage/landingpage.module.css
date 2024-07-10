@@ -1,8 +1,30 @@
 .tabi-table {
-    table-layout: fixed;
+  table-layout: fixed;
 }
 
-.my-class {
-    display: inline-block;
-    max-width: 10rem;
-  }
+.tabi-hover:hover{
+  cursor:pointer;
+  background-color: red;
+}
+
+.cell-width {
+  display: inline-block;
+  max-width: 15rem;
+}
+
+.button-not-selected {
+  color: var(--tabi-logo-darker);
+  border-color: var(--tabi-logo-darker);
+}
+
+.button-not-selected:hover {
+  background-color: var(--tabi-logo-darker);
+  color: white;
+}
+
+/* Clean up bootstrap's outlines */
+.button-not-selected:focus,
+.button-not-selected:active {
+  outline: none !important;
+  box-shadow: none;
+}

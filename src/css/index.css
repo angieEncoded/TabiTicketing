@@ -1,111 +1,108 @@
 html {
-    overflow-y: scroll;
-    height: 100%;
-    /* overflow: hidden; */
-  }
-  
-  body {
-    height: 100%;
-    min-height: 100%;
-    padding-top: 70px;
-    background-color:var(--tabi-body-color);
-  }
-  
-  
-  #windows-root{
-    z-index: 2000;
-  }
-  
-  
-  .noticaText {
-    font-family: 'Noticia Text', serif;
-  }
-  
-  .oldStandard {
-    font-family: 'Old Standard TT', serif;
-  }
-  
-  .robertoMono {
-    font-family: 'Roboto Mono', monospace;
-  }
-  
-  .oldFont {
-    font-family: 'Merriweather', serif;
-  }
-  
-  /* Fix the modal jumping */
-  /* Both the toggler button AND the body has this weird 17px padding\margin right for whatever reason */
-  .modal-open[style] {
-    padding-right: 0px !important;
-    }
-  
-    .navbar-toggler {
-      margin-right: 0px !important;
-    }
-  
-    /* End the modal jumping fixes */
-  
-  
-  
-  /* Some global settings for tabi specific things */
-  
-  .tabi-main-color {
-    color: var(--tabi-logo-darker)
-  }
-  
+  overflow-y: scroll;
+  height: 100%;
+  /* overflow: hidden; */
+}
+
+body {
+  height: 100%;
+  min-height: 100%;
+  padding-top: 70px;
+  background-color: var(--tabi-body-color);
+}
+
+#windows-root {
+  z-index: 2000;
+}
+
+.noticaText {
+  font-family: 'Noticia Text', serif;
+}
+
+.oldStandard {
+  font-family: 'Old Standard TT', serif;
+}
+
+.robertoMono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.oldFont {
+  font-family: 'Merriweather', serif;
+}
+
+/* Fix the modal jumping */
+/* Both the toggler button AND the body has this weird 17px padding\margin right for whatever reason */
+.modal-open[style] {
+  padding-right: 0px !important;
+}
+
+.navbar-toggler {
+  margin-right: 0px !important;
+}
+
+/* End the modal jumping fixes */
+
+
+
+/* Some global settings for tabi specific things */
+.tabi-main-color {
+  color: var(--tabi-logo-darker)
+}
+
+.tabi-container {
+  margin-top: .5rem;
+  margin-left: 55px;
+  margin-right: 10px;
+  margin-bottom: .5rem;
+}
+
+
+@media screen and (max-width: 768px) {
   .tabi-container {
-      margin-top: .5rem;
-      margin-left: 55px;
-      margin-right: 10px;
-      margin-bottom: .5rem;
+    margin-left: 0px;
+    margin-right: 0px;
   }
-  
-  
-  @media screen and (max-width: 768px) {
-    .tabi-container {
-      margin-left: 0px;
-      margin-right: 0px;
-  }
-  
-  
-  }
-  
-  
-  .tabi-fitbuttons {
-      width: 100%;
-  }
-  
+}
 
+.tabi-fitbuttons {
+  width: 100%;
+}
 
-  .tabi-outline-green{
-    border-color: green;
-  }
-  
-  
-    .front-window { 
-      z-index: 2000 !important;
-    }
-  
-    .back-window {
-      z-index: 1080 !important
-    }
+.tabi-pointer {
+  cursor: pointer;
+}
 
+.tabi-pointer:hover {
+  background-color: rgb(196, 196, 196);
+}
 
-    /* BOOTSTRAP OVERRIDES */
+.tabi-outline-green {
+  border-color: green;
+}
 
-    .tabi-btn-outline {
-      --bs-btn-color: var(--tabi-logo);
-      --bs-btn-border-color: var(--tabi-logo);
-      --bs-btn-hover-color: #fff;
-      --bs-btn-hover-bg: var(--tabi-logo);
-      --bs-btn-hover-border-color: #198754;
-      --bs-btn-focus-shadow-rgb: 25, 135, 84;
-      --bs-btn-active-color: #fff;
-      --bs-btn-active-bg: var(--tabi-logo);
-      --bs-btn-active-border-color: var(--tabi-logo);
-      --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-      --bs-btn-disabled-color: var(--tabi-logo);
-      --bs-btn-disabled-bg: transparent;
-      --bs-btn-disabled-border-color: var(--tabi-logo);
-      --bs-gradient: none;
-    }
+.front-window {
+  z-index: 2000 !important;
+}
+
+.back-window {
+  z-index: 1080 !important
+}
+
+/* BOOTSTRAP OVERRIDES */
+.tabi-btn-outline {
+  --bs-btn-color: var(--tabi-logo);
+  --bs-btn-border-color: var(--tabi-logo);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--tabi-logo);
+  --bs-btn-hover-border-color: #198754;
+  --bs-btn-focus-shadow-rgb: 25, 135, 84;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--tabi-logo);
+  --bs-btn-active-border-color: var(--tabi-logo);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: var(--tabi-logo);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: var(--tabi-logo);
+  --bs-gradient: none;
+}
