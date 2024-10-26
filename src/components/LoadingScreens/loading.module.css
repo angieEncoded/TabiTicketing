@@ -1,0 +1,46 @@
+.spinner {
+    /* visibility: hidden; */
+    width: 80px;
+    height: 80px;
+    border: 3px solid var(--egt-loading-spinner-circle);
+    border-top:3px solid var(--egt-loading-spinner-quarter);
+    border-radius: 50%;
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    margin: auto;
+    animation: spin 1s infinite linear;
+    z-index: 1060;
+}
+
+@keyframes spin {
+from {
+    transform: rotate(0deg);
+} to {
+    transform: rotate(360deg);
+}
+}
+
+/* .spinner.show {
+    visibility: visible;
+} */
+
+.spinnerBackdrop {
+    /* visibility: hidden; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    opacity: 0.5;
+}
+
+/* .spinnerBackdrop.show {
+    visibility: visible;
+    overflow-x: hidden;
+    overflow-y: auto;
+}  */

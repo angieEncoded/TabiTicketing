@@ -1,0 +1,17 @@
+.button-not-selected {
+    color: var(--tabi-logo-darker);
+    border-color: var(--tabi-logo-darker);
+  }
+  
+  .button-not-selected:hover {
+    background-color: var(--tabi-logo-darker);
+    color:white;
+  }
+  
+  /* Clean up bootstrap's outlines */
+  .button-not-selected:focus,.button-not-selected:active {
+    outline: none !important;
+    box-shadow: none;
+  }
+  
+  

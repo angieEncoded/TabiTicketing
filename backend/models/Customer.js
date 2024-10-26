@@ -8,6 +8,7 @@ module.exports = class Customer {
         fax,
         secondary_phone,
         website,
+        email,
         notes,
         billing_address_one,
         billing_address_two,
@@ -33,6 +34,7 @@ module.exports = class Customer {
         this.fax = fax;
         this.secondary_phone = secondary_phone;
         this.website = website;
+        this.email = email;
         this.notes = notes;
         this.billing_address_one = billing_address_one;
         this.billing_address_two = billing_address_two;
@@ -53,8 +55,87 @@ module.exports = class Customer {
         this.status = status;
     }
 
+
     static fetchActive() {
-        return db.execute("select * from customers where status = 'active'")
+        return db.execute("select * from customers where status = 'Active'")
+    }
+
+    static findById(id) {
+        return db.execute("select * from customers where id = ?", [id]);
+    }
+
+    save() {
+        return db.execute(`insert into customers (
+            customer_name,
+            primary_phone,
+            fax,
+            secondary_phone,
+            website,
+            email,
+            notes,
+            billing_address_one,
+            billing_address_two,
+            billing_address_city,
+            billing_address_state,
+            billing_address_zip,
+            billing_address_country,
+            shipping_address_one,
+            shipping_address_two,
+            shipping_address_city,
+            shipping_address_state,
+            shipping_address_zip,
+            shipping_address_country,
+            added_by,
+            updated_by,
+            status)
+            values (
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?)`,
+
+            [
+            this.customer_name,
+            this.primary_phone,
+            this.fax,
+            this.secondary_phone,
+            this.website,
+            this.email,
+            this.notes,
+            this.billing_address_one,
+            this.billing_address_two,
+            this.billing_address_city,
+            this.billing_address_state,
+            this.billing_address_zip,
+            this.billing_address_country,
+            this.shipping_address_one,
+            this.shipping_address_two,
+            this.shipping_address_city,
+            this.shipping_address_state,
+            this.shipping_address_zip,
+            this.shipping_address_country,
+            this.added_by,
+            this.updated_by,
+            this.status
+            ])
     }
 
 }

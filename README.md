@@ -14,4 +14,5 @@
 ## Setting up
 - SQL files with mockup data provided in backend/sql
 - Customers table done - run Customers.sql for demo data
+- Gave up on using Tanstack table, docs need serious work before library is usable.
 

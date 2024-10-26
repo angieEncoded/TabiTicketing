@@ -1,43 +1,39 @@
 import 'react-toastify/dist/ReactToastify.css';
-import LandingPage from './components/LandingPage/LandingPage'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./layout/Layout"
-import { ToastContainer } from 'react-toastify';
-import { Flip } from 'react-toastify';
 import "./css/App.css"
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import Layout from "./layout/Layout"
+import CustomerTable from "./pages/CustomerTable";
+import Login from "./components/Authentication/Login";
+import AddCustomer from "./pages/AddCustomer"
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <Error />, // remember that this will not inherit layout. nav bars are added conditionally if used is a logged in user
+    children: [
+      { path: "/", element: <CustomerTable /> },
+      { path: "/customers", element: <CustomerTable />  },
+      { path: "/add-customer", element: <AddCustomer /> },
+    ],
+  },
+]);
+
 
 function App() {
 
+  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
   return (
     <>
-      < BrowserRouter >
-          <Layout>
-            <Routes>
-
-              <Route exact path="/" element={<LandingPage />} />
-              <Route exact path="/customers" element={<LandingPage />} />
-
-            </Routes>
-
-            {/* Add the toast container once with our chosen details and we can call it from anywhere in the app */}
-            <ToastContainer
-              transition={Flip}
-              position="top-right"
-              autoClose={20000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-
-          </Layout>
-        </BrowserRouter>
-
+      {/* Initial state of the app, login with nothing else loading */}
+      {!isAuthenticated && <Login />}
+      {isAuthenticated && <RouterProvider router={router} />}
     </>
+   
   )
 }
 

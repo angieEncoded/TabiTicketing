@@ -50,6 +50,11 @@ body {
   color: var(--tabi-logo-darker)
 }
 
+
+.tabi-hover:hover{
+  cursor:pointer;
+}
+
 .tabi-container {
   margin-top: .5rem;
   margin-left: 55px;
@@ -106,3 +111,127 @@ body {
   --bs-btn-disabled-border-color: var(--tabi-logo);
   --bs-gradient: none;
 }
+
+
+.btn-tabi-logo {
+  border: 2px solid var(--tabi-logo);
+  color: var(--tabi-white);
+  background-color: var(--tabi-logo);
+  box-shadow: 5px 8px 8px -5px #000000;
+}
+
+.btn-tabi-logo:hover {
+  border: 2px solid var(--tabi-logo-darker);
+  color: var(--tabi-white);
+  background-color: var(--tabi-logo-darker);
+  box-shadow: 5px 8px 8px -8px #000000;
+}
+
+.btn-tabi-logo:disabled,
+.btn-tabi-logo:disabled:hover,
+.btn-tabi-logo:disabled:active {
+  background-color: #ccc;
+  color: rgb(0, 0, 0);
+  border-color: #cccc;
+  cursor: not-allowed;
+}
+
+.btn-tabi-logo:focus,
+.btn-tabi-logo:active {
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(82, 0, 0, 0.33);
+  box-shadow: -1px 2px 8px 1px rgba(82, 0, 0, 0.33);
+}
+
+/* =========================================== INPUTS CSS ===================================================*/
+
+
+
+/* FIX THE TABLE JUMPING */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ellipsis {
+  overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+
+
+/* =========================================== FORMS CSS ===================================================*/
+.details-outline {
+  border: 1px solid rgba(109, 109, 109, 0.61);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.contain-small-forms {
+  max-width: 50rem;
+}
+
+.contain-large-forms {
+  max-width: 75rem;
+}
+
+.form-background {
+  background-color: rgba(190, 189, 189, 0.548);
+  /* background-color: rgba(19, 18, 18, 0.548); */
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* BOOTSTRAP OVERRIDES */
+.form-control:focus, .form-select:focus {
+  color: black;
+  background-color: var(--bs-body-bg);
+  border-color: rgba(255, 255, 255, 0);
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(84, 151, 76, 0.33);
+  box-shadow: -1px 2px 8px 1px rgba(84, 151, 76, 0.33);
+}
+
+.form-check-input:focus {
+  border-color: #5b20bb;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(148, 86, 189, 0.616);
+}
+
+
+.form-check-input:checked {
+  background-color: #98d887;
+  border-color: #98d887;
+}
+/* =========================================== FORMS CSS ===================================================*/
+
+
+
+
+
+/* =========================================== BUTTONS CSS ===================================================*/
+.btn-tabi-secondary {
+  border: 2px solid var(--tabi-secondary);
+  background-color: var(--tabi-secondary);
+  color: #000;
+  box-shadow: 5px 8px 8px -5px #000000;
+}
+
+.btn-tabi-secondary:hover {
+  border: 2px solid var(--tabi-secondary-hover);
+  color: #000;
+  background-color: var(--tabi-secondary-hover);
+  box-shadow: 5px 8px 8px -8px #000000;
+}
+
+.btn-tabi-secondary:focus,
+.btn-tabi-secondary:active {
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(67, 37, 87, 0.33);
+  box-shadow: -1px 2px 8px 1px rgba(67, 37, 87, 0.33);
+}
+/* =========================================== BUTTONS CSS ===================================================*/
+
+

@@ -5,14 +5,16 @@ const Customer = require("./models/Customer")
 const cors = require('cors');
 const logger = require('./util/logger');
 const app = express();
-
+const { validateNewCustomer, validateExistingCustomer } = require("./util/validationHelpers")
 
 app.use(cors({
     origin: "http://localhost:3000"
 }))
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
 // Set up the folder where react will live
 app.use(express.static('client'));
+
 
 //The default endpoint for the webserver
 app.get("/", (req, res) => {
@@ -22,8 +24,52 @@ app.get("/", (req, res) => {
 // todo - factor this out into its ouwn route
 app.get("/customers", async (req, res, next) => {
     const [customers] = await Customer.fetchActive();
-    res.send(customers)
+    res.json(customers)
 })
+
+app.post("/customers", validateNewCustomer, async(req, res, next) => {
+
+    try {
+        const country = "United States";
+        const customer = req.body;
+
+        const newCustomer = new Customer(
+            null,
+            customer.customer_name,
+            customer.primary_phone,
+            customer.fax,
+            customer.secondary_phone,
+            customer.website,
+            customer.email,
+            customer.notes,
+            customer.billing_address_one,
+            customer.billing_address_two,
+            customer.billing_address_city,
+            customer.billing_address_state,
+            customer.billing_address_zip,
+            country,
+            customer.shipping_address_one,
+            customer.shipping_address_two,
+            customer.shipping_address_city,
+            customer.shipping_address_state,
+            customer.shipping_address_zip,
+            country,
+            "SYSTEM",
+            "SYSTEM",
+            null,
+            null,
+            customer.status
+        )
+        newCustomer.save()
+        return res.json({ "success": true})
+    } catch (error) {
+        console.log(error)
+        return res.json({ "success": false, "error": error.message})
+
+    }
+
+})
+
 
 
 app.get("/users", async (req, res, next) => {

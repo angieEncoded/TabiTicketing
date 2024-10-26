@@ -7,20 +7,14 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import Navigation from 'react-bootstrap/Navbar'
 import OffCanvas from './OffCanvas'
 import classes from "./navbar.module.css"
-import placeholderLogo from "../assets/icons/placeholderLogo.png"
+import placeholderLogo from "../assets/icons/logo.png"
 
 const NavBar = () => {
-
-    const someFunction = () => {
-        console.log("I did something")
-    }
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-
 
     return (
         <>
@@ -50,13 +44,13 @@ const NavBar = () => {
                         {/* Main Navigation */}
                         <Nav className="me-auto">
                             <Link className="nav-link" to="/">Customers</Link>
-                            <Link className="nav-link" to="/customers">Open Tickets</Link>
+                            <Link className="nav-link" to="/customers">Ticket Queue</Link>
                         </Nav>
 
                         {/* User Login Controls */}
                         <Nav>
                             <NavDropdown title="User Actions Placeholder" id="collasible-nav-dropdown">
-                                <Link className="dropdown-item" to="/" onClick={someFunction}>Profile</Link>
+                                <Link className="dropdown-item" to="/">Profile</Link>
                                 <Link className="dropdown-item" to="/">Settings</Link>
                                 <Link className="dropdown-item" to="/">Change Password</Link>
                                 <NavDropdown.Divider />

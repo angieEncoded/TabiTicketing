@@ -1,80 +1,45 @@
 import NavBar from './NavBar'
 import React from 'react'
-import SideDrawer from "./SideDrawer"
+import SideBar from "./SideBar"
+import { ToastContainer } from 'react-toastify'
+import { Outlet } from 'react-router-dom'
+import { Flip } from 'react-toastify'
+import { useMediaQuery } from 'react-responsive'
 
-// import React, { useEffect, useState } from 'react'
+const Layout = () => {
 
-
-
-// import { useNavigate } from "react-router-dom";
-
-// import QuickList from "../components/QuickList/QuickList"
-
-
-
-const Layout = (props) => {
-
-    // Handle back and forward buttons if we so choose - 
-    // Since everything flows through the layout component, it can listen for all browser events
-    // const [locationKeys, setLocationKeys] = useState([])
-    // const history = useNavigate()
-    // useEffect(() => {
-    //     return history.listen(location => {
-    //         if (history.action === 'PUSH') {
-    //             setLocationKeys([location.key])
-    //             console.log("Visited a new page in the app")
-    //         }
-
-    //         if (history.action === 'POP') {
-    //             // window.location.reload()
-    //             // console.log(locationKeys)
-    //             if (locationKeys[1] === location.key) {
-    //                 // console.log(locationKeys)
-    //                 setLocationKeys(([_, ...keys]) => keys)
-
-    //                 console.log("hit a forward event")
-
-    //             } else {
-    //                 // console.log(locationKeys)
-    //                 setLocationKeys((keys) => [location.key, ...keys])
-
-    //                 console.log("hit a back event")
-
-    //             }
-    //         }
-    //     })
-    // }, [locationKeys, history])
-
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 760px)' }) // we need stuff moved down if its a small tablet
 
     return (
-
         <>
-            {/* Navigation bar */}
             <NavBar />
-
-            {/* Side Navigation */}
-            <SideDrawer />
-
-            {/* Content Container  - Wrap any page or main component in the Layout component and start building content*/}
+            <SideBar />
             <div className="tabi-container">
                 <div className="container-fluid">
-                    {props.children}
+                    {isTabletOrMobile &&
+                        <div className="mt-5">
+                            <Outlet />
+                        </div>
+                    }
+                    {!isTabletOrMobile &&
+                        <Outlet />
+                    }
                 </div>
-
             </div>
-
-            {/* <QuickList /> */}
+            <ToastContainer
+                transition={Flip}
+                position="top-right"
+                autoClose={20000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </>
-
-
-
-
     )
-
-
-
-
-
 }
 
 export default Layout

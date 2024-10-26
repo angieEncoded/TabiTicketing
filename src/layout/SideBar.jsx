@@ -1,19 +1,15 @@
 import React from 'react'
+import SidebarLink from "./SideBarLink"
 import classes from "./sidebar.module.css"
-import { sidebarLinks } from "../util/Links"
-import SidebarLink from '../components/Links/SidebarLink'
+import { sidebarLinks } from "./Links"
+import { useSelector } from 'react-redux'
+const SideBar = () => {
 
+    const isAuthenticated = useSelector(store => store.auth.isAuthenticated)
 
-// import { useLocation } from 'react-router-dom'
-
-const SideDrawer = () => {
-
-    // Use this to conditionally render links
-    // const location = useLocation();
-    // console.log(location.pathname)
     return (
-
         <>
+        {isAuthenticated &&
             <div className={classes["sidebar-cont"]}>
                 <ul className={classes.sidebar}>
                     <div>
@@ -23,11 +19,9 @@ const SideDrawer = () => {
                     </div>
                 </ul>
             </div>
-
-
+        }
         </>
-
     )
 }
 
-export default SideDrawer
+export default SideBar
