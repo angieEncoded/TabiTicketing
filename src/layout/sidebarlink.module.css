@@ -1,0 +1,105 @@
+.sidebar-items {
+    padding-bottom: 1rem;
+    /* font-family: "roboto"; */
+  }
+  
+  .activeitem {
+    color: var(--tabi-logo) !important;
+  
+  }
+  
+  .sidebar-items i {
+    text-decoration: none;
+    color: white;
+    width: 26px;
+    height: 26px;
+    position: relative;
+    left: -27px;
+    cursor: pointer;
+  }
+  
+  
+  .sidebar-items a {
+    text-decoration: none;
+    color: white;
+  }
+  
+  
+  .sidebar-items a {
+    position: relative;
+    display: block;
+    /* top: -30px; */
+    /* padding-left: 25px; */
+    /* padding-right: 15px; */
+    transition: all 0.3s ease;
+    /* margin-left: 25px; */
+    /* margin-right: 10px; */
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: "roboto";
+    font-weight: 100;
+    font-size: 1.35em;
+  }
+  
+  .sidebar-items a:after {
+    content: "";
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 2px;
+    background: radial-gradient(circle at 94.02% 88.03%, #175496, transparent 100%);
+    /* background: radial-gradient(circle at 94.02% 88.03%, #ee7b7b, transparent 100%); */
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: -10;
+  }
+  
+  .sidebar-items:hover a:after {
+    opacity: 1;
+  }
+  
+  .sidebar-items div {
+    text-decoration: none;
+    color: white;
+  }
+  
+  .sidebar-items div {
+    position: relative;
+    display: block;
+    /* top: -30px; */
+    /* padding-left: 25px; */
+    /* padding-right: 15px; */
+    transition: all 0.3s ease;
+    /* margin-left: 25px; */
+    /* margin-right: 10px; */
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-family: "roboto";
+    font-weight: 100;
+    font-size: 1.35em;
+  }
+  
+  .sidebar-items div:after {
+    content: "";
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 2px;
+    background: radial-gradient(circle at 94.02% 88.03%, #18406A, transparent 100%);
+    /* background: radial-gradient(circle at 94.02% 88.03%, #ee7b7b, transparent 100%); */
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: -10;
+  }
+  
+  .sidebar-items:hover div:after {
+    opacity: 1;
+  }
+  
+  .colorIcon {
+    color:red
+  }

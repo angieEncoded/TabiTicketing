@@ -1,0 +1,263 @@
+html {
+  overflow-y: scroll;
+  height: 100%;
+  /* overflow: hidden; */
+}
+
+body {
+  height: 100%;
+  min-height: 100%;
+  padding-top: 70px;
+  background-color: var(--tabi-body-color);
+}
+
+#windows-root {
+  z-index: 2000;
+}
+
+.noticaText {
+  font-family: 'Noticia Text', serif;
+}
+
+.oldStandard {
+  font-family: 'Old Standard TT', serif;
+}
+
+.robertoMono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+.oldFont {
+  font-family: 'Merriweather', serif;
+}
+
+/* Fix the modal jumping */
+/* Both the toggler button AND the body has this weird 17px padding\margin right for whatever reason */
+.modal-open[style] {
+  padding-right: 0px !important;
+}
+
+.navbar-toggler {
+  margin-right: 0px !important;
+}
+
+/* End the modal jumping fixes */
+
+
+
+/* Some global settings for tabi specific things */
+.tabi-main-color {
+  color: var(--tabi-logo-darker)
+}
+
+
+.tabi-hover:hover{
+  cursor:pointer;
+}
+
+.tabi-container {
+  margin-top: .5rem;
+  margin-left: 55px;
+  margin-right: 10px;
+  margin-bottom: .5rem;
+}
+
+
+@media screen and (max-width: 768px) {
+  .tabi-container {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+.tabi-fitbuttons {
+  width: 100%;
+}
+
+.tabi-pointer {
+  cursor: pointer;
+}
+
+.tabi-pointer:hover {
+  background-color: rgb(196, 196, 196);
+}
+
+.tabi-outline-green {
+  border-color: green;
+}
+
+.front-window {
+  z-index: 2000 !important;
+}
+
+.back-window {
+  z-index: 1080 !important
+}
+
+/* BOOTSTRAP OVERRIDES */
+.tabi-btn-outline {
+  --bs-btn-color: var(--tabi-logo);
+  --bs-btn-border-color: var(--tabi-logo);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--tabi-logo);
+  --bs-btn-hover-border-color: #198754;
+  --bs-btn-focus-shadow-rgb: 25, 135, 84;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--tabi-logo);
+  --bs-btn-active-border-color: var(--tabi-logo);
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: var(--tabi-logo);
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: var(--tabi-logo);
+  --bs-gradient: none;
+}
+
+
+.btn-tabi-logo {
+  border: 2px solid var(--tabi-logo);
+  color: var(--tabi-white);
+  background-color: var(--tabi-logo);
+  box-shadow: 5px 8px 8px -5px #000000;
+}
+
+.btn-tabi-logo:hover {
+  border: 2px solid var(--tabi-logo-darker);
+  color: var(--tabi-white);
+  background-color: var(--tabi-logo-darker);
+  box-shadow: 5px 8px 8px -8px #000000;
+}
+
+.btn-tabi-logo:disabled,
+.btn-tabi-logo:disabled:hover,
+.btn-tabi-logo:disabled:active {
+  background-color: #ccc;
+  color: rgb(0, 0, 0);
+  border-color: #cccc;
+  cursor: not-allowed;
+}
+
+.btn-tabi-logo:focus,
+.btn-tabi-logo:active {
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(82, 0, 0, 0.33);
+  box-shadow: -1px 2px 8px 1px rgba(82, 0, 0, 0.33);
+}
+
+
+
+
+
+.btn-tabi-warning {
+  color: #000;
+  border: 2px solid var(--tabi-warning);
+  background-color: var(--tabi-warning);
+  box-shadow: 5px 8px 8px -5px #000000;
+
+}
+
+.btn-tabi-warning:hover {
+  color: #000;
+  background-color: var(--tabi-warning-hover);
+  border: 2px solid var(--tabi-warning-hover);
+  box-shadow: 5px 8px 8px -8px #000000;
+}
+
+.btn-tabi-warning:focus,
+.btn-tabi-warning:active {
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(82, 0, 0, 0.33);
+  box-shadow: -1px 2px 8px 1px rgba(82, 0, 0, 0.33);
+}
+
+/* =========================================== INPUTS CSS ===================================================*/
+
+
+
+/* FIX THE TABLE JUMPING */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ellipsis {
+  overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+
+
+/* =========================================== FORMS CSS ===================================================*/
+.details-outline {
+  border: 1px solid rgba(109, 109, 109, 0.61);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.contain-small-forms {
+  max-width: 50rem;
+}
+
+.contain-large-forms {
+  max-width: 75rem;
+}
+
+.form-background {
+  background-color: rgba(190, 189, 189, 0.548);
+  /* background-color: rgba(19, 18, 18, 0.548); */
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* BOOTSTRAP OVERRIDES */
+.form-control:focus, .form-select:focus {
+  color: black;
+  background-color: var(--bs-body-bg);
+  border-color: rgba(255, 255, 255, 0);
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(204, 161, 233, 0.616);
+  box-shadow: -1px 2px 8px 1px rgba(204, 161, 233, 0.616);
+}
+
+.form-check-input:focus {
+  border-color: #5b20bb;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(204, 161, 233, 0.616);
+}
+
+
+.form-check-input:checked {
+  background-color: #a687d8;
+  border-color: #9f87d8;
+}
+/* =========================================== FORMS CSS ===================================================*/
+
+
+
+
+
+/* =========================================== BUTTONS CSS ===================================================*/
+.btn-tabi-secondary {
+  border: 2px solid var(--tabi-secondary);
+  background-color: var(--tabi-secondary);
+  color: #000;
+  box-shadow: 5px 8px 8px -5px #000000;
+}
+
+.btn-tabi-secondary:hover {
+  border: 2px solid var(--tabi-secondary-hover);
+  color: #000;
+  background-color: var(--tabi-secondary-hover);
+  box-shadow: 5px 8px 8px -8px #000000;
+}
+
+.btn-tabi-secondary:focus,
+.btn-tabi-secondary:active {
+  outline: none !important;
+  -webkit-box-shadow: -1px 2px 8px 1px rgba(67, 37, 87, 0.33);
+  box-shadow: -1px 2px 8px 1px rgba(67, 37, 87, 0.33);
+}
+/* =========================================== BUTTONS CSS ===================================================*/
+
+

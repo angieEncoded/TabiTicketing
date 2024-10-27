@@ -1,0 +1,38 @@
+.sidebar-cont {
+    background: radial-gradient(circle at 94.02% 88.03%, #5947b5, transparent 100%), radial-gradient(circle at 25.99% 27.79%, #7141d9, transparent 100%), radial-gradient(circle at 50% 50%, #000000, #000000 100%);
+    white-space: nowrap;
+    position: fixed;
+    width: 55px !important;
+    top: 56px;
+    /* top: 0; */
+    height: 100vh;
+    z-index: 100;
+    /* background-color: #861313; */
+    /* background-color: #202020; */
+    overflow: hidden;
+    transition: width 0.3s ease;
+    cursor: pointer;
+    box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-cont:hover {
+  width: 200px !important;
+}
+
+.sidebar {
+  list-style-type: none;
+  color: rgb(255, 255, 255);
+}
+  
+.sidebar:first-child {
+  padding-top: 2.0rem;
+}
+  
+
+/* Turn off the sidebar for small screens */
+@media screen and (max-width: 768px) {
+  .sidebar-cont {
+    display: none;
+  }
+}
+  
