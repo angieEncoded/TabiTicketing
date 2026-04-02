@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { requiredNameCheck, requiredPasswordCheck, requiredTwoEfAyCheck } from '../../util/regExCheckers';
 import useInput from '../../hooks/useInput';
 import { useDispatch, useSelector } from 'react-redux';

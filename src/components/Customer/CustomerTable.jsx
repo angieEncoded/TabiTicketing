@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useGlobalFilter, usePagination, useResizeColumns, useTable, } from 'react-table'
 import COLUMNS from "./CustomerColumns"
 import ErrorAlert from "../ErrorAlert/ErrorAlert"

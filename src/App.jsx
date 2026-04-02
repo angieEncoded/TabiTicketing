@@ -46,6 +46,7 @@ function App() {
   return (
     <>
       {/* Initial state of the app, login with nothing else loading */}
+      {/* {!isAuthenticated && <Login />} */}
       {!isAuthenticated && <Login />}
       {isAuthenticated && <RouterProvider router={router} />}
     </>
