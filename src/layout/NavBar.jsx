@@ -44,7 +44,7 @@ const NavBar = () => {
                         {/* Main Navigation */}
                         <Nav className="me-auto">
                             <Link className="nav-link" to="/">Customers</Link>
-                            <Link className="nav-link" to="/customers">Ticket Queue</Link>
+                            <Link className="nav-link" to="/queue">Ticket Queue</Link>
                             <Link className="nav-link" to="/testing">Angie Testing</Link>
                         </Nav>
 

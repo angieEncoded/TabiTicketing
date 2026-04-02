@@ -22,8 +22,8 @@ CREATE TABLE `customers` (
 	`shipping_address_country` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
 	`added_by` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
 	`updated_by` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
-	`added_on` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
-	`updated_on` TIMESTAMP NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	`added_on` DATETIME NOT NULL DEFAULT current_timestamp(),
+	`updated_on` DATETIME NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 	`status` VARCHAR(8) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',
 	PRIMARY KEY (`id`) USING BTREE
 )
