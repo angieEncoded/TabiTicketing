@@ -1,19 +1,27 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice'
+import { toast } from 'react-toastify'
+import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading'
 import LargeModal from "../Modal/LargeModal.jsx"
 import classes from "./customertable.module.css"
 
+
 const CustomerTableWIP = () => {
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isPending, setIsPending] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
     const customersForTable = useSelector(state => state.cust.customers);
 
+    const dispatch = useDispatch();
 
-    console.log(urls)
-    console.log(customersForTable)
+
+    // console.log(urls.addNewCustomer)
+    // customersForTable.map(cust => console.log(cust.id))
     
     
     // Initially populate the data
@@ -51,8 +59,8 @@ const CustomerTableWIP = () => {
   return (
     <>
     
-        {customersForTable.map((customer) => (<li key={customer.id}>{customer}</li>))}
-    
+            {customersForTable.map((customer) => (<p key={customer.id}>{customer.customer_name} {customer.id}</p>))}
+      
     </>
 
 
