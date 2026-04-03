@@ -74,6 +74,18 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueBlurHandler: customerNameBlur
     } = useInput(requiredNameCheck);
 
+    // CUSTOMER NAME HANDLER
+    // ================================================
+    const { value: county,
+        valueIsValid: countyIsValid,
+        hasError: countyHasError,
+        resetInput: resetCountyInput,
+        valueChangeHandler: countyChangeHandler,
+        initialValueHandler: setCounty,
+        valueBlurHandler: countyBlur
+    } = useInput(requiredNameCheck);
+
+
     // CUSTOMER PRIMARY PHONE
     // ================================================
     const { value: primaryPhone,
@@ -620,6 +632,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
     const primaryPhoneClasses = primaryPhoneHasError ? 'form-control is-invalid' : 'form-control'
     const secondaryPhoneClasses = secondaryPhoneHasError ? 'form-control is-invalid' : 'form-control'
     const faxClasses = faxHasError ? 'form-control is-invalid' : 'form-control'
+    const countyClasses = faxHasError ? 'form-control is-invalid' : 'form-control'
     const requiredEmailClasses = emailHasError ? 'form-control is-invalid' : 'form-control'
     const websiteClasses = websiteHasError ? 'form-control is-invalid' : 'form-control'
     const customerNotesClasses = customerNotesHasError ? 'form-control is-invalid' : 'form-control'
@@ -671,6 +684,17 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                                 <div className="col-12 col-md-9">
                                     <input type="text" className={primaryPhoneClasses} onBlur={primaryPhoneBlur} onChange={primaryPhoneChangeHandler} value={primaryPhone} placeholder={"Primary Phone Number (Required)"} autoComplete="new-password" disabled={disableEditing} />
                                     {primaryPhoneHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>}
+                                </div>
+                            </div>
+
+                            {/* ================= COUNTY ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">County<span className={'text-danger'}></span></label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input className={countyClasses} onBlur={countyBlur} onChange={countyChangeHandler} value={county} placeholder={"County (Optional)"} autoComplete="new-password" autoFocus={true} disabled={disableEditing} />
+                                    {countyHasError && <p className="text-danger">County required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
                                 </div>
                             </div>
 

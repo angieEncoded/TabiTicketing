@@ -5,7 +5,6 @@ module.exports.validateNewCustomer = (req, res, next) => {
     if (error) {
         const message = error.details.map((element) => element.message).join(",");
         return res.json({"error": message})
-
     } else {
         next();
     }
