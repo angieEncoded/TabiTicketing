@@ -16,6 +16,7 @@ import Settings from './pages/Settings';
 import Backup from './pages/Backup';
 import Testing from './pages/Testing';
 import TicketQueue from './pages/TicketQueue';
+import Error from './pages/Error';
 
 const router = createBrowserRouter([
   {

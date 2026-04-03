@@ -1,42 +1,42 @@
 const COLUMNS = [
     {
-        Header: 'Customer Name',
-        accessor: 'customer_name',
+        header: 'Customer Name',
+        accessorKey: 'customer_name',
         disableFilters: true,
     },
     {
-        Header: 'Primary Phone',
-        accessor: 'primary_phone',
+        header: 'Primary Phone',
+        accessorKey: 'primary_phone',
         disableFilters: true,
     },
     {
-        Header: 'Fax',
-        accessor: 'fax',
+        header: 'County',
+        accessorKey: 'county',
         disableFilters: true,
     },
     {
-        Header: 'Email',
-        accessor: 'email',
+        header: 'Email',
+        accessorKey: 'email',
         disableFilters: true,
     },
     {
-        Header: 'Billing Address',
-        accessor: 'billing_address_one',
+        header: 'Billing Address',
+        accessorKey: 'billing_one',
         disableFilters: true,
     },
     {
-        Header: 'City ',
-        accessor: 'billing_address_city',
+        header: 'City ',
+        accessorKey: 'billing_city',
         disableFilters: true,
     },
     {
-        Header: 'State ',
-        accessor: 'billing_address_state',
+        header: 'State ',
+        accessorKey: 'billing_state',
         disableFilters: true,
     },
     {
-        Header: 'Country ',
-        accessor: 'billing_address_country',
+        header: 'Zip ',
+        accessorKey: 'billing_zip',
         disableFilters: true,
     }
 ];

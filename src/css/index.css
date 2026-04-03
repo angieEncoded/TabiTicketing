@@ -174,10 +174,10 @@ body {
 
 
 /* FIX THE TABLE JUMPING */
-table {
+/* table {
   table-layout: fixed;
   width: 100%;
-}
+} */
 
 .ellipsis {
   overflow: hidden;

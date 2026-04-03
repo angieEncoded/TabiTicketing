@@ -1,0 +1,24 @@
+                        <DataTable
+                            data={customersForTable}
+                            columns={columns}
+                            options={options}
+                            className='table table-striped table-hover tabi-hover'
+                            // onSelect={handleRowClick}
+                            // ref={tableRef}
+                        >
+                            <thead>
+                                <tr onClick={console.log("anywhere else in the wORLD this would work")}>
+                                    <th >Name</th>
+                                    <th>County</th>
+                                    <th>Phone</th>
+                                    <th>Address 1</th>
+                                    <th>Address 2</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Zip</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+
+
+                        </DataTable>

@@ -8,11 +8,14 @@ const { validateNewCustomer, validateExistingCustomer } = require("../util/valid
 
 // /customers/*
 
+// fetch all active customers
 router.get("/", async (req, res, next) => {
-    const [customers] = await Customer.fetchActive();
-    res.json(customers)
+    const customers = await Customer.findAll({ where:{'status': 'Active'} });
+    console.log(customers);
+    res.json(customers);
 })
 
+// Add a new customer
 router.post("/", validateNewCustomer, async (req, res, next) => {
 
     const data = req.body;
@@ -55,6 +58,7 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 
 })
 
+// Get a single customer
 router.get("/:id", async (req, res, next) => {
 
     try {
@@ -75,6 +79,7 @@ router.get("/:id", async (req, res, next) => {
 
 })
 
+// Update a single customer
 router.put("/:id", validateExistingCustomer, async (req, res, next) => {
 
     try {
@@ -124,6 +129,9 @@ router.put("/:id", validateExistingCustomer, async (req, res, next) => {
         return res.json({ "status": "500", "error": error.message })
     }
 })
+
+// Archive a customer (paranoid delete)
+
 
 
 module.exports = router;
