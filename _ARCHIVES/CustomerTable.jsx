@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useGlobalFilter, usePagination, useResizeColumns, useTable, } from 'react-table'
-import COLUMNS from "./CustomerColumns"
-import ErrorAlert from "../ErrorAlert/ErrorAlert"
-import { GlobalFilter } from '../Filters/GlobalFilter'
+import COLUMNS from "../src/components/Customer/CustomerColumns.jsx"
+import ErrorAlert from "../src/components/ErrorAlert/ErrorAlert.jsx"
+import { GlobalFilter } from '../src/components/Filters/GlobalFilter.jsx'
 import classes from "./customertable.module.css"
-import LargeModal from "../Modal/LargeModal.jsx"
-import CustomerForm from '../Forms/CustomerForm'
+import LargeModal from "../src/components/Modal/LargeModal.jsx"
+import CustomerForm from '../src/components/Forms/CustomerForm.jsx'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
-import { customersActions } from '../../store/CustomerSlice'
-import Loading from '../LoadingScreens/Loading'
+import { customersActions } from '../src/store/CustomerSlice.js'
+import Loading from '../src/components/LoadingScreens/Loading.jsx'
 
 const CustomerTable = () => {
 

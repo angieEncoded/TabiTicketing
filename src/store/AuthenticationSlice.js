@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // set our initial state SET TO TRUE FOR EASE OF DEV - REMEMBER THAT THIS LOGIC FIRES OFF THE URLS
 // WHICH ARE NEEDED FOR POPULATED STATE AND INDEXED DB, ADDED THE URLS TO THE STATE SLICE INITIAL STATE TO GET
 // AROUND NO DATA POPULATING WITH THIS FOR TESTING
-const initialAuthenticationState = { isAuthenticated: false, serverToken: undefined }
+const initialAuthenticationState = { isAuthenticated: true, serverToken: undefined }
 
 const authenticationSlice = createSlice({
     name: 'Authentication',

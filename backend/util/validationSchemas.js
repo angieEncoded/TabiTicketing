@@ -9,7 +9,7 @@ module.exports.customerSchema = Joi.object({
     email:Joi.string().allow(''),
     notes: Joi.string().allow(''),
     status: Joi.string().required(),
-    county: Joi.string().required(),
+    county: Joi.string().allow(''),
     billing_one: Joi.string().required(),
     billing_two: Joi.string().allow(''),
     billing_city: Joi.string().required(),

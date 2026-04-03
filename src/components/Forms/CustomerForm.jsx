@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
     requiredAddressCheck, requiredNameCheck, requiredZipCheck, requiredCityStateCheck, requiredPhoneCheck, optionalAddressCheck,
     optionalTextcheck, optionalPhoneCheck, optionalEmailCheck, optionalCityStateCheck, optionalZipCheck,
     optionalWebsiteCheck
-} from "../../util/regExCheckers" // Import my regex checker functions
+} from "../../util/regExCheckers"; // Import my regex checker functions
 import { formatRemainingSeconds } from "../../util/helperFunctions"
 import Buttontabi from "../Button/Buttontabi";
 import Loading from '../LoadingScreens/Loading';
@@ -13,8 +13,9 @@ import useSelect from "../../hooks/useSelect"
 import { toast } from "react-toastify";
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import usStates from "../../util/usStates.json"
-import { customersActions } from '../../store/CustomerSlice'
+import usStates from "../../util/usStates.json";
+import countries from "../../util/countries.json";
+import { customersActions } from '../../store/CustomerSlice';
 
 
 // incoming customer data can be {'id': undefined}
@@ -62,7 +63,6 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
     }, []);
 
 
-
     // CUSTOMER NAME HANDLER
     // ================================================
     const { value: customerName,
@@ -83,8 +83,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueChangeHandler: countyChangeHandler,
         initialValueHandler: setCounty,
         valueBlurHandler: countyBlur
-    } = useInput(requiredNameCheck);
-
+    } = useInput(optionalCityStateCheck);
 
     // CUSTOMER PRIMARY PHONE
     // ================================================
@@ -141,7 +140,6 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueBlurHandler: websiteBlur
     } = useInput(optionalWebsiteCheck);
 
-
     // CUSTOMER NOTES INPUT HANDLER
     // ================================================
     const { value: customerNotes,
@@ -163,11 +161,6 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         initialValueHandler: setCustomerStatus,
         valueBlurHandler: customerStatusBlur
     } = useSelect(requiredCityStateCheck, "Active");
-
-
-
-
-
 
     // CUSTOMER BILLING ADDRESS ONE HANDLER
     // ================================================
@@ -211,7 +204,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueChangeHandler: billingAddressStateChangeHandler,
         initialValueHandler: setBillingAddressState,
         valueBlurHandler: billingAddressStateBlur
-    } = useSelect(requiredCityStateCheck, "PA");
+    } = useSelect(requiredCityStateCheck, "NJ");
 
     //  CUSTOMER BILLING ZIP HANDLER
     // ================================================
@@ -224,6 +217,16 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueBlurHandler: billingAddressZipBlur
     } = useInput(requiredZipCheck);
 
+    // CUSTOMER BILLING COUNTRY ONE HANDLER
+    // ================================================
+    const { value: billingAddressCountry,
+        valueIsValid: billingAddressCountryIsValid,
+        hasError: billingAddressCountryHasError,
+        resetInput: resetBillingAddressCountryInput,
+        valueChangeHandler: billingAddressCountryChangeHandler,
+        initialValueHandler: setBillingAddressCountry,
+        valueBlurHandler: billingAddressCountryBlur
+    } = useInput(requiredCityStateCheck, "US");
 
     // CUSTOMER SHIPPING ADDRESS ONE HANDLER
     // ================================================
@@ -267,7 +270,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueChangeHandler: shippingAddressStateChangeHandler,
         initialValueHandler: setShippingAddressState,
         valueBlurHandler: shippingAddressStateBlur
-    } = useSelect(optionalCityStateCheck, "PA");
+    } = useSelect(optionalCityStateCheck, "NJ");
 
     // CUSTOMER SHIPPING ADDRESS ZIP HANDLER
     // ================================================
@@ -280,38 +283,16 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueBlurHandler: shippingAddressZipBlur
     } = useInput(optionalZipCheck);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // CUSTOMER SHIPPING COUNTRY ONE HANDLER
+    // ================================================
+    const { value: shippingAddressCountry,
+        valueIsValid: shippingAddressCountryIsValid,
+        hasError: shippingAddressCountryHasError,
+        resetInput: resetShippingAddressCountryInput,
+        valueChangeHandler: shippingAddressCountryChangeHandler,
+        initialValueHandler: setShippingAddressCountry,
+        valueBlurHandler: shippingAddressCountryBlur
+    } = useInput(requiredCityStateCheck, "US");
 
     // Helper function to clear all the inputs at once
     const clearForm = () => {
@@ -321,6 +302,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         resetFaxInput();
         resetEmailInput();
         resetWebsiteInput();
+        resetCountyInput();
         resetCustomerNotesInput();
         resetCustomerStatusInput();
         resetBillingAddressOneInput();
@@ -328,12 +310,13 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         resetBillingAddressCityInput();
         resetBillingAddressStateInput();
         resetBillingAddressZipInput();
+        resetBillingAddressCountryInput();
         resetShippingAddressOneInput();
         resetShippingAddressTwoInput();
         resetShippingAddressCityInput();
         resetShippingAddressStateInput();
         resetShippingAddressZipInput();
-
+        resetShippingAddressCountryInput();
     }
 
     // prepopulate the form if we are here to do edits
@@ -351,11 +334,13 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         setBillingAddressCity(incomingData.billing_address_city);
         setBillingAddressState(incomingData.billing_address_state);
         setBillingAddressZip(incomingData.billing_address_zip);
+        setBillingAddressCountry(incomingData.billingAddressCountry);
         setShippingAddressOne(incomingData.shipping_address_one);
         setShippingAddressTwo(incomingData.shipping_address_two);
         setShippingAddressCity(incomingData.shipping_address_city);
         setShippingAddressState(incomingData.shipping_address_state);
         setShippingAddressZip(incomingData.shipping_address_zip);
+        setShippingAddressCountry(incomingData.shippingAddressCountry);
     }
 
     const resetComponent = () => {
@@ -377,20 +362,23 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         primaryPhoneIsValid &&
         secondaryPhoneIsValid &&
         faxIsValid &&
-        emailIsValid &&
         websiteIsValid &&
+        emailIsValid &&
         customerNotesIsValid &&
         customerStatusIsValid &&
+        countyIsValid &&
         billingAddressOneIsValid &&
         billingAddressTwoIsValid &&
         billingAddressCityIsValid &&
         billingAddressStateIsValid &&
         billingAddressZipIsValid &&
+        billingAddressCountryIsValid &&
         shippingAddressOneIsValid &&
         shippingAddressTwoIsValid &&
         shippingAddressCityIsValid &&
         shippingAddressStateIsValid &&
-        shippingAddresszipIsValid
+        shippingAddresszipIsValid &&
+        shippingAddressCountryIsValid
 
     ) {
         formIsValid = true;
@@ -415,83 +403,19 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
             website: website,
             notes: customerNotes,
             status: customerStatus,
-            billing_address_one: billingAddressOne,
-            billing_address_two: billingAddressTwo,
-            billing_address_city: billingAddressCity,
-            billing_address_state: billingAddressState,
-            billing_address_zip: billingAddressZip,
-            billing_address_country: "US",
-            shipping_address_one: shippingAddressOne,
-            shipping_address_two: shippingAddressTwo,
-            shipping_address_city: shippingAddressCity,
-            shipping_address_state: shippingAddressState,
-            shipping_address_zip: shippingAddressZip,
-            shipping_address_country: "US",
-        }
-
-
-        // EDIT EXISTING RECORD
-        //=================================================================================
-        if (customerId) {
-
-            if (!editingLock.status === "LOCKED") {
-                toast.error("You don't seem to have an editing lock on that record.")
-                setDisableEditing(true)
-                setEditingLock({ status: "UNLOCKED", lockRemainingTime: 0, currentIntervalId: 0 });
-                setLockPending(false)
-                return;
-            }
-
-
-            try {
-                const results = await fetch(`${urls.getCustomerById}${customerId}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formPost)
-                })
-
-                if (!results.ok) { throw new Error(results.statusText) }
-                const serverResponse = await results.json();
-
-                // If we are successful
-                if (serverResponse.status === "200") {
-
-                    toast.success(`Successfully updated customer`)
-
-                    // request the entire new record from the database
-                    const savedCustomerRecord = await fetch(`${urls.getCustomerById}${customerId}`)
-                    if (!savedCustomerRecord.ok) { throw new Error(savedCustomerRecord.statusText) }
-                    const savedCustomerRecordJson = await savedCustomerRecord.json();
-
-
-
-
-                    // Populate everything we need to for editing the customer
-                    setDisableEditing(true);
-                    prePopulateForm(savedCustomerRecordJson)
-                    setCustomerId(customerId)
-                    setFormType("edit");
-                    setEditingLock({ status: "UNLOCKED", lockRemainingTime: 0 });
-                    setLockPending(false)
-                    setIsPending(false)
-
-                    // update the store with the latest database information
-                    const customerData = await fetch(`${urls.getCustomerData}`);
-                    if (!customerData.ok) throw new Error("Failed to fetch customer data.");
-                    const customerJson = await customerData.json();
-                    dispatch(customersActions.loadCustomerData(customerJson));
-
-
-                    return;
-                } else {
-                    throw new Error(serverResponse.message)
-                }
-            } catch (error) {
-                setIsPending(false)
-                toast.error(error.message)
-            }
+            county: county,
+            billing_one: billingAddressOne,
+            billing_two: billingAddressTwo,
+            billing_city: billingAddressCity,
+            billing_state: billingAddressState,
+            billing_zip: billingAddressZip,
+            billing_country: "US",
+            shipping_one: shippingAddressOne,
+            shipping_two: shippingAddressTwo,
+            shipping_city: shippingAddressCity,
+            shipping_state: shippingAddressState,
+            shipping_zip: shippingAddressZip,
+            shipping_country: "US",
         }
 
         // SAVE NEW RECORD
@@ -632,7 +556,9 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
     const primaryPhoneClasses = primaryPhoneHasError ? 'form-control is-invalid' : 'form-control'
     const secondaryPhoneClasses = secondaryPhoneHasError ? 'form-control is-invalid' : 'form-control'
     const faxClasses = faxHasError ? 'form-control is-invalid' : 'form-control'
-    const countyClasses = faxHasError ? 'form-control is-invalid' : 'form-control'
+    const countyClasses = countyHasError ? 'form-control is-invalid' : 'form-control'
+    const billingAddressCountryClasses = billingAddressCountryHasError ? 'form-control is-invalid' : 'form-control'
+    const shippingAddressCountryClasses = shippingAddressCountryHasError ? 'form-control is-invalid' : 'form-control'
     const requiredEmailClasses = emailHasError ? 'form-control is-invalid' : 'form-control'
     const websiteClasses = websiteHasError ? 'form-control is-invalid' : 'form-control'
     const customerNotesClasses = customerNotesHasError ? 'form-control is-invalid' : 'form-control'
@@ -672,7 +598,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                                 </div>
                                 <div className="col-12 col-md-9">
                                     <input className={customerNameClasses} onBlur={customerNameBlur} onChange={customerNameChangeHandler} value={customerName} placeholder={"Customer Name (Required)"} autoComplete="new-password" autoFocus={true} disabled={disableEditing} />
-                                    {customerNameHasError && <p className="text-danger">Name required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
+                                    {/* {customerNameHasError && <p className="text-danger">Name required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>} */}
                                 </div>
                             </div>
 
@@ -683,69 +609,70 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                                 </div>
                                 <div className="col-12 col-md-9">
                                     <input type="text" className={primaryPhoneClasses} onBlur={primaryPhoneBlur} onChange={primaryPhoneChangeHandler} value={primaryPhone} placeholder={"Primary Phone Number (Required)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {primaryPhoneHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>}
+                                    {/* {primaryPhoneHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>} */}
                                 </div>
                             </div>
 
-                            {/* ================= COUNTY ====================== */}
+                            {/* ================= BILLING ADDRESS 1 ====================== */}
                             <div className="mb-3 row  align-items-center">
                                 <div className="col-12 col-md-3">
-                                    <label className="col-form-label">County<span className={'text-danger'}></span></label>
+                                    <label className="form-label">Billing Address 1 <span className={'text-danger'}></span></label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input className={countyClasses} onBlur={countyBlur} onChange={countyChangeHandler} value={county} placeholder={"County (Optional)"} autoComplete="new-password" autoFocus={true} disabled={disableEditing} />
-                                    {countyHasError && <p className="text-danger">County required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
+                                    <input type="text" className={billingAddressOneClasses} onBlur={billingAddressOneBlur} onChange={billingAddressOneChangeHandler} value={billingAddressOne} placeholder={"Address line 1 (Required)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {billingAddressOneHasError && <p className="text-danger">Invalid address - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>} */}
                                 </div>
                             </div>
 
-                            {/* ================= SECONDARY PHONE NUMBER ====================== */}
-                            <div className="mb-3 row  align-items-center">
+
+                           {/* ================= BILLING ADDRESS 2 ====================== */}
+                           <div className="mb-3 row  align-items-center">
                                 <div className="col-12 col-md-3">
-                                    <label className="form-label">Secondary Phone <span className={'text-danger'}></span></label>
+                                    <label className="form-label">Billing Address 2 <span className={'text-danger'}></span></label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input type="text" className={secondaryPhoneClasses} onBlur={secondaryPhoneBlur} onChange={secondaryPhoneChangeHandler} value={secondaryPhone} placeholder={"Secondary Phone Number (optional)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {secondaryPhoneHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>}
+                                    <input type="text" className={billingAddressTwoClasses} onBlur={billingAddressTwoBlur} onChange={billingAddressTwoChangeHandler} value={billingAddressTwo} placeholder={"Address line 2"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {billingAddressTwoHasError && <p className="text-danger">Invalid address - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>} */}
                                 </div>
                             </div>
 
-                            {/* ================= FAX NUMBER ====================== */}
+
+                            {/* ================= BILLING ADDRESS CITY ====================== */}
                             <div className="mb-3 row  align-items-center">
                                 <div className="col-12 col-md-3">
-                                    <label className="form-label">Fax <span className={'text-danger'}></span></label>
+                                    <label className="form-label">Billing Address City <span className={'text-danger'}></span></label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input type="text" className={faxClasses} onBlur={faxBlur} onChange={faxChangeHandler} value={fax} placeholder={"Fax Number (Optional)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {faxHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>}
+                                    <input type="text" className={billingAddressCityClasses} onBlur={billingAddressCityBlur} onChange={billingAddressCityChangeHandler} value={billingAddressCity} placeholder={"City (Required)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {billingAddressCityHasError && <p className="text-danger">Invalid city - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>} */}
                                 </div>
                             </div>
 
-                            {/* ================= EMAIL ADDRESS ====================== */}
+
+                            {/* ================= BILLING ADDRESS STATE ====================== */}
                             <div className="mb-3 row  align-items-center">
                                 <div className="col-12 col-md-3">
-                                    <label className="form-label">
-                                        Email {!mainEmailOnClipboard && <span className={"text-primary"}><i className="lar la-copy tabi-hover" onClick={() => copyToClipboard("email")}></i></span>}
-                                        <span className="text-success">
-                                            {mainEmailOnClipboard && <i className="las la-check"></i>}
-                                        </span>
-                                    </label>
+                                    <label className="form-label">Billing Address State <span className={'text-danger'}></span></label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input type="text" className={requiredEmailClasses} onBlur={emailBlur} onChange={emailChangeHandler} value={email} placeholder={"Email Address (Optional)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {emailHasError && <p className="text-danger">Invalid email - please enter in this format: info@municipal-software.com</p>}
+                                    <select className={billingAddressStateClasses} value={billingAddressState} onBlur={billingAddressStateBlur} onChange={billingAddressStateChangeHandler} disabled={disableEditing}>
+                                        {usStates.map(state => <option key={state.name} value={state.abbreviation}>{state.name}</option>)}
+                                    </select>
+                                    {/* {billingAddressStateHasError && <p className="text-danger">Something isn't right about that input.</p>} */}
                                 </div>
                             </div>
 
-                            {/* ================= WEBSITE ====================== */}
+                            {/* ================= BILLING ADDRESS ZIP CODE ====================== */}
                             <div className="mb-3 row  align-items-center">
                                 <div className="col-12 col-md-3">
-                                    <label className="col-form-label">Website <span className={'text-danger'}></span></label>
+                                    <label className="form-label">Billing Address Zip <span className={'text-danger'}></span></label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input className={websiteClasses} onBlur={websiteBlur} onChange={websiteChangeHandler} value={website} placeholder={"Website (Optional)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {websiteHasError && <p className="text-danger">Web site required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
+                                    <input type="text" className={billingAddressZipClasses} onBlur={billingAddressZipBlur} onChange={billingAddressZipChangeHandler} value={billingAddressZip} placeholder={"Zip Code (Required)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {billingAddressZipHasError && <p className="text-danger">Invalid zip - please use either this format: 11111 or this format 11111-1111</p>} */}
                                 </div>
                             </div>
+
 
                             {/* ================= NOTES FIELD ====================== */}
                             <div className="mb-3 row align-items-center">
@@ -754,7 +681,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                                 </div>
                                 <div className="col-12 col-md-9">
                                     <textarea className={customerNotesClasses} onBlur={notesBlur} onChange={customerNotesChangeHandler} rows="3" value={customerNotes} placeholder={"Notes..."} disabled={disableEditing}></textarea>
-                                    {customerNotesHasError && <p className="text-danger">Allowed characters are a-z, A-Z, 0-9, spaces and dashes .</p>}
+                                    {/* {customerNotesHasError && <p className="text-danger">Allowed characters are a-z, A-Z, 0-9, spaces and dashes .</p>} */}
                                 </div>
                             </div>
 
@@ -789,61 +716,14 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                         <div className="col-12 col-lg-6">
 
 
-
-                            {/* ================= BILLING ADDRESS 1 ====================== */}
+                            {/* ================= COUNTY ====================== */}
                             <div className="mb-3 row  align-items-center">
                                 <div className="col-12 col-md-3">
-                                    <label className="form-label">Billing Address 1 <span className={'text-danger'}></span></label>
+                                    <label className="col-form-label">County<span className={'text-danger'}></span></label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input type="text" className={billingAddressOneClasses} onBlur={billingAddressOneBlur} onChange={billingAddressOneChangeHandler} value={billingAddressOne} placeholder={"Address line 1 (Required)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {billingAddressOneHasError && <p className="text-danger">Invalid address - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
-                                </div>
-                            </div>
-
-                           {/* ================= BILLING ADDRESS 2 ====================== */}
-                           <div className="mb-3 row  align-items-center">
-                                <div className="col-12 col-md-3">
-                                    <label className="form-label">Billing Address 2 <span className={'text-danger'}></span></label>
-                                </div>
-                                <div className="col-12 col-md-9">
-                                    <input type="text" className={billingAddressTwoClasses} onBlur={billingAddressTwoBlur} onChange={billingAddressTwoChangeHandler} value={billingAddressTwo} placeholder={"Address line 2"} autoComplete="new-password" disabled={disableEditing} />
-                                    {billingAddressTwoHasError && <p className="text-danger">Invalid address - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
-                                </div>
-                            </div>
-
-                            {/* ================= BILLING ADDRESS CITY ====================== */}
-                            <div className="mb-3 row  align-items-center">
-                                <div className="col-12 col-md-3">
-                                    <label className="form-label">Billing Address City <span className={'text-danger'}></span></label>
-                                </div>
-                                <div className="col-12 col-md-9">
-                                    <input type="text" className={billingAddressCityClasses} onBlur={billingAddressCityBlur} onChange={billingAddressCityChangeHandler} value={billingAddressCity} placeholder={"City (Required)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {billingAddressCityHasError && <p className="text-danger">Invalid city - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>}
-                                </div>
-                            </div>
-
-                            {/* ================= BILLING ADDRESS STATE ====================== */}
-                            <div className="mb-3 row  align-items-center">
-                                <div className="col-12 col-md-3">
-                                    <label className="form-label">Billing Address State <span className={'text-danger'}></span></label>
-                                </div>
-                                <div className="col-12 col-md-9">
-                                    <select className={billingAddressStateClasses} value={billingAddressState} onBlur={billingAddressStateBlur} onChange={billingAddressStateChangeHandler} disabled={disableEditing}>
-                                        {usStates.map(state => <option key={state.name} value={state.abbreviation}>{state.name}</option>)}
-                                    </select>
-                                    {billingAddressStateHasError && <p className="text-danger">Something isn't right about that input.</p>}
-                                </div>
-                            </div>
-
-                            {/* ================= BILLING ADDRESS ZIP CODE ====================== */}
-                            <div className="mb-3 row  align-items-center">
-                                <div className="col-12 col-md-3">
-                                    <label className="form-label">Billing Address Zip <span className={'text-danger'}></span></label>
-                                </div>
-                                <div className="col-12 col-md-9">
-                                    <input type="text" className={billingAddressZipClasses} onBlur={billingAddressZipBlur} onChange={billingAddressZipChangeHandler} value={billingAddressZip} placeholder={"Zip Code (Required)"} autoComplete="new-password" disabled={disableEditing} />
-                                    {billingAddressZipHasError && <p className="text-danger">Invalid zip - please use either this format: 11111 or this format 11111-1111</p>}
+                                    <input className={countyClasses} onBlur={countyBlur} onChange={countyChangeHandler} value={county} placeholder={"County (Optional)"} disabled={disableEditing} />
+                                    {/* {countyHasError && <p className="text-danger">County required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>} */}
                                 </div>
                             </div>
 
@@ -903,6 +783,72 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                                     {shippingAddressZipHasError && <p className="text-danger">Invalid zip - please use either this format: 11111 or this format 11111-1111</p>}
                                 </div>
                             </div>
+
+
+                            {/* ================= SHIPPING ADDRESS COUNTRY ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Shipping Address Country <span className={'text-danger'}></span></label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <select className={shippingAddressCountryClasses} value={shippingAddressCountry} onBlur={shippingAddressCountryBlur} onChange={shippingAddressCountryChangeHandler} disabled={disableEditing}>
+                                        {countries.map(country => <option key={country.name} value={country.abbreviation}>{country.name}</option>)}
+                                    </select>
+                                    {/* {billingAddressStateHasError && <p className="text-danger">Something isn't right about that input.</p>} */}
+                                </div>
+                            </div>
+
+
+                            
+                            {/* ================= SECONDARY PHONE NUMBER ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Secondary Phone <span className={'text-danger'}></span></label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input type="text" className={secondaryPhoneClasses} onBlur={secondaryPhoneBlur} onChange={secondaryPhoneChangeHandler} value={secondaryPhone} placeholder={"Secondary Phone Number (optional)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {secondaryPhoneHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>} */}
+                                </div>
+                            </div>
+
+                            {/* ================= FAX NUMBER ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Fax <span className={'text-danger'}></span></label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input type="text" className={faxClasses} onBlur={faxBlur} onChange={faxChangeHandler} value={fax} placeholder={"Fax Number (Optional)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {faxHasError && <p className="text-danger">Invalid phone - Format: 111-111-1111 or 1112223333</p>} */}
+                                </div>
+                            </div>
+
+                            {/* ================= EMAIL ADDRESS ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">
+                                        Email {!mainEmailOnClipboard && <span className={"text-primary"}><i className="lar la-copy tabi-hover" onClick={() => copyToClipboard("email")}></i></span>}
+                                        <span className="text-success">
+                                            {mainEmailOnClipboard && <i className="las la-check"></i>}
+                                        </span>
+                                    </label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input type="text" className={requiredEmailClasses} onBlur={emailBlur} onChange={emailChangeHandler} value={email} placeholder={"Email Address (Optional)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {emailHasError && <p className="text-danger">Invalid email - please enter in this format: info@municipal-software.com</p>} */}
+                                </div>
+                            </div>
+
+                            {/* ================= WEBSITE ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Website <span className={'text-danger'}></span></label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input className={websiteClasses} onBlur={websiteBlur} onChange={websiteChangeHandler} value={website} placeholder={"Website (Optional)"} autoComplete="new-password" disabled={disableEditing} />
+                                    {/* {websiteHasError && <p className="text-danger">Web site required - allowed characters are a-z, A-Z, 0-9, spaces and dashes </p>} */}
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 

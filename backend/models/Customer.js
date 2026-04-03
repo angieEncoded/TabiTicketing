@@ -12,7 +12,7 @@ const Customer = db.define('customer', {
     email: {type: Sequelize.STRING, allowNull: true},
     notes: {type: Sequelize.TEXT, allowNull: true},
     status: {type:Sequelize.STRING, allowNull: false},
-    county: {type: Sequelize.STRING, allowNull: false},
+    county: {type: Sequelize.STRING, allowNull: true},
     billing_one: {type: Sequelize.STRING, allowNull: false},
     billing_two: {type: Sequelize.STRING, allowNull: true},
     billing_city: {type: Sequelize.STRING, allowNull: false},
