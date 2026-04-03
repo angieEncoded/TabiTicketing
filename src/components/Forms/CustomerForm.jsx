@@ -226,7 +226,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueChangeHandler: billingAddressCountryChangeHandler,
         initialValueHandler: setBillingAddressCountry,
         valueBlurHandler: billingAddressCountryBlur
-    } = useInput(requiredCityStateCheck, "US");
+    } = useSelect(requiredCityStateCheck, "US");
 
     // CUSTOMER SHIPPING ADDRESS ONE HANDLER
     // ================================================
@@ -292,7 +292,7 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
         valueChangeHandler: shippingAddressCountryChangeHandler,
         initialValueHandler: setShippingAddressCountry,
         valueBlurHandler: shippingAddressCountryBlur
-    } = useInput(requiredCityStateCheck, "US");
+    } = useSelect(requiredCityStateCheck, "US");
 
     // Helper function to clear all the inputs at once
     const clearForm = () => {
@@ -416,12 +416,15 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
             shipping_state: shippingAddressState,
             shipping_zip: shippingAddressZip,
             shipping_country: "US",
+            added_by: "SYSTEM", // !!! update to the logged in user
+            updated_by: "SYSTEM" // !!! update to the logged in user
         }
+
+
 
         // SAVE NEW RECORD
         //=================================================================================
         try {
-
             const results = await fetch(urls.addNewCustomer, {
                 method: "POST",
                 headers: {
@@ -430,46 +433,49 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                 body: JSON.stringify(formPost)
             })
 
+
             // if server cannot respond
             if (!results.ok) {
-                setIsPending(false)
-                toast.error(`${results.error}`)
+                // !!! TODO - get the stupid logger here 
+                setIsPending(false);
+                toast.error(`${results.status}:${results.statusText}`);
                 return;
             }
 
             const serverResponse = await results.json()
+            console.log(serverResponse)
+            if (serverResponse.status == "200") {
 
-            if (serverResponse.status === "200") {
+                toast.success(`Successfully added new customer with id: ${serverResponse.results.id}`)
 
-                toast.success(`Successfully added new customer with id: ${serverResponse.id}`)
+                // // request the entire new record from the database
+                // const savedCustomerRecord = await fetch(`${urls.getCustomerById}${serverResponse.id}`)
+                // if (!savedCustomerRecord.ok) {
+                //     toast.error(`${serverResponse.error} (Server Response)`)
+                //     setIsPending(false)
+                //     return;
+                // }
 
-                // request the entire new record from the database
-                const savedCustomerRecord = await fetch(`${urls.getCustomerById}${serverResponse.id}`)
-                if (!savedCustomerRecord.ok) {
-                    toast.error(`${serverResponse.error} (Server Response)`)
-                    setIsPending(false)
-                    return;
-                }
+                // const savedCustomerRecordJson = await savedCustomerRecord.json();
 
-                const savedCustomerRecordJson = await savedCustomerRecord.json();
-
-                // Populate everything we need to for editing the customer
-                setDisableEditing(true);
-                prePopulateForm(savedCustomerRecordJson)
-                setCustomerId(serverResponse.id)
-                setFormType("edit");
+                // // Populate everything we need to for editing the customer
+                // setDisableEditing(true);
+                // prePopulateForm(savedCustomerRecordJson)
+                // setCustomerId(serverResponse.id)
+                // setFormType("edit");
 
                 // finally we are done and can render the component
                 setIsPending(false)
                 return;
             } else {
                 setIsPending(false)
-                toast.error(`${serverResponse.error} (Server Response)`)
+                toast.error(`${serverResponse.status} (Server Response)`)
                 return;
             }
         } catch (error) {
+            console.log(error)
             setIsPending(false)
-            toast.error(`Did not get a response from the server, please call tabi`)
+            toast.error(`Did not get a response from the server, please call the administrator`)
         }
     }
 
@@ -557,8 +563,8 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
     const secondaryPhoneClasses = secondaryPhoneHasError ? 'form-control is-invalid' : 'form-control'
     const faxClasses = faxHasError ? 'form-control is-invalid' : 'form-control'
     const countyClasses = countyHasError ? 'form-control is-invalid' : 'form-control'
-    const billingAddressCountryClasses = billingAddressCountryHasError ? 'form-control is-invalid' : 'form-control'
-    const shippingAddressCountryClasses = shippingAddressCountryHasError ? 'form-control is-invalid' : 'form-control'
+    const billingAddressCountryClasses = billingAddressCountryHasError ? 'form-select is-invalid' : 'form-select'
+    const shippingAddressCountryClasses = shippingAddressCountryHasError ? 'form-select is-invalid' : 'form-select'
     const requiredEmailClasses = emailHasError ? 'form-control is-invalid' : 'form-control'
     const websiteClasses = websiteHasError ? 'form-control is-invalid' : 'form-control'
     const customerNotesClasses = customerNotesHasError ? 'form-control is-invalid' : 'form-control'
@@ -670,6 +676,20 @@ const CustomerForm = ({ customerData, closeForm, isModal }) => {
                                 <div className="col-12 col-md-9">
                                     <input type="text" className={billingAddressZipClasses} onBlur={billingAddressZipBlur} onChange={billingAddressZipChangeHandler} value={billingAddressZip} placeholder={"Zip Code (Required)"} autoComplete="new-password" disabled={disableEditing} />
                                     {/* {billingAddressZipHasError && <p className="text-danger">Invalid zip - please use either this format: 11111 or this format 11111-1111</p>} */}
+                                </div>
+                            </div>
+
+
+                            {/* ================= BILLING ADDRESS COUNTRY ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Billing Address Country <span className={'text-danger'}></span></label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <select className={billingAddressCountryClasses} value={billingAddressCountry} onBlur={billingAddressCountryBlur} onChange={billingAddressCountryChangeHandler} disabled={disableEditing}>
+                                        {countries.map(country => <option key={country.name} value={country.abbreviation}>{country.name}</option>)}
+                                    </select>
+                                    {/* {billingAddressStateHasError && <p className="text-danger">Something isn't right about that input.</p>} */}
                                 </div>
                             </div>
 

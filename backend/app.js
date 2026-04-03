@@ -20,7 +20,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.static('client'));
 
 //Routes
-// app.use('/customers', customerRoutes);
+app.use('/customers', customerRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)
 
