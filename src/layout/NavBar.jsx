@@ -43,9 +43,10 @@ const NavBar = () => {
 
                         {/* Main Navigation */}
                         <Nav className="me-auto">
-                            <Link className="nav-link" to="/">Customers</Link>
                             <Link className="nav-link" to="/queue">Ticket Queue</Link>
-                            <Link className="nav-link" to="/testing">Angie Testing</Link>
+                            <Link className="nav-link" to="/">Customers</Link>
+                            <Link className="nav-link" to="/testing">Users</Link>
+                            <Link className="nav-link" to="/testing">Testing</Link>
                         </Nav>
 
                         {/* User Login Controls */}

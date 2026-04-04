@@ -1,9 +1,11 @@
 import CustomerForm from "../components/Forms/CustomerForm"
+import CustomerFormWIP from "../components/Forms/CustomerFormWIP"
 import React from 'react'
 
 const AddCustomerPage = () => {
     return (
-        <CustomerForm customerData={{'id': undefined}} />
+        <CustomerFormWIP customerData={{'id': undefined}} />
+        // <CustomerForm customerData={{'id': undefined}} />
     )
 }
 

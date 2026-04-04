@@ -2,7 +2,7 @@ const COLUMNS = [
     {
         header: 'Customer Name',
         accessorKey: 'customer_name',
-        disableFilters: true,
+        sortingFn: 'text',
     },
     {
         header: 'Primary Phone',
@@ -12,7 +12,7 @@ const COLUMNS = [
     {
         header: 'County',
         accessorKey: 'county',
-        disableFilters: true,
+        sortingFn: 'text',
     },
     {
         header: 'Email',
