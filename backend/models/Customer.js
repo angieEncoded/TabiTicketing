@@ -3,7 +3,7 @@ const db = require("../util/database");
 
 const Customer = db.define('customer', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true},
-    uuid: {type: Sequelize.TEXT, allowNull: false},
+    uuid: {type: Sequelize.UUID, allowNull: false},
     customer_name: {type: Sequelize.STRING, allowNull: false},
     primary_phone: {type: Sequelize.STRING, allowNull: false},
     secondary_phone: {type: Sequelize.STRING, allowNull: true},

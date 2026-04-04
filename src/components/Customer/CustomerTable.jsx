@@ -6,12 +6,14 @@ import Loading from '../LoadingScreens/Loading.jsx'
 import LargeModal from "../Modal/LargeModal.jsx"
 import COLUMNS from './CustomerColumns.jsx'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
-
+import CustomerForm from '../Forms/CustomerForm.jsx'
 const CustomerTable = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState({});
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
@@ -55,16 +57,27 @@ const CustomerTable = () => {
     }, []);
 
     const handleRowClick = async (row) => {
-
-        console.log(row.original)
+        setSelectedCustomer(row.original); // set the state to the currently selected customer
+        setShowModal(true); // show the modal with the form
     }
+
+    const closeModal = () => {
+        setSelectedCustomer({}); // clean up the state
+        setShowModal(false); // close the modal
+    }
+
 
     return (
         <>
             {isPending && <Loading />}
             {!isPending && hasError && <ErrorAlert error={errorMessage} />}
             {!isPending && !hasError &&
+
                 <>
+
+                    {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomer.customer_name}>
+                            <CustomerForm customerData={selectedCustomer}></CustomerForm>
+                        </LargeModal>}
                     <div className="form-background mb-5 mx-auto">
                         <h2 className="text-center noticaText">All Active Customers</h2>
 

@@ -58,26 +58,19 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 
 })
 
-// Get a single customer
-router.get("/:id", async (req, res, next) => {
 
+router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        const [rows] = await Customer.findById(id);
-
-        if (rows && rows.length) {
-            return res.json(rows[0])
-        }
-
-        else {
-            return res.json({ status: 400, error: "Record does not exist" })
-        }
-
+        const rows = await Customer.findOne({where: {uuid: id}})
+        if (rows) { return res.json(rows.dataValues) }
+        else { return res.json({ status: 400, error: "Record does not exist" }) }
     } catch (error) {
         return res.json({ "status": "500", "message": error.message })
     }
-
 })
+
+
 
 // Update a single customer
 router.put("/:id", validateExistingCustomer, async (req, res, next) => {
