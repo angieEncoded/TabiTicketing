@@ -5,10 +5,77 @@ const logger = require('./util/logger');
 const app = express();
 const db = require('./util/database');
 
+// Models that do not require associations (only for displaying selects), added here for sequelize sync
+const EquipmentType = require('./models/EquipmentType');
+const EquipmentVendor = require('./models/EquipmentVendor');
+const LicenseVendor = require('./models/LicenseVendor');
+const TicketPriority = require('./models/TicketPriority');
+const TicketStatus = require('./models/TicketStatus');
+
+// Import models to create the associations
+const Customer = require('./models/Customer');
+const Contact = require('./models/Contact');
+const License = require('./models/License');
+const Equipment = require('./models/Equipment');
+const Ticket = require('./models/Ticket');
+const TicketComment = require('./models/TicketComment');
+const TicketTime = require('./models/TicketTime');
+const Technician = require('./models/Technician');
+const Address = require('./models/Address');
+const TicketHistory = require('./models/TicketHistory');
+
+
+// Association the customer's
+Contact.belongsTo(Customer, { constraints: true, onDelete: 'CASCADE' }); // A single contact belongs to a single customer
+Customer.hasMany(Contact); // set up the inverse relation 
+
+// a license can belong to a customer or a user
+License.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
+License.belongsTo(Contact, {constraints:true, onDelete: 'CASCADE'}); 
+Contact.hasMany(License);
+Customer.hasMany(License);
+
+// A piece of equipment can belong to a customer, a user, and can be referenced by a ticket
+Equipment.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
+Equipment.belongsTo(Contact, {constraints:true, onDelete: 'CASCADE'}); 
+Contact.hasMany(Equipment);
+Customer.hasMany(Equipment);
+Ticket.hasMany(Equipment);
+
+// A ticket references a customer, a user, and a technician. History will be captured in a separate table
+Ticket.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'}); // one ticket, one customer, one issue
+Ticket.belongsTo(Contact, {constraints: true, onDelete: 'CASCADE'}); // one ticket, one contact, one issue
+Ticket.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'}); // only one owning tech at time of close
+Customer.hasMany(Ticket);
+Contact.hasMany(Ticket);
+Technician.hasMany(Ticket);
+
+// a Ticket time belongs to only one ticket
+TicketComment.belongsTo(Ticket, {constraints: true, onDelete: 'CASCADE'});
+Ticket.hasMany(TicketComment);
+
+// A ticket comment belongs to only one ticket 
+TicketTime.belongsTo(Ticket, {constraints: true, onDelete:'CASCADE'});
+Ticket.hasMany(TicketTime);
+
+// An address can belong to anything, and anything can have more than one address
+Address.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
+Address.belongsTo(Contact, {constraints: true, onDelete: 'CASCADE'});
+Address.belongsTo(Technician, {constraints: true, onDelete: 'CASCADE'});
+Customer.hasMany(Address)
+Contact.hasMany(Address)
+Technician.hasMany(Address)
+
+// A ticket history belongs to a ticket and a user
+TicketHistory.belongsTo(Ticket, {constraints: true, onDelete: 'CASCADE'})
+TicketHistory.belongsTo(Technician, {constraints: true, onDelete: 'CASCADE'})
+Ticket.hasMany(TicketHistory);
+Technician.hasMany(TicketHistory);
+
+
 // routes
 const customerRoutes = require('./routes/customers');
 const userRoutes = require('./routes/users');
-
 
 app.use(cors({
     origin: "http://localhost:3000"
@@ -99,25 +166,36 @@ app.use((err, req, res, next) => {
 
 
 
-// start up the server and sync all the tables as needed
-db
-    .sync()
-    .then(result => {
-        // console.log(result);
-        if (process.env.INDEV === "true") {
+
+
+
+if (process.env.INDEV === "true") {
+
+    db
+        .sync({ force:true })
+        .then(result => {
             app.listen(8080, function () {
                 console.log(`http fired up on 8080`);
             });
-        } else {
+
+        })
+        .catch(error => console.log(error))
+
+} else {
+    db
+        .sync()
+        .then(result => {
             https.createServer(sslOptions, app).listen(process.env.PORT || 443, function () {
                 console.log(`https fired up on ${process.env.PORT}`);
             });
             console.log("Fired up https")
-        }
+
+        })
+        .catch(error => console.log(error))
+}
 
 
-    })
-    .catch(error => console.log(error))
+
 
 
 

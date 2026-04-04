@@ -35,14 +35,10 @@ const CustomerForm = ({ customerData = {}, closeForm, isModal }) => {
         mode: 'onChange',
     })
 
-
-
-
     const clearForm = () => {
         reset();
         clearErrors();
     }
-
 
     const resetComponent = () => {
         setCustomerId(undefined)
