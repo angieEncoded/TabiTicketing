@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CustomerButtons = ({addTicket, addEquipment, addLicense, addContact, addAddress, viewTickets}) => {
+const CustomerButtons = ({addTicket, addEquipment, addLicense, addContact, addAddress, viewTickets, recordType, id}) => {
 
   return (
     <div className="container">

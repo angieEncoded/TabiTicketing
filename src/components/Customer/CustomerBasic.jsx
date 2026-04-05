@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Loading from '../LoadingScreens/Loading.jsx'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
+import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
+
 
 const CustomerBasic = ({ id }) => {
 
+    const [errorMessage, setErrorMessage] = useState("");
+    const [hasError, setHasError] = useState(false);
     const [isPending, setIsPending] = useState(false);
     const [selectedCustomerData, setSelectedCustomerData] = useState({});
 
@@ -21,11 +25,13 @@ const CustomerBasic = ({ id }) => {
             try {
                 setIsPending(true);
                 const customerData = await fetch(`${urls.getCustomerData}/${id}`);
-                if (!customerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
+                if (!customerData.ok) throw new Error("Failed to fetch data. Please check the server.");
                 const customerJson = await customerData.json();
                 setSelectedCustomerData(customerJson);
             } catch (error) {
                 setIsPending(false);
+                setHasError(true);
+                setErrorMessage(error.message);
                 toast.error(error.message);
             }
         }
@@ -38,8 +44,9 @@ const CustomerBasic = ({ id }) => {
 
     return (
         <>
-            {isPending && <Loading></Loading>}
-            {!isPending &&
+            {isPending && <Loading />}
+            {!isPending && hasError && <ErrorAlert error={errorMessage} />}
+            {!isPending && !hasError &&
                 <>
                     <hr />
                     <div className="row mb-2">

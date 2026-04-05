@@ -82,6 +82,14 @@ body {
   width: 100%;
 }
 
+.text-tabi-logo {
+  color: var(--tabi-logo);
+}
+
+.background-tabi-logo {
+  background-color: var(--tabi-logo);
+}
+
 .tabi-pointer {
   cursor: pointer;
 }

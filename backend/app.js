@@ -23,7 +23,7 @@ const TicketTime = require('./models/TicketTime');
 const Technician = require('./models/Technician');
 const Address = require('./models/Address');
 const TicketHistory = require('./models/TicketHistory');
-const Picture = require('./models/Pictures');
+const Picture = require('./models/Picture');
 
 
 // Association the customer's
@@ -33,14 +33,19 @@ Customer.hasMany(Contact); // set up the inverse relation
 // a license can belong to a customer or a user
 License.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
 License.belongsTo(Contact, {constraints:true, onDelete: 'CASCADE'}); 
+License.belongsTo(Technician, {constraints:true, onDelete: 'CASCADE'}); 
 Contact.hasMany(License);
 Customer.hasMany(License);
+Technician.hasMany(License);
 
 // A piece of equipment can belong to a customer, a user, and can be referenced by a ticket
 Equipment.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
 Equipment.belongsTo(Contact, {constraints:true, onDelete: 'CASCADE'}); 
-Contact.hasMany(Equipment);
+Equipment.belongsTo(Technician, {constraints:true, onDelete: 'CASCADE'}); 
+Equipment.belongsTo(Ticket, {constraints:true, onDelete: 'CASCADE'})
 Customer.hasMany(Equipment);
+Contact.hasMany(Equipment);
+Technician.hasMany(Equipment);
 Ticket.hasMany(Equipment);
 
 // A ticket references a customer, a user, and a technician. History will be captured in a separate table
@@ -83,8 +88,14 @@ Contact.hasMany(Picture);
 
 
 // routes
+//============================================================
 const customerRoutes = require('./routes/customers');
 const addressRoutes = require('./routes/addresses');
+const contactRoutes = require('./routes/contacts');
+const equipmentRoutes = require('./routes/equipment');
+const licenseRoutes = require('./routes/licenses');
+const pictureRoutes = require('./routes/pictures');
+const ticketRoutes = require('./routes/tickets');
 const userRoutes = require('./routes/users');
 
 app.use(cors({
@@ -99,6 +110,11 @@ app.use(express.static('client'));
 //Routes
 app.use('/customers', customerRoutes);
 app.use('/addresses', addressRoutes);
+app.use('/contacts', contactRoutes);
+app.use('/equipment', equipmentRoutes);
+app.use('/licenses', licenseRoutes);
+app.use('/pictures', pictureRoutes);
+app.use('/tickets', ticketRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)
 

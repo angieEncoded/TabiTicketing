@@ -2,7 +2,8 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DBNAME, process.env.DBUSER, process.env.DBPASS, {
   host: process.env.DBHOST,
-  dialect: 'mariadb'
+  dialect: 'mariadb',
+  logging: false, // Disables logging
 })
 
 module.exports = sequelize;
