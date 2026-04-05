@@ -6,14 +6,15 @@ import Loading from '../LoadingScreens/Loading.jsx'
 import LargeModal from "../Modal/LargeModal.jsx"
 import COLUMNS from './CustomerColumns.jsx'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
-import CustomerForm from '../Forms/CustomerForm.jsx'
+import CustomerDisplay from '../../pages/CustomerDisplay.jsx'
+
 const CustomerTable = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState({});
+    const [selectedCustomer, setSelectedCustomer] = useState(false);
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
@@ -32,8 +33,6 @@ const CustomerTable = () => {
         globalFilterFn: 'includesString',
     })
 
-    // console.log(table.getHeaderGroups())
-
     // Initially populate the data
     useEffect(() => {
         const getTableData = async () => {
@@ -42,7 +41,7 @@ const CustomerTable = () => {
                 setErrorMessage("");
                 setIsPending(true);
                 const customerData = await fetch(`${urls.getCustomerData}`);
-                if (!customerData.ok) throw new Error("Failed to fetch customer data. Please contact tabi.");
+                if (!customerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
                 const customerJson = await customerData.json();
                 dispatch(customersActions.loadCustomerData(customerJson));
                 setIsPending(false);
@@ -76,7 +75,7 @@ const CustomerTable = () => {
                 <>
 
                     {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomer.customer_name}>
-                            <CustomerForm customerData={selectedCustomer}></CustomerForm>
+                            <CustomerDisplay recordType={'customer'} id={selectedCustomer.id}></CustomerDisplay>
                         </LargeModal>}
                     <div className="form-background mb-5 mx-auto">
                         <h2 className="text-center noticaText">All Active Customers</h2>

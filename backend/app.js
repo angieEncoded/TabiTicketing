@@ -23,6 +23,7 @@ const TicketTime = require('./models/TicketTime');
 const Technician = require('./models/Technician');
 const Address = require('./models/Address');
 const TicketHistory = require('./models/TicketHistory');
+const Picture = require('./models/Pictures');
 
 
 // Association the customer's
@@ -72,9 +73,18 @@ TicketHistory.belongsTo(Technician, {constraints: true, onDelete: 'CASCADE'})
 Ticket.hasMany(TicketHistory);
 Technician.hasMany(TicketHistory);
 
+// A picture belongs to a customer, contact or a ticket.
+Picture.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
+Picture.belongsTo(Ticket, {constraints: true, onDelete:'CASCADE'});
+Picture.belongsTo(Contact, {constraints: true, onDelete:'CASCADE'});
+Customer.hasMany(Picture);
+Ticket.hasMany(Picture);
+Contact.hasMany(Picture);
+
 
 // routes
 const customerRoutes = require('./routes/customers');
+const addressRoutes = require('./routes/addresses');
 const userRoutes = require('./routes/users');
 
 app.use(cors({
@@ -88,6 +98,7 @@ app.use(express.static('client'));
 
 //Routes
 app.use('/customers', customerRoutes);
+app.use('/addresses', addressRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)
 
@@ -172,7 +183,7 @@ app.use((err, req, res, next) => {
 if (process.env.INDEV === "true") {
 
     db
-        .sync({ force:true })
+        .sync({ alter:true })
         .then(result => {
             app.listen(8080, function () {
                 console.log(`http fired up on 8080`);

@@ -15,6 +15,14 @@ body {
   z-index: 2000;
 }
 
+.icon-hover:hover{
+  cursor: pointer;
+}
+
+.baskerville-font{
+    font-family: 'Libre Baskerville', serif;
+  }
+
 .noticaText {
   font-family: 'Noticia Text', serif;
 }
@@ -144,7 +152,19 @@ body {
 }
 
 
-
+  .btn-silver {
+    border: 2px solid rgb(135, 130, 138);
+    color: white;
+    background-color: rgb(135, 130, 138);
+    box-shadow: 5px 8px 8px -5px #000000;
+  }
+  
+  .btn-silver:hover {
+    border: 2px solid rgb(118, 116, 119);
+    color: rgb(255, 255, 255);
+    background-color:rgb(118, 116, 119);
+    box-shadow:5px 8px 8px -8px #000000;
+  }
 
 
 .btn-tabi-warning {

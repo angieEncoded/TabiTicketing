@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Customer = require("../models/Customer")
 const logger = require('../util/logger');
-const db = require('../models/Customer')
 const { v4: uuidv4 } = require('uuid');
 const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
 
@@ -11,48 +10,20 @@ const { validateNewCustomer, validateExistingCustomer } = require("../util/valid
 // fetch all active customers
 router.get("/", async (req, res, next) => {
     const customers = await Customer.findAll({ where:{'status': 'Active'} });
-    console.log(customers);
     res.json(customers);
 })
 
 // Add a new customer
 router.post("/", validateNewCustomer, async (req, res, next) => {
-
     const data = req.body;
-    console.log("got to the back end");
     try {
-        
         const results = await Customer.create({
             uuid: uuidv4(),
-            customer_name: data.customer_name,
-            primary_phone: data.primary_phone,
-            secondary_phone: data.secondary_phone,
-            fax: data.fax,
-            website: data.website,
-            email: data.email,
-            notes: data.notes,
-            status: data.status,
-            county: data.county,
-            billing_one: data.billing_one,
-            billing_two: data.billing_two,
-            billing_city: data.billing_city,
-            billing_state: data.billing_state,
-            billing_zip: data.billing_zip,
-            billing_country: data.billing_country,
-            shipping_one: data.shipping_one,
-            shipping_two: data.shipping_two,
-            shipping_city: data.shipping_city,
-            shipping_state: data.shipping_state,
-            shipping_zip: data.shipping_zip,
-            shipping_country: data.shipping_country,
-            added_by: data.added_by,
-            updated_by: data.updated_by
+            ...data
         })
-
         return res.json({'status': 200, 'results': results });
 
     } catch (error) {
-        console.log(error)
         return res.json({ "status": "500", "message": error.message })
     }
 
@@ -62,7 +33,7 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        const rows = await Customer.findOne({where: {uuid: id}})
+        const rows = await Customer.findOne({where: {id: id}})
         if (rows) { return res.json(rows.dataValues) }
         else { return res.json({ status: 400, error: "Record does not exist" }) }
     } catch (error) {

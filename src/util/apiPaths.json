@@ -1,6 +1,8 @@
 {
-    "getCustomerData": "http://localhost:8080/customers/",
-    "addNewCustomer": "http://localhost:8080/customers/",
-    "getCustomerById": "http://localhost:8080/customers/",
-    "getCustomerLock": "http://localhost:8080/customerlock/"
+    "getCustomerData": "http://localhost:8080/customers",
+    "addNewCustomer": "http://localhost:8080/customers",
+    "getCustomerById": "http://localhost:8080/customers",
+    "getCustomerLock": "http://localhost:8080/customerlock",
+    "addNewAddress":  "http://localhost:8080/customerlock",
+    "getAddressData": "http://localhost:8080/addresses"
 }

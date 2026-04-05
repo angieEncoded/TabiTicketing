@@ -9,19 +9,20 @@ module.exports.customerSchema = Joi.object({
     email:Joi.string().allow(''),
     notes: Joi.string().allow(''),
     status: Joi.string().required(),
-    county: Joi.string().allow(''),
-    billing_one: Joi.string().required(),
-    billing_two: Joi.string().allow(''),
-    billing_city: Joi.string().required(),
-    billing_state: Joi.string().required(),
-    billing_zip: Joi.string().required(),
-    billing_country: Joi.string().required(),
-    shipping_one: Joi.string().allow(''),
-    shipping_two: Joi.string().allow(''),
-    shipping_city: Joi.string().allow(''),
-    shipping_state: Joi.string().allow(''),
-    shipping_zip: Joi.string().allow(''),
-    shipping_country: Joi.string().allow(''),
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 });
+
+
+module.exports.addressSchema = Joi.object({
+    type: Joi.string().required(),
+    street1: Joi.string().required(),
+    street2:  Joi.string().allow(''),
+    city:  Joi.string().required(),
+    county:  Joi.string().allow(''),
+    state:  Joi.string().required(),
+    zip:  Joi.string().required(),
+    country:  Joi.string().required(),
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})
