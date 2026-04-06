@@ -12,7 +12,29 @@ const { validateNewCustomer, validateExistingCustomer } = require("../util/valid
 router.get("/", async (req, res, next) => {
     const customers = await Customer.findAll({ 
         where:{'status': 'Active'}, 
-        include: Address
+        include: {
+            model: Address, 
+            where: {
+                type: 'Billing'
+            },
+            required: false
+        }
+    });
+    res.json(customers);
+})
+
+
+// fetch all active customers
+router.get("/testing", async (req, res, next) => {
+    const customers = await Customer.findAll({ 
+        where:{'status': 'Active'}, 
+        include: {
+            model: Address, 
+            where: {
+                type: 'Billing'
+            },
+            required: false
+        }
     });
     res.json(customers);
 })

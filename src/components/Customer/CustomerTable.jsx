@@ -24,7 +24,6 @@ const CustomerTable = () => {
 
     const dispatch = useDispatch();
 
-
     // !!! TODO - add default sorting 
     const table = useReactTable({
         data: customersForTable,
