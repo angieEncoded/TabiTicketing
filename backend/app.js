@@ -27,61 +27,61 @@ const Picture = require('./models/Picture');
 
 
 // Association the customer's
-Contact.belongsTo(Customer, { constraints: true, onDelete: 'CASCADE' }); // A single contact belongs to a single customer
+Contact.belongsTo(Customer, { constraints: true, onDelete: 'NO ACTION' }); // A single contact belongs to a single customer
 Customer.hasMany(Contact); // set up the inverse relation 
 
 // a license can belong to a customer or a user
-License.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
-License.belongsTo(Contact, {constraints:true, onDelete: 'CASCADE'}); 
-License.belongsTo(Technician, {constraints:true, onDelete: 'CASCADE'}); 
+License.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
+License.belongsTo(Contact, {constraints:true, onDelete: 'NO ACTION'}); 
+License.belongsTo(Technician, {constraints:true, onDelete: 'NO ACTION'}); 
 Contact.hasMany(License);
 Customer.hasMany(License);
 Technician.hasMany(License);
 
 // A piece of equipment can belong to a customer, a user, and can be referenced by a ticket
-Equipment.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
-Equipment.belongsTo(Contact, {constraints:true, onDelete: 'CASCADE'}); 
-Equipment.belongsTo(Technician, {constraints:true, onDelete: 'CASCADE'}); 
-Equipment.belongsTo(Ticket, {constraints:true, onDelete: 'CASCADE'})
+Equipment.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
+Equipment.belongsTo(Contact, {constraints:true, onDelete: 'NO ACTION'}); 
+Equipment.belongsTo(Technician, {constraints:true, onDelete: 'NO ACTION'}); 
+Equipment.belongsTo(Ticket, {constraints:true, onDelete: 'NO ACTION'})
 Customer.hasMany(Equipment);
 Contact.hasMany(Equipment);
 Technician.hasMany(Equipment);
 Ticket.hasMany(Equipment);
 
 // A ticket references a customer, a user, and a technician. History will be captured in a separate table
-Ticket.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'}); // one ticket, one customer, one issue
-Ticket.belongsTo(Contact, {constraints: true, onDelete: 'CASCADE'}); // one ticket, one contact, one issue
+Ticket.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one customer, one issue
+Ticket.belongsTo(Contact, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one contact, one issue
 Ticket.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'}); // only one owning tech at time of close
 Customer.hasMany(Ticket);
 Contact.hasMany(Ticket);
 Technician.hasMany(Ticket);
 
 // a Ticket time belongs to only one ticket
-TicketComment.belongsTo(Ticket, {constraints: true, onDelete: 'CASCADE'});
+TicketComment.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'});
 Ticket.hasMany(TicketComment);
 
 // A ticket comment belongs to only one ticket 
-TicketTime.belongsTo(Ticket, {constraints: true, onDelete:'CASCADE'});
+TicketTime.belongsTo(Ticket, {constraints: true, onDelete:'NO ACTION'});
 Ticket.hasMany(TicketTime);
 
 // An address can belong to anything, and anything can have more than one address
-Address.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
-Address.belongsTo(Contact, {constraints: true, onDelete: 'CASCADE'});
-Address.belongsTo(Technician, {constraints: true, onDelete: 'CASCADE'});
+Address.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
+Address.belongsTo(Contact, {constraints: true, onDelete: 'NO ACTION'});
+Address.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'});
 Customer.hasMany(Address)
 Contact.hasMany(Address)
 Technician.hasMany(Address)
 
 // A ticket history belongs to a ticket and a user
-TicketHistory.belongsTo(Ticket, {constraints: true, onDelete: 'CASCADE'})
-TicketHistory.belongsTo(Technician, {constraints: true, onDelete: 'CASCADE'})
+TicketHistory.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'})
+TicketHistory.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'})
 Ticket.hasMany(TicketHistory);
 Technician.hasMany(TicketHistory);
 
 // A picture belongs to a customer, contact or a ticket.
-Picture.belongsTo(Customer, {constraints: true, onDelete: 'CASCADE'});
-Picture.belongsTo(Ticket, {constraints: true, onDelete:'CASCADE'});
-Picture.belongsTo(Contact, {constraints: true, onDelete:'CASCADE'});
+Picture.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
+Picture.belongsTo(Ticket, {constraints: true, onDelete:'NO ACTION'});
+Picture.belongsTo(Contact, {constraints: true, onDelete:'NO ACTION'});
 Customer.hasMany(Picture);
 Ticket.hasMany(Picture);
 Contact.hasMany(Picture);

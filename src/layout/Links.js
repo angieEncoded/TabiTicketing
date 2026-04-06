@@ -1,5 +1,4 @@
 export const offcanvasLinks = [
-    { "title": "Add Ticket.", "href": "/add-ticket", "icon": "la-4x las la-file-alt" },
     { "title": "Add Cust.", "href": "/add-customer", "icon": "la-4x las la-industry" },
     { "title": "Add User", "href": "/add-user", "icon": "la-4x las la-user" },
     { "title": "Reports", "href": "/reports", "icon": "la-4x las la-clipboard" },
@@ -9,7 +8,6 @@ export const offcanvasLinks = [
 ]
 
 export const sidebarLinks = [
-    { "title": "Add Ticket", "href": "/add-ticket", "icon": "la-2x las la-file-alt" },
     { "title": "Add Cust.", "href": "/add-customer", "icon": "la-2x las la-industry" },
     { "title": "Add User", "href": "/add-user", "icon": "la-2x las la-user" },
     { "title": "Reports", "href": "/reports", "icon": "la-2x las la-clipboard" },

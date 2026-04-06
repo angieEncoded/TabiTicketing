@@ -45,9 +45,11 @@ const NavBar = () => {
                         <Nav className="me-auto">
                             <Link className="nav-link" to="/queue">Ticket Queue</Link>
                             <Link className="nav-link" to="/">Customers</Link>
-                            <Link className="nav-link" to="/testing">Users</Link>
+                            <Link className="nav-link" to="/calendar">Calendar <i className="las la-calendar-alt"></i></Link>
                             <Link className="nav-link" to="/testing">Testing</Link>
+                            <Link className="nav-link" to="/testing">Users</Link>
                         </Nav>
+                        
 
                         {/* User Login Controls */}
                         <Nav>

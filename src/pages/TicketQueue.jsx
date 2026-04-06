@@ -1,8 +1,8 @@
-import React from 'react'
+import TicketTable from "../components/Ticket/TicketTable"
 
 const TicketQueue = () => {
   return (
-    <div>TicketQueue</div>
+    <TicketTable />
   )
 }
 

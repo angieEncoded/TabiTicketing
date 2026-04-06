@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Customer = require("../models/Customer")
+const Customer = require("../models/Customer");
+const Address = require("../models/Address");
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
 const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
@@ -9,7 +10,10 @@ const { validateNewCustomer, validateExistingCustomer } = require("../util/valid
 
 // fetch all active customers
 router.get("/", async (req, res, next) => {
-    const customers = await Customer.findAll({ where:{'status': 'Active'} });
+    const customers = await Customer.findAll({ 
+        where:{'status': 'Active'}, 
+        include: Address
+    });
     res.json(customers);
 })
 
