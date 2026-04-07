@@ -6,7 +6,7 @@ import Loading from '../LoadingScreens/Loading.jsx'
 import LargeModal from "../Modal/LargeModal.jsx"
 import COLUMNS from './columns/CustomerColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
-import CustomerDisplay from '../../pages/CustomerDisplay.jsx'
+import CustomerDisplay from './CustomerDisplay.jsx'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 
 
@@ -16,6 +16,9 @@ const CustomerTable = () => {
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [showModal, setShowModal] = useState(false);
+
+
+    // MOVE THIS OUT INTO A REDUX STATE SLICE AND THEN SUBSCRIBE TO IT IN ALL THE MINI COMPONENTS
     const [selectedCustomer, setSelectedCustomer] = useState(false);
 
     // Grab items from the slices
@@ -76,7 +79,7 @@ const CustomerTable = () => {
                 <>
 
                     {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomer.customer_name}>
-                        <CustomerDisplay recordType={'customer'} id={selectedCustomer.id}></CustomerDisplay>
+                        <CustomerDisplay recordType={'customer'} id={selectedCustomer.id} recordName={selectedCustomer.customer_name}></CustomerDisplay>
                     </LargeModal>}
 
                     {customersForTable.length < 1 && <h3 className="text-center noticaText">There's no customers! Why don't you add some?</h3>}

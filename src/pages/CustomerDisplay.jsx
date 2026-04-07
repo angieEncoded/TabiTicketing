@@ -2,14 +2,14 @@ import React from 'react'
 import { default as CustomerDisplayComponent } from '../components/Customer/CustomerDisplay'
 import CustomerButtons from '../components/Customer/CustomerButtons'
 
-const CustomerDisplay = ({id}) => {
+const CustomerDisplay = ({ recordType, id, recordName }) => {
 
 
   return (
   
     <>
  
-    <CustomerDisplayComponent id={id}></CustomerDisplayComponent>
+    <CustomerDisplayComponent recordName={recordName} recordType={recordType} id={id}></CustomerDisplayComponent>
     
 
     </>

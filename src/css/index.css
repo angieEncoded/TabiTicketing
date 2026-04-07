@@ -15,13 +15,13 @@ body {
   z-index: 2000;
 }
 
-.icon-hover:hover{
+.icon-hover:hover {
   cursor: pointer;
 }
 
-.baskerville-font{
-    font-family: 'Libre Baskerville', serif;
-  }
+.baskerville-font {
+  font-family: 'Libre Baskerville', serif;
+}
 
 .noticaText {
   font-family: 'Noticia Text', serif;
@@ -59,8 +59,8 @@ body {
 }
 
 
-.tabi-hover:hover{
-  cursor:pointer;
+.tabi-hover:hover {
+  cursor: pointer;
 }
 
 .tabi-container {
@@ -160,19 +160,19 @@ body {
 }
 
 
-  .btn-silver {
-    border: 2px solid rgb(135, 130, 138);
-    color: white;
-    background-color: rgb(135, 130, 138);
-    box-shadow: 5px 8px 8px -5px #000000;
-  }
-  
-  .btn-silver:hover {
-    border: 2px solid rgb(118, 116, 119);
-    color: rgb(255, 255, 255);
-    background-color:rgb(118, 116, 119);
-    box-shadow:5px 8px 8px -8px #000000;
-  }
+.btn-tabi-silver {
+  border: 2px solid rgb(135, 130, 138);
+  color: white;
+  background-color: rgb(135, 130, 138);
+  box-shadow: 5px 8px 8px -5px #000000;
+}
+
+.btn-tabi-silver:hover {
+  border: 2px solid rgb(118, 116, 119);
+  color: rgb(255, 255, 255);
+  background-color: rgb(118, 116, 119);
+  box-shadow: 5px 8px 8px -8px #000000;
+}
 
 
 .btn-tabi-warning {
@@ -209,8 +209,8 @@ body {
 
 .ellipsis {
   overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 
@@ -239,7 +239,8 @@ text-overflow: ellipsis;
 
 
 /* BOOTSTRAP OVERRIDES */
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   color: black;
   background-color: var(--bs-body-bg);
   border-color: rgba(255, 255, 255, 0);
@@ -259,6 +260,7 @@ text-overflow: ellipsis;
   background-color: #a687d8;
   border-color: #9f87d8;
 }
+
 /* =========================================== FORMS CSS ===================================================*/
 
 
@@ -286,6 +288,5 @@ text-overflow: ellipsis;
   -webkit-box-shadow: -1px 2px 8px 1px rgba(67, 37, 87, 0.33);
   box-shadow: -1px 2px 8px 1px rgba(67, 37, 87, 0.33);
 }
+
 /* =========================================== BUTTONS CSS ===================================================*/
-
-

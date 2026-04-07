@@ -5,7 +5,7 @@ import Buttontabi from "../Button/Buttontabi";
 import regexPatterns from "../../util/regexPatterns";
 import { toast } from "react-toastify";
 import LargeModal from '../Modal/LargeModal';
-import CustomerDisplay from '../../pages/CustomerDisplay';
+import CustomerDisplay from "../Customer/CustomerDisplay";
 
 const CustomerForm = () => {
 

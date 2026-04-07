@@ -11,7 +11,6 @@ const Address = require('../models/Address');
 // fetch all addresses for a customer
 router.get("/:recordType/:id", async (req, res, next) => {
 
-
     const {recordType, id} = req.params;
     let results;
     if (recordType === 'customer') { results = await Address.findAll({ where:{'customerId': id} });}
@@ -29,11 +28,22 @@ router.post('/:recordType/:id', validateNewAddress, async (req,res,next)=> {
     const data = req.body;
     const {recordType, id} = req.params;
     let results;
+    console.log(recordType) 
+
+    console.log("got here")
 
     try {
         
-        if(recordType === 'customer'){ results = await Address.create({uuid: uuidv4(), customerId: id, ...data})}
+        if(recordType === 'customer'){ 
+             console.log("in the right block")
+            results = await Address.create({uuid: uuidv4(), customerId: id, ...data})
+            console.log(results)
+        }
+
+        // may need to get the customer information in a query first and then add it here, if we even do addresses for contacts
         if(recordType === 'contact'){ results = await Address.create({uuid: uuidv4(), contactId: id, ...data})}
+
+
         if(recordType === 'technician'){ results = await Address.create({uuid: uuidv4(), technicianId: id, ...data})}
 
         return res.json({'status': 200, 'results': results });

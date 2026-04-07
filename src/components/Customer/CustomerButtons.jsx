@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
-import NewTicket from '../Ticket/NewTicket';
+import AddressForm from '../Forms/AddressForm';
 
-const CustomerButtons = ({addTicket, addEquipment, addLicense, addContact, addAddress, viewTickets, recordType, id}) => {
+const CustomerButtons = ({ recordType, id, recordName }) => {
 
 
   // set which component is being shown
   const [currentComponent, setCurrentComponent] = useState("Empty"); 
 
+  console.log(currentComponent)
   const handleButton = (type) => {
-    if(type === 'Ticket'){
-      setCurrentComponent('Ticket');
-    }
+    if(type === 'Address'){ setCurrentComponent('Address') }
+    console.log(type)
   }
 
   const closeComponent = () => {
@@ -20,17 +20,19 @@ const CustomerButtons = ({addTicket, addEquipment, addLicense, addContact, addAd
 
   return (
     <div className="container">
-        <div className="ms-start d-grid gap-2 d-md-block">
-            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={() => handleButton('Ticket')}>Add Ticket</button>
-            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={addEquipment}>Add Equipment</button>
-            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={addLicense}>Add License</button>
-            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={addContact}>Add Contact</button>
-            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={addAddress}>Add Address</button>
-            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={viewTickets}>View all Tickets</button>
+        <div className="ms-start d-grid gap-2 d-md-block mb-3">
+            <button className="btn btn-sm btn-tabi-logo mx-1" >Add Ticket</button>
+            <button className="btn btn-sm btn-tabi-logo mx-1" >Add Equipment</button>
+            <button className="btn btn-sm btn-tabi-logo mx-1" >Add License</button>
+            <button className="btn btn-sm btn-tabi-logo mx-1" >Add Contact</button>
+            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={() => handleButton('Address')}  disabled={currentComponent === 'Address'}>Add Address</button>
+            <button className="btn btn-sm btn-tabi-logo mx-1">View all Tickets</button>
         </div>
 
-      {currentComponent === 'Empty' && <></>}
-      {currentComponent === 'Ticket' && <NewTicket customerId={id} technicianId={1} closeComponent={closeComponent}></NewTicket>}
+
+        {currentComponent === 'Empty' && <></>}
+        {currentComponent === 'Address' && <AddressForm recordName={recordName} recordType={recordType} id={id} technicianId={1} closeComponent={closeComponent}></AddressForm>}
+    
 
 
     </div>

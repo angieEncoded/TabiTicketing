@@ -1,18 +1,24 @@
 import { useForm } from "react-hook-form"
 import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
 import Buttontabi from "../Button/Buttontabi";
 import regexPatterns from "../../util/regexPatterns";
 import { toast } from "react-toastify";
 import usStates from '../../util/usStates.json';
 import countries from '../../util/countries.json';
+import { useSelector, useDispatch } from 'react-redux'
+import { customersActions } from '../../store/CustomerSlice.js'
 
-// need the uuid and the type for successful post - can post to a contact, a customer, or a technician. Send in the name so we don't have to fetch
-const AddressForm = ({ id = 1, recordtype = 'customer', identifier = 'Phillipsburg' }) => {
+
+// need the id and the type for successful post to the correct endpoint
+// can post to a contact, a customer, or a technician. 
+// Send in the name so we don't have to fetch again for display
+const AddressForm = ({ recordType, id, recordName, closeComponent, reloadData }) => {
 
     const [isPending, setIsPending] = useState(false);
 
     const urls = useSelector(state => state.urls.urls);
+
+    const dispatch = useDispatch();
 
     // registration for the react form
     const {
@@ -30,6 +36,7 @@ const AddressForm = ({ id = 1, recordtype = 'customer', identifier = 'Phillipsbu
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
             reset();
+            cancelTask();
         }
     }, [formState, reset])
 
@@ -46,7 +53,7 @@ const AddressForm = ({ id = 1, recordtype = 'customer', identifier = 'Phillipsbu
 
         try {
 
-            const results = await fetch(`${urls.addNewAddress}/${recordtype}/${id}`, {
+            const results = await fetch(`${urls.addressAPI}/${recordType}/${id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": 'application/json'
@@ -74,9 +81,23 @@ const AddressForm = ({ id = 1, recordtype = 'customer', identifier = 'Phillipsbu
             }
 
             if (serverResponse.status == "200") {
-
-                toast.success(`Successfully added new address with uuid: ${serverResponse.results.uuid}`);
+                console.log(serverResponse)
+                toast.success(`Successfully added new address with id: ${serverResponse.results.id}`);
                 setIsPending(false);
+                
+
+                // Need to refresh whole database
+                const customerData = await fetch(`${urls.getCustomerData}`);
+                if (!customerData.ok) throw new Error("Failed to fetch customer data for background refresh. Please check the server.");
+                const customerJson = await customerData.json();
+                dispatch(customersActions.loadCustomerData(customerJson));
+
+
+                // TODO - Need to figure out how to trigger a rerender of the address display component
+                // and a background refresh of the database
+
+
+
 
                 return;
             } else {
@@ -86,22 +107,22 @@ const AddressForm = ({ id = 1, recordtype = 'customer', identifier = 'Phillipsbu
             }
         } catch (error) { // will capture if the server is down
             setIsPending(false)
+            console.log(error)
             toast.error(`${error.message} - is the server down?`)
         }
     }
 
-    const hideFormModal = () => {
-        setShowModal(false);
+    const cancelTask = () => {
+        reset();
+        closeComponent();
     }
+
 
     return (
 
         <>
 
                 <div className="form-background mb-5 mx-auto">
-                    <h2 className="text-center noticaText">Add an address for: {identifier} </h2>
-                    <hr />
-
                     <form onSubmit={handleSubmit(onSubmit)}>
 
 
@@ -197,6 +218,7 @@ const AddressForm = ({ id = 1, recordtype = 'customer', identifier = 'Phillipsbu
 
                         <div className={"text-end"}>
                             <div>
+                                <Buttontabi type='button' buttonClass={'warning float-start'} title={"Cancel and close"} onClick={() => cancelTask()} />
                                 <Buttontabi type='button' buttonClass={'secondary'} title={"Clear Form"} onClick={() => reset()} />
                                 <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save Address" : "Submitting..."} disabled={!isValid} />
                             </div>

@@ -2,11 +2,10 @@
 import { useEffect, useState } from 'react'
 import Loading from '../LoadingScreens/Loading.jsx'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
+import { useSelector } from 'react-redux'
 
-
-const AddressDisplay = ({ recordType = 'customer', id = 1 }) => {
+const AddressDisplay = ({ recordType, id  }) => {
 
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,7 +25,7 @@ const AddressDisplay = ({ recordType = 'customer', id = 1 }) => {
     const getCustomerData = async () => {
       try {
         setIsPending(true);
-        const addressData = await fetch(`${urls.getAddressData}/${recordType}/${id}`);
+        const addressData = await fetch(`${urls.addressAPI}/${recordType}/${id}`);
         if (!addressData.ok) throw new Error("Failed to fetch data. Please check the server.");
         const addressJson = await addressData.json();
         setSelectedAddressData(addressJson);

@@ -7,17 +7,17 @@ import LicenseDisplay from './LicenseDisplay.jsx'
 import PicturesDisplay from './PicturesDisplay.jsx'
 import TicketDisplay from './TicketDisplay.jsx'
 
-const CustomerDisplay = ({ recordType, id }) => {
+const CustomerDisplay = ({ recordType, id, recordName }) => {
 
   return (
     <>
-          <CustomerButtons />
-          <CustomerBasic  recordType={recordType} id={id}/>
-          <AddressDisplay recordType={recordType} id={id}/>
-          <ContactDisplay recordType={recordType} id={id}/>
-          <TicketDisplay  recordType={recordType} id={id}/>
-          <EquipmentDisplay  recordType={recordType} id={id}/>
-          <LicenseDisplay  recordType={recordType} id={id}/>
+          <CustomerButtons  recordType={recordType} id={id} recordName={recordName}/>
+          <CustomerBasic    recordType={recordType} id={id}/>
+          <AddressDisplay   recordType={recordType} id={id}/>
+          <ContactDisplay   recordType={recordType} id={id}/>
+          <TicketDisplay    recordType={recordType} id={id}/>
+          <EquipmentDisplay recordType={recordType} id={id}/>
+          <LicenseDisplay   recordType={recordType} id={id}/>
           <PicturesDisplay  recordType={recordType} id={id}/>
     </>
   )
