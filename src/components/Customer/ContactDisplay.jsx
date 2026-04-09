@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
 import COLUMNS from './columns/ContactColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
@@ -11,14 +11,14 @@ const ContactDisplay = ({ recordType, id }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const [contactData, setContactData] = useState(false);
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
+    const selectedCustomer = useSelector(state => state.scust.customer);
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: contactData,
+        data: selectedCustomer.contacts,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -30,29 +30,6 @@ const ContactDisplay = ({ recordType, id }) => {
             }
         }
     })
-
-    // Initially populate the data
-    useEffect(() => {
-        const getTableData = async () => {
-            try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const contactData = await fetch(`${urls.getContactData}/${id}`);
-                if (!contactData.ok) throw new Error("Failed to fetch data. Please check the server.");
-                const contactJson = await contactData.json();
-                setContactData(contactJson);
-                setIsPending(false);
-            } catch (error) {
-                setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
-            }
-        }
-        getTableData();
-    }, []);
-
 
     const handleRowClick = async (row) => {
         toast.info(`Do something with the row :${row.original.id}`)
@@ -72,9 +49,9 @@ const ContactDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Contacts</h5>
 
-                    {contactData.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
+                    {selectedCustomer.contacts.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
 
-                    {contactData && contactData.length >= 1 &&
+                    {selectedCustomer.contacts && selectedCustomer.contacts.length >= 1 &&
                         <>
 
                             <div className="row mb-3 g-3">

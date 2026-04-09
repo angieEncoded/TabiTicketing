@@ -9,9 +9,12 @@ const selectedCustomerSlice = createSlice({
     reducers: {
         loadCustomerData(state, data) {
             state.customer = data.payload
+        },
+        clearCustomerData(state, data) {
+            state.customer = {}
         }
     }
 })
 
-export const seletedCustomersActions = selectedCustomerSlice.actions
+export const selectedCustomerActions = selectedCustomerSlice.actions
 export default selectedCustomerSlice.reducer;

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { customersActions } from '../../store/CustomerSlice.js'
+import { selectedCustomerActions } from '../../store/SelectedCustomerSlice.js'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
@@ -17,13 +18,11 @@ const CustomerTable = () => {
     const [hasError, setHasError] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
-
-    // MOVE THIS OUT INTO A REDUX STATE SLICE AND THEN SUBSCRIBE TO IT IN ALL THE MINI COMPONENTS
-    const [selectedCustomer, setSelectedCustomer] = useState(false);
-
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
     const customersForTable = useSelector(state => state.cust.customers);
+    const selectedCustomerForModal = useSelector(state => state.scust.customer);
+    console.log(selectedCustomerForModal)
 
     const dispatch = useDispatch();
 
@@ -60,12 +59,18 @@ const CustomerTable = () => {
     }, []);
 
     const handleRowClick = async (row) => {
-        setSelectedCustomer(row.original); // set the state to the currently selected customer
+
+        // let's do one query to the db and be done with it, everyone else can subscribe
+        const selectedCustomerData = await fetch(`${urls.getCustomerData}/${row.original.id}`);
+        if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
+        const selectedCustomerJson = await selectedCustomerData.json();
+        dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
         setShowModal(true); // show the modal with the form
+    
     }
 
     const closeModal = () => {
-        setSelectedCustomer({}); // clean up the state
+        dispatch(selectedCustomerActions.clearCustomerData()); // clear the data
         setShowModal(false); // close the modal
     }
 
@@ -78,8 +83,8 @@ const CustomerTable = () => {
 
                 <>
 
-                    {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomer.customer_name}>
-                        <CustomerDisplay recordType={'customer'} id={selectedCustomer.id} recordName={selectedCustomer.customer_name}></CustomerDisplay>
+                    {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomerForModal.customer_name}>
+                        <CustomerDisplay recordType={'customer'} ></CustomerDisplay>
                     </LargeModal>}
 
                     {customersForTable.length < 1 && <h3 className="text-center noticaText">There's no customers! Why don't you add some?</h3>}

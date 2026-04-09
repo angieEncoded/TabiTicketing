@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Customer = require("../models/Customer");
 const Address = require("../models/Address");
+const Contact = require("../models/Contact");
+const Ticket = require("../models/Ticket");
+const Equipment = require("../models/Equipment");
+const License = require("../models/License");
+const Picture = require("../models/Picture");
+
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
 const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
@@ -24,21 +30,6 @@ router.get("/", async (req, res, next) => {
 })
 
 
-// fetch all active customers
-router.get("/testing", async (req, res, next) => {
-    const customers = await Customer.findAll({ 
-        where:{'status': 'Active'}, 
-        include: {
-            model: Address, 
-            where: {
-                type: 'Billing'
-            },
-            required: false
-        }
-    });
-    res.json(customers);
-})
-
 // Add a new customer
 router.post("/", validateNewCustomer, async (req, res, next) => {
     const data = req.body;
@@ -55,11 +46,14 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 
 })
 
-
+// grab all the data for a single customer
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        const rows = await Customer.findOne({where: {id: id}})
+        const rows = await Customer.findOne({
+            where: {id: id},
+            include: [Address, Contact, Equipment, License, Picture, Ticket]
+        })
         if (rows) { return res.json(rows.dataValues) }
         else { return res.json({ status: 400, error: "Record does not exist" }) }
     } catch (error) {
@@ -121,6 +115,22 @@ router.put("/:id", validateExistingCustomer, async (req, res, next) => {
 })
 
 // Archive a customer (paranoid delete)
+
+// fetch all active customers
+router.get("/testing", async (req, res, next) => {
+    const customers = await Customer.findAll({ 
+        where:{'status': 'Active'}, 
+        include: {
+            model: Address, 
+            where: {
+                type: 'Billing'
+            },
+            required: false
+        }
+    });
+    res.json(customers);
+})
+
 
 
 

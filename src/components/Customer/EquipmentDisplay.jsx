@@ -11,14 +11,15 @@ const EquipmentDisplay = ({ recordType, id }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const [equipmentData, setEquipmentData] = useState(false);
+
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
+    const selectedCustomer = useSelector(state => state.scust.customer);
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: equipmentData,
+        data: selectedCustomer,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -30,28 +31,6 @@ const EquipmentDisplay = ({ recordType, id }) => {
             }
         }
     })
-
-    // Initially populate the data
-    useEffect(() => {
-        const getTableData = async () => {
-            try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const equipmentData = await fetch(`${urls.getEquipmentData}/${id}`);
-                if (!equipmentData.ok) throw new Error("Failed to fetch data. Please check the server.");
-                const equipmentDataJson = await equipmentData.json();
-                setEquipmentData(equipmentDataJson);
-                setIsPending(false);
-            } catch (error) {
-                setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
-            }
-        }
-        getTableData();
-    }, []);
 
 
     const handleRowClick = async (row) => {
@@ -69,9 +48,9 @@ const EquipmentDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Equipment</h5>
 
-                    {equipmentData.length < 1 && <p className="text-center">No Equipment recorded for this customer.</p>}
+                    {selectedCustomer.equipment.length < 1 && <p className="text-center">No Equipment recorded for this customer.</p>}
 
-                    {equipmentData && equipmentData.length >= 1 &&
+                    {selectedCustomer.equipment && selectedCustomer.equipment.length >= 1 &&
                         <>
 
                             <div className="row mb-3 g-3">

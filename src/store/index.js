@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authenticationSliceReducer from "./AuthenticationSlice";
-import customerSliceReducer from "./CustomerSlice"
+import customerSliceReducer from "./CustomerSlice";
+import selectedCustomerSliceReducer from "./SelectedCustomerSlice";
 import urlSliceReducer from "./EndpointsSlice";
 import ticketsSliceReducer from "./TicketSlice";
 
 const store = configureStore({
     reducer: {
         cust: customerSliceReducer,
+        scust: selectedCustomerSliceReducer,
         tick: ticketsSliceReducer,
         auth: authenticationSliceReducer,
         urls: urlSliceReducer,

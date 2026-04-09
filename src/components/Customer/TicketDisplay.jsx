@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
 import COLUMNS from './columns/TicketColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
@@ -13,14 +13,14 @@ const TicketDisplay = ({ recordType, id }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const [ticketData, setTicketData] = useState(false);
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
+    const selectedCustomer = useSelector(state => state.scust.customer);
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: ticketData,
+        data: selectedCustomer.tickets,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -32,29 +32,6 @@ const TicketDisplay = ({ recordType, id }) => {
             }
         }
     })
-
-
-    // Initially populate the data
-    useEffect(() => {
-        const getTableData = async () => {
-            try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const ticketData = await fetch(`${urls.getTicketData}/${id}`);
-                if (!ticketData.ok) throw new Error("Failed to fetch data. Please check the server.");
-                const ticketDataJson = await ticketData.json();
-                setTicketData(ticketDataJson);
-                setIsPending(false);
-            } catch (error) {
-                setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
-            }
-        }
-        getTableData();
-    }, []);
 
 
     const handleRowClick = async (row) => {
@@ -74,11 +51,10 @@ const TicketDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Open Tickets</h5>
 
-                    {ticketData.length < 1 && <p className="text-center">No open tickets for this customer.</p>}
+                    {selectedCustomer.tickets.length < 1 && <p className="text-center">No open tickets for this customer.</p>}
 
-                    {ticketData && ticketData.length >= 1 &&
+                    {selectedCustomer.tickets && selectedCustomer.tickets.length >= 1 &&
                         <>
-
 
                             <div className="row mb-3 g-3">
                                 <div className='col-auto ms-auto'>

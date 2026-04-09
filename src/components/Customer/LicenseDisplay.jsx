@@ -17,10 +17,11 @@ const LicenseDisplay = ({ recordType, id }) => {
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
+    const selectedCustomer =useSelector(state => state.scust.customer);
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: licenseData,
+        data: selectedCustomer.licenses,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -33,28 +34,6 @@ const LicenseDisplay = ({ recordType, id }) => {
         }
     })
 
-
-    // Initially populate the data
-    useEffect(() => {
-        const getTableData = async () => {
-            try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const licenseData = await fetch(`${urls.getLicenseData}/${id}`);
-                if (!licenseData.ok) throw new Error("Failed to fetch data. Please check the server.");
-                const licenseDataJson = await licenseData.json();
-                setLicenseData(licenseDataJson);
-                setIsPending(false);
-            } catch (error) {
-                setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
-            }
-        }
-        getTableData();
-    }, []);
 
 
     const handleRowClick = async (row) => {
@@ -73,9 +52,9 @@ const LicenseDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Licenses</h5>
 
-                    {licenseData.length < 1 && <p className="text-center">No Licenses recorded for this customer.</p>}
+                    {selectedCustomer.licenses.length < 1 && <p className="text-center">No Licenses recorded for this customer.</p>}
 
-                    {licenseData && licenseData.length >= 1 &&
+                    {selectedCustomer.licenses && selectedCustomer.licenses.length >= 1 &&
                         <>
 
 

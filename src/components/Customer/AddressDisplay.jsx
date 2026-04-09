@@ -3,42 +3,20 @@ import { useEffect, useState } from 'react'
 import Loading from '../LoadingScreens/Loading.jsx'
 import { toast } from 'react-toastify'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 const AddressDisplay = ({ recordType, id  }) => {
-
 
   const [errorMessage, setErrorMessage] = useState("");
   const [hasError, setHasError] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const [selectedAddressData, setSelectedAddressData] = useState(false);
-
 
   const urls = useSelector(state => state.urls.urls);
+  const selectedCustomer = useSelector(state => state.scust.customer);
 
   const editField = (fieldData) => {
     console.log('clicked')
   }
-
-  // Initially populate the data
-  useEffect(() => {
-    const getCustomerData = async () => {
-      try {
-        setIsPending(true);
-        const addressData = await fetch(`${urls.addressAPI}/${recordType}/${id}`);
-        if (!addressData.ok) throw new Error("Failed to fetch data. Please check the server.");
-        const addressJson = await addressData.json();
-        setSelectedAddressData(addressJson);
-      } catch (error) {
-        setIsPending(false);
-        setHasError(true);
-        setErrorMessage(error.message);
-        toast.error(error.message);
-      }
-    }
-    getCustomerData();
-    setIsPending(false);
-  }, []);
 
   return (
     <>
@@ -48,11 +26,11 @@ const AddressDisplay = ({ recordType, id  }) => {
         <>
           <hr></hr>
           <h5 className="text-center baskerville-font mb-3">Addresses</h5>
-          {selectedAddressData.length < 1 && <p className="text-center">No Addresses recorded for this customer.</p>}
+          {selectedCustomer.addresses.length < 1 && <p className="text-center">No Addresses recorded for this customer.</p>}
 
-          {selectedAddressData && selectedAddressData.length >= 1 &&
+          {selectedCustomer.addresses && selectedCustomer.addresses.length >= 1 &&
             <>
-              {selectedAddressData.map(address => (
+              {selectedCustomer.addresses.map(address => (
 
                 <div key={address.id}>
                   <p className={`ms-start baskerville-font mb-3 ${address.type == 'Billing' ? `text-success` : `text-tabi-logo`}  `}>{address.type}</p>
