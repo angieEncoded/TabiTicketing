@@ -19,7 +19,7 @@ const EquipmentDisplay = ({ recordType, id }) => {
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: selectedCustomer,
+        data: selectedCustomer.equipment,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),

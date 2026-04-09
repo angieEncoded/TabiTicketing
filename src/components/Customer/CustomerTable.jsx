@@ -59,14 +59,16 @@ const CustomerTable = () => {
     }, []);
 
     const handleRowClick = async (row) => {
-
+        setHasError(false);
+        setErrorMessage("");
+        setIsPending(true);
         // let's do one query to the db and be done with it, everyone else can subscribe
         const selectedCustomerData = await fetch(`${urls.getCustomerData}/${row.original.id}`);
         if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
         const selectedCustomerJson = await selectedCustomerData.json();
         dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
+        setIsPending(false);
         setShowModal(true); // show the modal with the form
-    
     }
 
     const closeModal = () => {
