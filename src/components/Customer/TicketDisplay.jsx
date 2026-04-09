@@ -36,7 +36,7 @@ const TicketDisplay = ({ recordType, id }) => {
 
     const handleRowClick = async (row) => {
         toast.info(`Do something with the row :${row.original.id}`)
-        console.log(row.original)
+        // console.log(row.original)
     }
 
 

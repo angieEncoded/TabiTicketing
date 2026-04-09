@@ -7,17 +7,19 @@ import usStates from '../../util/usStates.json';
 import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
+import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 
 
 // need the id and the type for successful post to the correct endpoint
 // can post to a contact, a customer, or a technician. 
 // Send in the name so we don't have to fetch again for display
-const AddressForm = ({ recordType, id, recordName, closeComponent, reloadData }) => {
+const AddressForm = ({ recordType, closeComponent }) => {
 
     const [isPending, setIsPending] = useState(false);
 
     const urls = useSelector(state => state.urls.urls);
-
+    const selectedCustomer = useSelector(state => state.scust.customer);
+    console.log(selectedCustomer)
     const dispatch = useDispatch();
 
     // registration for the react form
@@ -53,7 +55,7 @@ const AddressForm = ({ recordType, id, recordName, closeComponent, reloadData })
 
         try {
 
-            const results = await fetch(`${urls.addressAPI}/${recordType}/${id}`, {
+            const results = await fetch(`${urls.addressAPI}/${recordType}/${selectedCustomer.id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": 'application/json'
@@ -81,24 +83,25 @@ const AddressForm = ({ recordType, id, recordName, closeComponent, reloadData })
             }
 
             if (serverResponse.status == "200") {
-                console.log(serverResponse)
                 toast.success(`Successfully added new address with id: ${serverResponse.results.id}`);
-                setIsPending(false);
+ 
                 
-
-                // Need to refresh whole database
+                // Refresh the background table
                 const customerData = await fetch(`${urls.getCustomerData}`);
-                if (!customerData.ok) throw new Error("Failed to fetch customer data for background refresh. Please check the server.");
+                if (!customerData.ok) throw new Error("Failed to fetch customer data for background refresh. Please refresh the system.");
                 const customerJson = await customerData.json();
                 dispatch(customersActions.loadCustomerData(customerJson));
 
 
-                // TODO - Need to figure out how to trigger a rerender of the address display component
-                // and a background refresh of the database
+                // Refresh the selected customer as well if customer
+                if(recordType === 'customer'){
+                    const selectedCustomerData = await fetch(`${urls.getCustomerData}/${row.original.id}`);
+                    if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
+                    const selectedCustomerJson = await selectedCustomerData.json();
+                    dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
+                } 
 
-
-
-
+                setIsPending(false)
                 return;
             } else {
                 setIsPending(false);
@@ -107,7 +110,7 @@ const AddressForm = ({ recordType, id, recordName, closeComponent, reloadData })
             }
         } catch (error) { // will capture if the server is down
             setIsPending(false)
-            console.log(error)
+            // console.log(error)
             toast.error(`${error.message} - is the server down?`)
         }
     }

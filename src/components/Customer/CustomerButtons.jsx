@@ -12,7 +12,7 @@ const CustomerButtons = ({ recordType, id, recordName }) => {
   console.log(currentComponent)
   const handleButton = (type) => {
     if(type === 'Address'){ setCurrentComponent('Address') }
-    console.log(type)
+    // console.log(type)
   }
 
   const closeComponent = () => {

@@ -22,7 +22,7 @@ const CustomerTable = () => {
     const urls = useSelector(state => state.urls.urls);
     const customersForTable = useSelector(state => state.cust.customers);
     const selectedCustomerForModal = useSelector(state => state.scust.customer);
-    console.log(selectedCustomerForModal)
+    // console.log(selectedCustomerForModal)
 
     const dispatch = useDispatch();
 
