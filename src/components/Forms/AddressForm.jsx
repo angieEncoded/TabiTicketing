@@ -36,7 +36,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
 
 
     useEffect(() => {
-        if (formState.isSubmitSuccessful) {
+        if (isSubmitSuccessful) {
             reset();
             cancelTask();
         }
@@ -83,7 +83,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
             }
 
             if (serverResponse.status == "200") {
-                toast.success(`Successfully added new address with id: ${serverResponse.results.id}`);
+                toast.success(`Successfully added new address for ${selectedCustomer.customer_name}`);
  
                 
                 // Refresh the background table
@@ -95,7 +95,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer as well if customer
                 if(recordType === 'customer'){
-                    const selectedCustomerData = await fetch(`${urls.getCustomerData}/${row.original.id}`);
+                    const selectedCustomerData = await fetch(`${urls.getCustomerData}/${selectedCustomer.id}`);
                     if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
                     const selectedCustomerJson = await selectedCustomerData.json();
                     dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
