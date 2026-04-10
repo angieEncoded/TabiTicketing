@@ -4,6 +4,7 @@
     "getCustomerById": "http://localhost:8080/customers",
     "getCustomerLock": "http://localhost:8080/customerlock",
     "addressAPI":  "http://localhost:8080/addresses",
+    "equipmentAPI": "http://localhost:8080/equipment",
     "getContactData": "http://localhost:8080/contacts",
     "getEquipmentData": "http://localhost:8080/equipment",
     "getLicenseData": "http://localhost:8080/licenses",
