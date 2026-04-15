@@ -152,7 +152,7 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
                                 <label className="form-label">Equipment Type</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <select {...register('equipment_type', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Laptop' className={errors.type && dirtyFields.type ? 'form-select is-invalid' : 'form-select'}>
+                                <select {...register('equipment_type', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Laptop' className={errors.equipment_type && dirtyFields.equipment_type ? 'form-select is-invalid' : 'form-select'}>
                                   {/*  NOTE TO SELF CHANGE THIS TO ID WHEN ACTUALLY PULLING FROM DB*/}
                                    {equipmentType.map(type => <option key={type.name} value={type.name}>{type.name}</option>)}
                                 </select>
@@ -166,7 +166,7 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
                                 <label className="form-label">Equipment Vendor</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <select {...register('vendor', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Laptop' className={errors.type && dirtyFields.type ? 'form-select is-invalid' : 'form-select'}>
+                                <select {...register('vendor', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Laptop' className={errors.vendor && dirtyFields.vendor ? 'form-select is-invalid' : 'form-select'}>
                                    {equipmentVendor.map(vendor => <option key={vendor.name} value={vendor.name}>{vendor.name}</option>)}
                                 </select>
                             </div>
@@ -179,11 +179,25 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
                                 <label className="form-label">Model</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('model', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.street1 && dirtyFields.street1 ? 'form-control is-invalid' : 'form-control'} placeholder={"Model (optional)"} />
+                                <input {...register('model', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.model && dirtyFields.model ? 'form-control is-invalid' : 'form-control'} placeholder={"Model (optional)"} />
                             </div>
                         </div>
 
 
+                        {/* ================= OS Version ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">OS Version</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('os_version', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.os_version && dirtyFields.os_version ? 'form-control is-invalid' : 'form-control'} placeholder={"(Optional)"} />
+                            </div>
+                        </div>
+
+
+
+
+ 
 
 
 
