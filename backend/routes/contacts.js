@@ -18,7 +18,6 @@ router.get("/:customerId", async (req, res, next) => {
 
 
 // Add a new contact
-// Add new address
 router.post('/:recordType/:id', validateNewContact, async (req,res,next)=> {
 
     const data = req.body;

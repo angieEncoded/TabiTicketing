@@ -4,9 +4,42 @@ const License = require("../models/License")
 const { Op } = require('sequelize');
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
+const { validateNewLicense, validateNewFile } = require("../util/validationHelpers")
+const multer  = require('multer')
+const fs = require('fs');
 
-// /equipment/*
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+
+    const customer_name = req.body.customer_name || 'unknown'; 
+    const dir = `./uploads/license_files/${customer_name}`;
+    console.log(dir)
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    
+    cb(null, dir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+
+const upload = multer({ storage:storage, fileFilter:(req, file, cb) => {
+  
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'text/plain', 'application/pdf'];
+    console.log('got into multer')
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true); // Accept
+    } else {
+      // throw error 415 not acceptable media type
+      cb(new Error('Invalid file type. Only JPEG, PNG, GIF, TEXT and PDF are allowed.'), false); // Reject
+    } 
+}
+})
+
 
 // fetch all active equipment for a customer
 router.get("/:customerId", async (req, res, next) => {
@@ -30,10 +63,36 @@ router.get("/:customerId", async (req, res, next) => {
         res.json({status: 'error', error: error})
         console.log(error)
     }
+})
 
 
+// Add a new license
+router.post('/:recordType/:id', upload.single('license_file'), async (req, res, next)=> {
+
+    const data = req.body;
+    const {recordType, id} = req.params;
+    let results;
+
+    
+
+    try {
+        
+        if(recordType === 'customer'){ 
+            results = await License.create({uuid: uuidv4(), customerId: id, ...data})
+        }
+
+        return res.json({'status': 200, 'results': results });
+
+    } catch (error) {
+      console.error(error)
+      return res.json({ "status": "500", "message": error.message })
+    }
 
 })
+
+
+
+
 
 
 module.exports = router;

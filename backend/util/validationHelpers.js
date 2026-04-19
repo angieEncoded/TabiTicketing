@@ -1,4 +1,4 @@
-const { customerSchema, addressSchema, equipmentSchema, contactSchema } = require("./validationSchemas");
+const { customerSchema, addressSchema, equipmentSchema, contactSchema, licenseSchema } = require("./validationSchemas");
 
 module.exports.validateNewCustomer = (req, res, next) => {
     const { error } = customerSchema.validate(req.body);
@@ -49,3 +49,23 @@ module.exports.validateNewContact = (req, res, next) => {
         next();
     }
 }
+
+module.exports.validateNewLicense = (req, res, next) => {
+
+    const data = {
+        ...req.body,
+        license_file: req.files 
+    };
+    console.log("=======================")
+    console.log(data)
+
+    const { error } = licenseSchema.validate(data);
+
+    if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({"error": message})
+    } else {
+        next();
+    }
+}
+
