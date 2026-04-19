@@ -33,7 +33,7 @@ const PicturesDisplay = ({recordType, id}) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Pictures</h5>
 
-                  {selectedCustomer.pictures.length < 1 && <p className="text-center">No Pictures recorded for this customer.</p>}
+                  {selectedCustomer.pictures && selectedCustomer.pictures.length < 1 && <p className="text-center">No Pictures recorded for this customer.</p>}
 
                   {selectedCustomer.pictures && selectedCustomer.pictures.length >= 1 &&
                   <>

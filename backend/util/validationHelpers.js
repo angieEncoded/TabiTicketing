@@ -1,5 +1,4 @@
-const { customerSchema, addressSchema } = require("./validationSchemas");
-
+const { customerSchema, addressSchema, equipmentSchema } = require("./validationSchemas");
 
 module.exports.validateNewCustomer = (req, res, next) => {
     const { error } = customerSchema.validate(req.body);
@@ -21,7 +20,6 @@ module.exports.validateNewAddress = (req, res, next) => {
     }
 }
 
-
 module.exports.validateExistingCustomer = (req, res, next) => {
     const { error } = customerSchema.validate(req.body);
     if (error) {
@@ -31,3 +29,14 @@ module.exports.validateExistingCustomer = (req, res, next) => {
         next();
     }
 }
+
+module.exports.validateNewEquipment = (req, res, next) => {
+    const { error } = equipmentSchema.validate(req.body);
+        if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({"error": message})
+    } else {
+        next();
+    }
+}
+

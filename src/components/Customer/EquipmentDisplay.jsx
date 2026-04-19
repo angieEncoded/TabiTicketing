@@ -48,7 +48,7 @@ const EquipmentDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Equipment</h5>
 
-                    {selectedCustomer.equipment.length < 1 && <p className="text-center">No Equipment recorded for this customer.</p>}
+                    {selectedCustomer.equipment && selectedCustomer.equipment.length < 1 && <p className="text-center">No Equipment recorded for this customer.</p>}
 
                     {selectedCustomer.equipment && selectedCustomer.equipment.length >= 1 &&
                         <>

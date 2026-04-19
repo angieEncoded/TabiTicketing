@@ -49,7 +49,7 @@ const ContactDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Contacts</h5>
 
-                    {selectedCustomer.contacts.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
+                    {selectedCustomer.contacts && selectedCustomer.contacts.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
 
                     {selectedCustomer.contacts && selectedCustomer.contacts.length >= 1 &&
                         <>

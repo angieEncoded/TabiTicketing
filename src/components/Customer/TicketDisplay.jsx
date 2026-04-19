@@ -51,7 +51,7 @@ const TicketDisplay = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Open Tickets</h5>
 
-                    {selectedCustomer.tickets.length < 1 && <p className="text-center">No open tickets for this customer.</p>}
+                    {selectedCustomer.tickets && selectedCustomer.tickets.length < 1 && <p className="text-center">No open tickets for this customer.</p>}
 
                     {selectedCustomer.tickets && selectedCustomer.tickets.length >= 1 &&
                         <>

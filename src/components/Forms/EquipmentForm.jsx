@@ -26,7 +26,7 @@ const equipmentVendor = [
 ];
 
 
-const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) => {
+const EquipmentForm = ({recordType, closeComponent}) => {
 
     const [isPending, setIsPending] = useState(false);
 
@@ -65,6 +65,8 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
             updated_by: 'SYSTEM'
         }
 
+        console.log(formData)
+
         try {
 
             const results = await fetch(`${urls.equipmentAPI}/${recordType}/${selectedCustomer.id}`, {
@@ -97,17 +99,9 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
             if (serverResponse.status == "200") {
                 toast.success(`Successfully added new equipment for ${selectedCustomer.customer_name}`);
  
-                
-                // Refresh the background table
-                const customerData = await fetch(`${urls.getCustomerData}`);
-                if (!customerData.ok) throw new Error("Failed to fetch customer data for background refresh. Please refresh the system.");
-                const customerJson = await customerData.json();
-                dispatch(customersActions.loadCustomerData(customerJson));
-
-
-                // Refresh the selected customer as well if customer
+                // Refresh the selected customer
                 if(recordType === 'customer'){
-                    const selectedCustomerData = await fetch(`${urls.getCustomerData}/${selectedCustomer.id}`);
+                    const selectedCustomerData = await fetch(`${urls.customerAPI}/${selectedCustomer.id}`);
                     if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
                     const selectedCustomerJson = await selectedCustomerData.json();
                     dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
@@ -146,6 +140,13 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
                     <form onSubmit={handleSubmit(onSubmit)}>
 
 
+            <div className="row">
+
+                {/* FIRST COLUMN */}
+                <div className="col-12 col-lg-6">
+
+
+
                         {/* ================= EQUIPMENT TYPE ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
@@ -173,31 +174,220 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
                         </div>
 
 
-                        {/* ================= Model ====================== */}
+                        {/* ================= EQUIPMENT MODEL ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
                                 <label className="form-label">Model</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('model', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.model && dirtyFields.model ? 'form-control is-invalid' : 'form-control'} placeholder={"Model (optional)"} />
+                                <input {...register('model', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.model && dirtyFields.model ? 'form-control is-invalid' : 'form-control'} placeholder={"Model: (Required)"} />
                             </div>
                         </div>
-
-
-                        {/* ================= OS Version ====================== */}
+                        {/* ================= SERIAL NUMBER ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
-                                <label className="form-label">OS Version</label>
+                                <label className="form-label">Serial Number</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('os_version', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.os_version && dirtyFields.os_version ? 'form-control is-invalid' : 'form-control'} placeholder={"(Optional)"} />
+                                <input {...register('serial_number', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.serial_number && dirtyFields.serial_number ? 'form-control is-invalid' : 'form-control'} placeholder={"Serial Number: (Required)"} />
+                            </div>
+                        </div> 
+
+
+                         {/* ================= PRODUCT NUMBER/SERVICE TAG ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">PN/Service Tag</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('service_tag', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.service_tag && dirtyFields.service_tag ? 'form-control is-invalid' : 'form-control'} placeholder={"Product Number/Service Tag:(Optional)"} />
+                            </div>
+                        </div> 
+
+
+
+                        {/* ================= OS TYPE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">OS Type</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('os_type', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.os_type && dirtyFields.os_type ? 'form-control is-invalid' : 'form-control'} placeholder={"OS Type: (Optional)"} />
+                            </div>
+                        </div>
+
+                        {/* ================= OS\Firmware VERSION ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">OS/Firmware Version</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('os_version', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.os_version && dirtyFields.os_version ? 'form-control is-invalid' : 'form-control'} placeholder={"OS/Firmware Version: (Optional)"} />
                             </div>
                         </div>
 
 
 
+                        {/* =================  SOLD DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Sold Date</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('sold_date', { required: false, pattern: regexPatterns.date })} className={errors.sold_date && dirtyFields.sold_date ? 'form-control is-invalid' : 'form-control'} />
+                            </div>
+                        </div>
 
+                        {/* =================  PURCHASE DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Purchase Date</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('purchase_date', { required: false, pattern: regexPatterns.date })} className={errors.purchase_date && dirtyFields.purchase_Date ? 'form-control is-invalid' : 'form-control'}/>
+                            </div>
+                        </div>
  
+                        {/* =================  WARRANTY EXPIRES ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Warranty Expires</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('warranty_expires', { required: false, pattern: regexPatterns.date })} className={errors.warranty_expires && dirtyFields.warranty_expires ? 'form-control is-invalid' : 'form-control'}/>
+                            </div>
+                        </div>
+
+                        {/* =================  END OF LIFE DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">End of Life</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('end_of_life', { required: false, pattern: regexPatterns.date })} className={errors.end_of_life && dirtyFields.end_of_life ? 'form-control is-invalid' : 'form-control'} />
+                            </div>
+                        </div>
+
+                        {/* =================  INSTALL DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Install Date</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('install_date', { required: false, pattern: regexPatterns.date })} className={errors.install_date && dirtyFields.install_date ? 'form-control is-invalid' : 'form-control'} />
+                            </div>
+                        </div>
+
+                </div>
+
+                {/* SECOND COLUMN  (or below first)*/}
+                <div className="col-12 col-lg-6">
+
+                        {/* ================= INTERNAL IP ADDRESS ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Internal IP Address</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('internal_ip_address', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.internal_ip_address && dirtyFields.internal_ip_address ? 'form-control is-invalid' : 'form-control'} placeholder={"Internal IP Address: (Optional)"} />
+                            </div>
+                        </div>
+
+                        {/* ================= EXTERNAL IP ADDRESS ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">External IP Address</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('external_ip_address', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.external_ip_address && dirtyFields.external_ip_address ? 'form-control is-invalid' : 'form-control'} placeholder={"External IP Address: (Optional)"} />
+                            </div>
+                        </div>
+
+                        {/* ================= SUBNET MASK ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Subnet Mask</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('subnet_mask', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.subnet_mask && dirtyFields.subnet_mask ? 'form-control is-invalid' : 'form-control'} placeholder={"Subnet Mask: (Optional)"} />
+                            </div>
+                        </div>       
+                        
+                         {/* ================= GATEWAY ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Gateway</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('gateway', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.gateway && dirtyFields.gateway ? 'form-control is-invalid' : 'form-control'} placeholder={"Gateway: (Optional)"} />
+                            </div>
+                        </div>                                            
+
+                         {/* ================= PRIMARY DNS ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Primary DNS</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('primary_dns', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.primary_dns && dirtyFields.primary_dns ? 'form-control is-invalid' : 'form-control'} placeholder={"Primary DNS: (Optional)"} />
+                            </div>
+                        </div>     
+
+                         {/* ================= SECONDARY DNS ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Secondary DNS</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('secondary_dns', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.secondary_dns && dirtyFields.secondary_dns ? 'form-control is-invalid' : 'form-control'} placeholder={"Secondary DNS: (Optional)"} />
+                            </div>
+                        </div>    
+
+                         {/* ================= TERTIARY DNS ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Tertiary DNS</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('tertiary_dns', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.tertiary_dns && dirtyFields.tertiary_dns ? 'form-control is-invalid' : 'form-control'} placeholder={"Tertiary DNS: (Optional)"} />
+                            </div>
+                        </div> 
+
+
+
+                         {/* ================= iLO\iDRAC Username ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">iLO\iDRAC Username</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('ilo_username', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.ilo_username && dirtyFields.ilo_username ? 'form-control is-invalid' : 'form-control'} placeholder={"iLO/iDRAC Username: (Optional)"} />
+                            </div>
+                        </div> 
+
+                         {/* ================= iLO\iDRAC Username ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">iLO\iDRAC Password</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input {...register('ilo_password', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.ilo_password && dirtyFields.ilo_password ? 'form-control is-invalid' : 'form-control'} placeholder={"iLO/iDRAC Password(Optional)"} />
+                            </div>
+                        </div> 
+
+                        {/* ================= NOTES FIELD ====================== */}
+                        <div className="mb-3 row align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Notes</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+
 
 
 
@@ -205,7 +395,7 @@ const EquipmentForm = ({recordName, recordType, technicianId, closeComponent}) =
                             <div>
                                 <Buttontabi type='button' buttonClass={'warning float-start'} title={"Cancel and close"} onClick={() => cancelTask()} />
                                 <Buttontabi type='button' buttonClass={'secondary'} title={"Clear Form"} onClick={() => reset()} />
-                                <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save Address" : "Submitting..."} disabled={!isValid} />
+                                <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save Equipment" : "Submitting..."} disabled={!isValid} />
                             </div>
                         </div>
                     </form>

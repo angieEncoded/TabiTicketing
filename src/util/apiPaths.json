@@ -1,13 +1,9 @@
 {
-    "getCustomerData": "http://localhost:8080/customers",
-    "addNewCustomer": "http://localhost:8080/customers",
-    "getCustomerById": "http://localhost:8080/customers",
-    "getCustomerLock": "http://localhost:8080/customerlock",
+    "customerAPI": "http://localhost:8080/customers",
     "addressAPI":  "http://localhost:8080/addresses",
     "equipmentAPI": "http://localhost:8080/equipment",
-    "getContactData": "http://localhost:8080/contacts",
-    "getEquipmentData": "http://localhost:8080/equipment",
-    "getLicenseData": "http://localhost:8080/licenses",
-    "getPictureData": "http://localhost:8080/pictures",
-    "getTicketData": "http://localhost:8080/tickets"
+    "contactAPI": "http://localhost:8080/contacts",
+    "licenseAPI": "http://localhost:8080/licenses",
+    "pictureAPI": "http://localhost:8080/pictures",
+    "ticketAPI": "http://localhost:8080/tickets"
 }

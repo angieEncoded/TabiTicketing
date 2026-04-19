@@ -4,7 +4,7 @@ import EquipmentForm from '../Forms/EquipmentForm';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-const CustomerButtons = ({ recordType, id, recordName }) => {
+const CustomerButtons = ({ recordType }) => {
 
 
   // set which component is being shown
@@ -35,8 +35,8 @@ const CustomerButtons = ({ recordType, id, recordName }) => {
 
 
         {currentComponent === 'Empty' && <></>}
-        {currentComponent === 'Address' && <AddressForm recordName={recordName} recordType={recordType} id={id} technicianId={1} closeComponent={closeComponent}></AddressForm>}
-        {currentComponent === 'Equipment' && <EquipmentForm recordName={recordName} recordType={recordType} id={id} technicianId={1} closeComponent={closeComponent}></EquipmentForm>}
+        {currentComponent === 'Address' && <AddressForm  recordType={recordType} closeComponent={closeComponent}></AddressForm>}
+        {currentComponent === 'Equipment' && <EquipmentForm recordType={recordType} closeComponent={closeComponent}></EquipmentForm>}
     
 
 

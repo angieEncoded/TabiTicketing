@@ -1,19 +1,22 @@
 import { useForm } from "react-hook-form"
-import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useState, useEffect, use } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import Buttontabi from "../Button/Buttontabi";
 import regexPatterns from "../../util/regexPatterns";
 import { toast } from "react-toastify";
 import LargeModal from '../Modal/LargeModal';
 import CustomerDisplay from "../Customer/CustomerDisplay";
+import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 
 const CustomerForm = () => {
 
     const [isPending, setIsPending] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [customerData, setCustomerData] = useState(false);
-
+ 
     const urls = useSelector(state => state.urls.urls);
+    const selectedCustomer = useSelector(state => state.scust.customer);
+
+    const dispatch = useDispatch();
 
     // registration for the react form
     const {
@@ -51,7 +54,7 @@ const CustomerForm = () => {
 
         try {
 
-            const results = await fetch(urls.addNewCustomer, {
+            const results = await fetch(urls.customerAPI, {
                 method: "POST",
                 headers: {
                     "Content-Type": 'application/json'
@@ -78,9 +81,14 @@ const CustomerForm = () => {
             }
 
             if (serverResponse.status == "200") {
-
-                toast.success(`Successfully added new customer with uuid: ${serverResponse.results.uuid}`);
-                setCustomerData(serverResponse.results);
+                
+                toast.success(`Successfully added ${serverResponse.results.customer_name}`);
+                
+                // Need to select the customer from the db again for nice display of all items
+                const selectedCustomerData = await fetch(`${urls.customerAPI}/${serverResponse.results.id}`);
+                if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
+                const selectedCustomerJson = await selectedCustomerData.json();
+                dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
                 setIsPending(false);
  
                 return;
@@ -109,8 +117,8 @@ const CustomerForm = () => {
                 {/* Once we have created the customer open the main display form */}
                 {showModal && 
                 
-                    <LargeModal showFormModal={showModal} hideFormModal={hideFormModal} title={customerData.customer_name} >
-                        <CustomerDisplay uuid={customerData.uuid}></CustomerDisplay>
+                    <LargeModal showFormModal={showModal} hideFormModal={hideFormModal} >
+                        <CustomerDisplay recordType={'customer'}></CustomerDisplay>
                      </LargeModal>
                 }
 
@@ -167,7 +175,7 @@ const CustomerForm = () => {
                                         <label className="form-label">Notes</label>
                                     </div>
                                     <div className="col-12 col-md-9">
-                                        <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.billing_city && dirtyFields.billing_city    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
+                                        <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
                                         {/* {errors.notes  <span className="text-danger">This field is required</span>} */}
                                     </div>
                                 </div>

@@ -19,7 +19,6 @@ const AddressForm = ({ recordType, closeComponent }) => {
 
     const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
-    console.log(selectedCustomer)
     const dispatch = useDispatch();
 
     // registration for the react form
@@ -87,7 +86,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
  
                 
                 // Refresh the background table
-                const customerData = await fetch(`${urls.getCustomerData}`);
+                const customerData = await fetch(`${urls.customerAPI}`);
                 if (!customerData.ok) throw new Error("Failed to fetch customer data for background refresh. Please refresh the system.");
                 const customerJson = await customerData.json();
                 dispatch(customersActions.loadCustomerData(customerJson));
@@ -95,7 +94,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer as well if customer
                 if(recordType === 'customer'){
-                    const selectedCustomerData = await fetch(`${urls.getCustomerData}/${selectedCustomer.id}`);
+                    const selectedCustomerData = await fetch(`${urls.customerAPI}/${selectedCustomer.id}`);
                     if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
                     const selectedCustomerJson = await selectedCustomerData.json();
                     dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));

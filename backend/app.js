@@ -199,7 +199,7 @@ app.use((err, req, res, next) => {
 if (process.env.INDEV === "true") {
 
     db
-        .sync({ alter:true })
+        .sync({ alter: true })
         .then(result => {
             app.listen(8080, function () {
                 console.log(`http fired up on 8080`);

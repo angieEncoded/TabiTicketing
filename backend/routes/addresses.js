@@ -28,16 +28,12 @@ router.post('/:recordType/:id', validateNewAddress, async (req,res,next)=> {
     const data = req.body;
     const {recordType, id} = req.params;
     let results;
-    console.log(recordType) 
 
-    console.log("got here")
 
     try {
         
         if(recordType === 'customer'){ 
-             console.log("in the right block")
             results = await Address.create({uuid: uuidv4(), customerId: id, ...data})
-            console.log(results)
         }
 
         // may need to get the customer information in a query first and then add it here, if we even do addresses for contacts
@@ -49,7 +45,6 @@ router.post('/:recordType/:id', validateNewAddress, async (req,res,next)=> {
         return res.json({'status': 200, 'results': results });
 
     } catch (error) {
-        console.log(error)
          return res.json({ "status": "500", "message": error.message })
     }
 

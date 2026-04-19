@@ -26,7 +26,7 @@ const AddressDisplay = ({ recordType, id  }) => {
         <>
           <hr></hr>
           <h5 className="text-center baskerville-font mb-3">Addresses</h5>
-          {selectedCustomer.addresses.length < 1 && <p className="text-center">No Addresses recorded for this customer.</p>}
+          {selectedCustomer.addresses && selectedCustomer.addresses.length < 1 && <p className="text-center">No Addresses recorded for this customer.</p>}
 
           {selectedCustomer.addresses && selectedCustomer.addresses.length >= 1 &&
             <>

@@ -10,6 +10,7 @@ const License = db.define('license', {
     expires: {type: Sequelize.DATE, allowNull: true},
     license_key: {type: Sequelize.TEXT, allowNull: true},
     license_file: {type: Sequelize.TEXT, allowNull: true},
+    // password: {type: Sequelize.TEXT, allowNull:true},
     notes: {type: Sequelize.TEXT, allowNull: true},
     end_of_life: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
