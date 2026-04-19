@@ -145,8 +145,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                 {/* FIRST COLUMN */}
                 <div className="col-12 col-lg-6">
 
-
-
                         {/* ================= EQUIPMENT TYPE ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
@@ -160,7 +158,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                             </div>
                         </div>
 
-
                         {/* ================= EQUIPMENT VENDOR ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
@@ -172,7 +169,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 </select>
                             </div>
                         </div>
-
 
                         {/* ================= EQUIPMENT MODEL ====================== */}
                         <div className="mb-3 row  align-items-center">
@@ -193,7 +189,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                             </div>
                         </div> 
 
-
                          {/* ================= PRODUCT NUMBER/SERVICE TAG ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
@@ -203,8 +198,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <input {...register('service_tag', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.service_tag && dirtyFields.service_tag ? 'form-control is-invalid' : 'form-control'} placeholder={"Product Number/Service Tag:(Optional)"} />
                             </div>
                         </div> 
-
-
 
                         {/* ================= OS TYPE ====================== */}
                         <div className="mb-3 row  align-items-center">
@@ -250,10 +243,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
 
                 {/* SECOND COLUMN  (or below first)*/}
                 <div className="col-12 col-lg-6">
-
-
-
-
 
                         {/* ================= EXTERNAL IP ADDRESS ====================== */}
                         <div className="mb-3 row  align-items-center">
@@ -314,24 +303,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <input {...register('tertiary_dns', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.tertiary_dns && dirtyFields.tertiary_dns ? 'form-control is-invalid' : 'form-control'} placeholder={"Tertiary DNS: (Optional)"} />
                             </div>
                         </div> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         {/* =================  SOLD DATE ====================== */}
                         <div className="mb-3 row  align-items-center">
