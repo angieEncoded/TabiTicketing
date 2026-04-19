@@ -10,13 +10,23 @@ const COLUMNS = [
         sortingFn: 'text',
     },
     {
-        header: 'Primary Phone',
-        accessorKey: 'primary_phone',
+        header: 'Work Phone',
+        accessorKey: 'work_phone',
         disableFilters: true,
     },
     {
         header: 'Extension',
         accessorKey: 'extension',
+        sortingFn: 'text',
+    },
+    {
+        header: 'Cell Phone',
+        accessorKey: 'cell_phone',
+        sortingFn: 'text',
+    },
+    {
+        header: 'Email',
+        accessorKey: 'email',
         sortingFn: 'text',
     },
     {

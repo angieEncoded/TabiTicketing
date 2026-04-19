@@ -13,7 +13,6 @@ module.exports.customerSchema = Joi.object({
     updated_by: Joi.string().required(),
 });
 
-
 module.exports.addressSchema = Joi.object({
     type: Joi.string().required(),
     street1: Joi.string().required(),
@@ -47,8 +46,22 @@ module.exports.equipmentSchema = Joi.object({
     tertiary_dns: Joi.string().allow(''),
     serial_number: Joi.string().required(),
     service_tag: Joi.string().allow(''),
-    ilo_username: Joi.string().allow(''),
-    ilo_password: Joi.string().allow(''),
+    notes: Joi.string().allow(''),
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})
+
+module.exports.contactSchema = Joi.object({
+    salutation: Joi.string().allow(''),
+    first_name: Joi.string().required(),
+    middle_name: Joi.string().allow(''),
+    last_name: Joi.string().required(),
+    work_phone: Joi.string().required(),
+    extension: Joi.string().allow(''),
+    cell_phone: Joi.string().allow(''),
+    fax: Joi.string().allow(''),
+    job_title: Joi.string().required(),
+    email: Joi.string().allow(''),
     notes: Joi.string().allow(''),
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),

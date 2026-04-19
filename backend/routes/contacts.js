@@ -3,7 +3,7 @@ const router = express.Router();
 const Contact = require("../models/Contact")
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
+const { validateNewContact } = require("../util/validationHelpers")
 
 // /contacts
 
@@ -15,6 +15,31 @@ router.get("/:customerId", async (req, res, next) => {
     res.json(contacts);
 
 })
+
+
+// Add a new contact
+// Add new address
+router.post('/:recordType/:id', validateNewContact, async (req,res,next)=> {
+
+    const data = req.body;
+    const {recordType, id} = req.params;
+    let results;
+
+    try {
+        
+        if(recordType === 'customer'){ 
+            results = await Contact.create({uuid: uuidv4(), customerId: id, ...data})
+
+        }
+
+        return res.json({'status': 200, 'results': results });
+
+    } catch (error) {
+         return res.json({ "status": "500", "message": error.message })
+    }
+
+})
+
 
 
 module.exports = router;

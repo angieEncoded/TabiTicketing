@@ -42,7 +42,7 @@ const TicketTable = () => {
                 setHasError(false);
                 setErrorMessage("");
                 setIsPending(true);
-                const ticketData = await fetch(`${urls.getTicketData}`);
+                const ticketData = await fetch(`${urls.ticketAPI}`);
                 if (!ticketData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
                 const ticketDataJson = await ticketData.json();
                 dispatch(ticketsActions.loadTicketData(ticketDataJson));

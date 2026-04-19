@@ -7,7 +7,8 @@ const regexPatterns = {
         email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
         date: /^[0-9]{4}[/-][0-9]{2}[/-][0-9]{2}$/,
         website: /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)/,
-        middleInitial: /^[a-zA-Z0-9._-\s]{1}$/
+        middleInitial: /^[a-zA-Z0-9._-\s]{1}$/,
+        extensions: /^\d+$/
     }
 
 export default regexPatterns;

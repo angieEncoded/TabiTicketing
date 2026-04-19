@@ -23,8 +23,6 @@ const Equipment = db.define('equipment', {
     primary_dns: {type: Sequelize.STRING, allowNull: true},
     secondary_dns: {type: Sequelize.STRING, allowNull: true},
     tertiary_dns: {type: Sequelize.STRING, allowNull: true},
-    ilo_username: {type: Sequelize.TEXT, allowNull: true},
-    ilo_password:{type: Sequelize.TEXT, allowNull: true},
     notes: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},

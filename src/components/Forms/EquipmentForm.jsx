@@ -227,62 +227,6 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                         </div>
 
 
-
-                        {/* =================  SOLD DATE ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Sold Date</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input type="date" {...register('sold_date', { required: false, pattern: regexPatterns.date })} className={errors.sold_date && dirtyFields.sold_date ? 'form-control is-invalid' : 'form-control'} />
-                            </div>
-                        </div>
-
-                        {/* =================  PURCHASE DATE ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Purchase Date</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input type="date" {...register('purchase_date', { required: false, pattern: regexPatterns.date })} className={errors.purchase_date && dirtyFields.purchase_Date ? 'form-control is-invalid' : 'form-control'}/>
-                            </div>
-                        </div>
- 
-                        {/* =================  WARRANTY EXPIRES ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Warranty Expires</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input type="date" {...register('warranty_expires', { required: false, pattern: regexPatterns.date })} className={errors.warranty_expires && dirtyFields.warranty_expires ? 'form-control is-invalid' : 'form-control'}/>
-                            </div>
-                        </div>
-
-                        {/* =================  END OF LIFE DATE ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">End of Life</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input type="date" {...register('end_of_life', { required: false, pattern: regexPatterns.date })} className={errors.end_of_life && dirtyFields.end_of_life ? 'form-control is-invalid' : 'form-control'} />
-                            </div>
-                        </div>
-
-                        {/* =================  INSTALL DATE ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Install Date</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input type="date" {...register('install_date', { required: false, pattern: regexPatterns.date })} className={errors.install_date && dirtyFields.install_date ? 'form-control is-invalid' : 'form-control'} />
-                            </div>
-                        </div>
-
-                </div>
-
-                {/* SECOND COLUMN  (or below first)*/}
-                <div className="col-12 col-lg-6">
-
                         {/* ================= INTERNAL IP ADDRESS ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
@@ -292,6 +236,24 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <input {...register('internal_ip_address', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.internal_ip_address && dirtyFields.internal_ip_address ? 'form-control is-invalid' : 'form-control'} placeholder={"Internal IP Address: (Optional)"} />
                             </div>
                         </div>
+                        {/* ================= NOTES FIELD ====================== */}
+                        <div className="mb-3 row align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Notes</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
+                            </div>
+                        </div>
+
+                </div>
+
+                {/* SECOND COLUMN  (or below first)*/}
+                <div className="col-12 col-lg-6">
+
+
+
+
 
                         {/* ================= EXTERNAL IP ADDRESS ====================== */}
                         <div className="mb-3 row  align-items-center">
@@ -355,35 +317,74 @@ const EquipmentForm = ({recordType, closeComponent}) => {
 
 
 
-                         {/* ================= iLO\iDRAC Username ====================== */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {/* =================  SOLD DATE ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
-                                <label className="form-label">iLO\iDRAC Username</label>
+                                <label className="form-label">Sold Date</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('ilo_username', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.ilo_username && dirtyFields.ilo_username ? 'form-control is-invalid' : 'form-control'} placeholder={"iLO/iDRAC Username: (Optional)"} />
-                            </div>
-                        </div> 
-
-                         {/* ================= iLO\iDRAC Username ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">iLO\iDRAC Password</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('ilo_password', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.ilo_password && dirtyFields.ilo_password ? 'form-control is-invalid' : 'form-control'} placeholder={"iLO/iDRAC Password(Optional)"} />
-                            </div>
-                        </div> 
-
-                        {/* ================= NOTES FIELD ====================== */}
-                        <div className="mb-3 row align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Notes</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
+                                <input type="date" {...register('sold_date', { required: false, pattern: regexPatterns.date })} className={errors.sold_date && dirtyFields.sold_date ? 'form-control is-invalid' : 'form-control'} />
                             </div>
                         </div>
+
+                        {/* =================  PURCHASE DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Purchase Date</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('purchase_date', { required: false, pattern: regexPatterns.date })} className={errors.purchase_date && dirtyFields.purchase_Date ? 'form-control is-invalid' : 'form-control'}/>
+                            </div>
+                        </div>
+ 
+                        {/* =================  WARRANTY EXPIRES ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Warranty Expires</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('warranty_expires', { required: false, pattern: regexPatterns.date })} className={errors.warranty_expires && dirtyFields.warranty_expires ? 'form-control is-invalid' : 'form-control'}/>
+                            </div>
+                        </div>
+
+                        {/* =================  END OF LIFE DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">End of Life</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('end_of_life', { required: false, pattern: regexPatterns.date })} className={errors.end_of_life && dirtyFields.end_of_life ? 'form-control is-invalid' : 'form-control'} />
+                            </div>
+                        </div>
+
+                        {/* =================  INSTALL DATE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Install Date</label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <input type="date" {...register('install_date', { required: false, pattern: regexPatterns.date })} className={errors.install_date && dirtyFields.install_date ? 'form-control is-invalid' : 'form-control'} />
+                            </div>
+                        </div>
+
+
+
                 </div>
             </div>
 

@@ -21,7 +21,7 @@ const COLUMNS = [
     },
     {
         header: 'External IP',
-        accessorKey: 'external IP',
+        accessorKey: 'external_ip_address',
         disableFilters: true,
     },
     {

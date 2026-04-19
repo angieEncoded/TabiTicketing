@@ -6,8 +6,6 @@ const { validateNewAddress } = require("../util/validationHelpers")
 const Address = require('../models/Address');
 
 
-
-
 // fetch all addresses for a customer
 router.get("/:recordType/:id", async (req, res, next) => {
 

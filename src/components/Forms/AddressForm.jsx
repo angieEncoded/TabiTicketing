@@ -173,7 +173,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
                             </div>
                         </div>
 
-                        {/* ================= COUNTYU ====================== */}
+                        {/* ================= COUNTY ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
                                 <label className="form-label">County</label>
