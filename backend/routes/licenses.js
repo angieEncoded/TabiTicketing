@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const { validateNewLicense, validateNewFile } = require("../util/validationHelpers")
 const multer  = require('multer')
 const fs = require('fs');
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,7 +23,8 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const fileName = `${uuidv4()}_${file.originalname}`;
+    cb(null, fileName);
   }
 });
 
@@ -60,8 +62,9 @@ router.get("/:customerId", async (req, res, next) => {
     })
     res.json(license);
     } catch (error) {
+      console.log("in the catch")
         res.json({status: 'error', error: error})
-        console.log(error)
+        
     }
 })
 
@@ -69,12 +72,18 @@ router.get("/:customerId", async (req, res, next) => {
 // Add a new license
 router.post('/:recordType/:id', upload.single('license_file'), async (req, res, next)=> {
 
+    const filename = req.file.filename;
     const data = req.body;
     const {recordType, id} = req.params;
+    // Need to process some of this data
+    if(req.file){data.license_file = req.file.filename}
+    if(data.sold_date === ''){data.sold_date = null}
+    if(data.purchase_date === ''){data.purchase_date = null}
+    if(data.expires === ''){ data.expires = null}
+    if(data.end_of_life === ''){ data.end_of_life = null}
     let results;
 
-    
-
+  
     try {
         
         if(recordType === 'customer'){ 
@@ -84,7 +93,7 @@ router.post('/:recordType/:id', upload.single('license_file'), async (req, res, 
         return res.json({'status': 200, 'results': results });
 
     } catch (error) {
-      console.error(error)
+      console.log(error)
       return res.json({ "status": "500", "message": error.message })
     }
 
