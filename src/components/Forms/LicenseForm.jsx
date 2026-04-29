@@ -14,6 +14,7 @@ const LicenseForm = ({recordType, closeComponent}) => {
 
     const [isPending, setIsPending] = useState(false);
 
+
     const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const LicenseForm = ({recordType, closeComponent}) => {
         reset,
         clearErrors,
         formState,
+        setError,
         formState: { errors, isValid, dirtyFields, isSubmitSuccessful },
     } = useForm({
         mode: 'onChange',
@@ -55,6 +57,7 @@ const LicenseForm = ({recordType, closeComponent}) => {
       formData.append('added_by', 'SYSTEM');
       formData.append('updated_by', 'SYSTEM');
       formData.append('customer_name', selectedCustomer.customer_name)
+
       if (data.license_file && data.license_file[0]){
         formData.append("license_file", data.license_file[0]);
       }
@@ -67,29 +70,20 @@ const LicenseForm = ({recordType, closeComponent}) => {
                 body: formData
             })
 
-    
             // if server cannot respond
             if (!results.ok) {
                 // !!! TODO - logging here
                 setIsPending(false);
+                setError("root.serverError", { type: "500" }) // prevent the form from clearing
                 toast.error(`${results.status}:${results.statusText}`);
                 return;
             }
-
+            
             const serverResponse = await results.json();
-
-
-            // LEFT OFF ON GETTING THE FORM TO STOP RESETTING AFTER A REJECT
-            // File is incorrect coming from the multer middleware
-            if (serverResponse.status == "415") {
-                // !!! TODO - logging here
-                setIsPending(false);
-                toast.error(`Server responded with: ${serverResponse.error}`);
-                return;
-            }
-
+ 
+            // Successful submit
             if (serverResponse.status == "200") {
-                toast.success(`Successfully added new equipment for ${selectedCustomer.customer_name}`);
+                toast.success(`Successfully added a new license for ${selectedCustomer.customer_name}`);
 
                 // Refresh the selected customer
                 if(recordType === 'customer'){
@@ -102,13 +96,13 @@ const LicenseForm = ({recordType, closeComponent}) => {
                 setIsPending(false)
                 return;
             } else {
-                setIsPending(false);
-                toast.error(`${serverResponse.status} ${serverResponse.message}`);
-                return;
+                setIsPending(false)
+                setError("root.serverError", { type: serverResponse.status }) // prevent the form from clearing
+                toast.error(`Error: ${serverResponse.status} ${serverResponse.message}`)
             }
         } catch (error) { // will capture if the server is down
             setIsPending(false)
-            // console.log(error)
+            setError("root.serverError", { type: "500" }) // prevent the form from clearing
             toast.error(`${error.message} - is the server down?`)
         }
     }
@@ -119,6 +113,11 @@ const LicenseForm = ({recordType, closeComponent}) => {
     }
 
 
+
+
+
+
+    
   return (
       <>
                 <div className="form-background mb-5 mx-auto">

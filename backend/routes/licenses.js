@@ -56,7 +56,6 @@ router.get("/:customerId", async (req, res, next) => {
                 {'customerId':  customerId},
                 {'contactId': null},
                 {'technicianId': null},
-                
             ],
         }
     })
