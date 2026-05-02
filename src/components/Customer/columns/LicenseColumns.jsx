@@ -26,12 +26,12 @@ const COLUMNS = [
             const extension = info.getValue().split('.').pop(); 
     
             let icon;
-            if(extension === 'txt'){icon = <i class="las la-file-alt"></i>}
-            if(extension === 'pdf'){icon = <i class="las la-file-pdf"></i>}
-            if(extension === 'jpg'){icon = <i class="las la-image"></i>}
-            if(extension === 'png'){icon = <i class="las la-image"></i>}
-            if(extension === 'jpeg'){icon = <i class="las la-image"></i>}
-            if(extension === 'gif'){icon = <i class="las la-image"></i>}
+            if(extension === 'txt'){icon = <i className="las la-file-alt"></i>}
+            if(extension === 'pdf'){icon = <i className="las la-file-pdf"></i>}
+            if(extension === 'jpg'){icon = <i className="las la-image"></i>}
+            if(extension === 'png'){icon = <i className="las la-image"></i>}
+            if(extension === 'jpeg'){icon = <i className="las la-image"></i>}
+            if(extension === 'gif'){icon = <i className="las la-image"></i>}
             
             return icon
 

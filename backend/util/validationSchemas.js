@@ -99,3 +99,20 @@ module.exports.pictureSchema = Joi.object({
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 })
+
+module.exports.technicianSchema = Joi.object({
+    salutation: Joi.string().allow(''),
+    first_name: Joi.string().required(),
+    middle_name: Joi.string().allow(''),
+    last_name: Joi.string().required(),
+    work_phone: Joi.string().allow(''),
+    extension: Joi.string().allow(''),
+    cell_phone: Joi.string().allow(''),
+    job_title: Joi.string().allow(''),
+    work_email: Joi.string().required(),
+    personal_email: Joi.string().allow(''),
+    status: Joi.string().required(),
+    notes: Joi.string().allow(''),
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})

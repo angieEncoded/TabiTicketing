@@ -1,8 +1,10 @@
 import React from 'react'
-
+import SettingsButtons from '../components/Settings/SettingsButtons'
 const Settings = () => {
   return (
-    <div>Settings</div>
+    <>
+    <SettingsButtons />
+    </>
   )
 }
 

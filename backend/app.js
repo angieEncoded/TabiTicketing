@@ -98,6 +98,7 @@ const licenseRoutes = require('./routes/licenses');
 const pictureRoutes = require('./routes/pictures');
 const ticketRoutes = require('./routes/tickets');
 const userRoutes = require('./routes/users');
+const techniciansRoutes = require("./routes/technicians");
 
 app.use(cors({
     origin: "http://localhost:3000"
@@ -118,6 +119,7 @@ app.use('/equipment', equipmentRoutes);
 app.use('/licenses', licenseRoutes);
 app.use('/pictures', pictureRoutes);
 app.use('/tickets', ticketRoutes);
+app.use('/technicians', techniciansRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)
 

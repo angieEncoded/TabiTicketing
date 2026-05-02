@@ -1,4 +1,4 @@
-const { customerSchema, addressSchema, equipmentSchema, contactSchema, licenseSchema, pictureSchema } = require("./validationSchemas");
+const { customerSchema, addressSchema, equipmentSchema, contactSchema, licenseSchema, pictureSchema, technicianSchema } = require("./validationSchemas");
 const fs = require("fs");
 
 module.exports.validateNewCustomer = (req, res, next) => {
@@ -89,6 +89,17 @@ module.exports.validateNewPicture = (req, res, next) => {
                 console.log(error)
             });
         }
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({'status': 400, 'message': message })
+    } else {
+        next();
+    }
+}
+
+
+module.exports.validateNewTechnician = (req, res, next) => {
+    const { error } = technicianSchema.validate(req.body);
+        if (error) {
         const message = error.details.map((element) => element.message).join(",");
         return res.json({'status': 400, 'message': message })
     } else {

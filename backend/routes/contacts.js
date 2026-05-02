@@ -11,6 +11,7 @@ const { validateNewContact } = require("../util/validationHelpers")
 router.get("/:customerId", async (req, res, next) => {
 
     const { customerId } = req.params
+    console.log(customerId)
     const contacts = await Contact.findAll({ where:{'customerId':  customerId} });
     res.json(contacts);
 

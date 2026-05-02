@@ -121,7 +121,7 @@ const PictureForm = ({ recordType, closeComponent }) => {
                     {/* ================= PICTURE LOCATION ====================== */}
                     <div className="mb-3 row  align-items-center">
                         <div className="col-12 col-md-3">
-                            <label className="form-label">Title:</label>
+                            <label className="form-label">Equipment Location:</label>
                         </div>
                         <div className="col-12 col-md-9">
                             <input {...register('location', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.product_name && dirtyFields.product_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Location: (Optional)"} />

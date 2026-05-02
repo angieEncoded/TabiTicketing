@@ -1,9 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require("../util/database");
 
-
-// ticket_type will be "Phone support, project, etc."
-
 const Ticket = db.define('ticket', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true},
     uuid: {type: Sequelize.UUID, allowNull: false},
@@ -11,11 +8,8 @@ const Ticket = db.define('ticket', {
     agenda: {type: Sequelize.TEXT, allowNull: true},
     status: {type: Sequelize.TEXT, allowNull: true},
     priority: {type: Sequelize.TEXT, allowNull: true},
-    description: {type: Sequelize.TEXT, allowNull: true},
     customer_solution: {type: Sequelize.TEXT, allowNull: true},
-    tech_solution: {type: Sequelize.TEXT, allowNull: true},
-    ticket_type: {type:Sequelize.TEXT, allowNull: true},
-    notes:  {type: Sequelize.TEXT, allowNull: true},
+    technical_details: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
 }, {paranoid: true})
