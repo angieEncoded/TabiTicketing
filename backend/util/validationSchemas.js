@@ -78,11 +78,24 @@ module.exports.licenseSchema = Joi.object({
     email_of_record: Joi.string().allow(''),
     end_of_life: Joi.date().allow(''),
     notes: Joi.string().allow(''),
-    files: Joi.object({
-        mimetype: Joi.string().valid('image/jpeg', 'image/png', 'application/pdf', 'text/plain').required(),
+    customer_name: Joi.string().required(),
+    license_file: Joi.object({
+        mimetype: Joi.string().valid('image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'text/plain').required(),
         size: Joi.number().max(5 * 1024 * 1024).required(), // 5MB limit
     }).unknown(true), // Allow other multer properties
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 })
 
+module.exports.pictureSchema = Joi.object({
+    title: Joi.string().required(),
+    location: Joi.string().allow(''),
+    notes: Joi.string().allow(''),
+    customer_name: Joi.string().required(),
+    picture_file: Joi.object({
+        mimetype: Joi.string().valid('image/jpeg', 'image/png', 'image/gif').required(),
+        size: Joi.number().max(10 * 1024 * 1024).required(), // 10MB limit
+    }).unknown(true), // Allow other multer properties
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})

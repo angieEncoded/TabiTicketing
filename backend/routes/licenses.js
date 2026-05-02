@@ -4,7 +4,7 @@ const License = require("../models/License")
 const { Op } = require('sequelize');
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewLicense, validateNewFile } = require("../util/validationHelpers")
+const { validateNewLicense } = require("../util/validationHelpers")
 const multer  = require('multer')
 const fs = require('fs');
 const path = require("path");
@@ -14,8 +14,7 @@ const storage = multer.diskStorage({
 
     const customer_name = req.body.customer_name || 'unknown'; 
     const dir = `./uploads/license_files/${customer_name}`;
-    console.log(dir)
-
+    
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
@@ -28,11 +27,9 @@ const storage = multer.diskStorage({
   }
 });
 
-
 const upload = multer({ storage:storage, fileFilter:(req, file, cb) => {
   
     const allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'text/plain', 'application/pdf'];
-    console.log('got into multer')
     if (allowedMimes.includes(file.mimetype)) {
       cb(null, true); // Accept
     } else {
@@ -69,7 +66,7 @@ router.get("/:customerId", async (req, res, next) => {
 
 
 // Add a new license
-router.post('/:recordType/:id', upload.single('license_file'), async (req, res, next)=> {
+router.post('/:recordType/:id', upload.single('license_file'), validateNewLicense, async (req, res, next)=> {
 
     const filename = req.file.filename;
     const data = req.body;
@@ -82,7 +79,6 @@ router.post('/:recordType/:id', upload.single('license_file'), async (req, res, 
     if(data.end_of_life === ''){ data.end_of_life = null}
     let results;
 
-  
     try {
         
         if(recordType === 'customer'){ 
@@ -92,7 +88,11 @@ router.post('/:recordType/:id', upload.single('license_file'), async (req, res, 
         return res.json({'status': 200, 'results': results });
 
     } catch (error) {
-      console.log(error)
+      if(req.file){
+          fs.unlink(req.file.path, error => {
+              console.log(error)
+          });
+      }
       return res.json({ "status": "500", "message": error.message })
     }
 

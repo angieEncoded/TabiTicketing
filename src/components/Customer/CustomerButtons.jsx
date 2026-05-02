@@ -3,6 +3,7 @@ import AddressForm from '../Forms/AddressForm';
 import EquipmentForm from '../Forms/EquipmentForm';
 import ContactForm from '../Forms/ContactForm';
 import LicenseForm from '../Forms/LicenseForm';
+import PictureForm from '../Forms/PictureForm';
 
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -19,6 +20,7 @@ const CustomerButtons = ({ recordType }) => {
     if(type === 'Equipment'){ setCurrentComponent('Equipment') }
     if(type === 'Contact')  { setCurrentComponent('Contact') }
     if(type === 'License')  { setCurrentComponent('License') }
+    if(type === 'Picture')  { setCurrentComponent('Picture') }
    
   }
 
@@ -35,6 +37,7 @@ const CustomerButtons = ({ recordType }) => {
             <button className="btn btn-sm btn-tabi-logo mx-1" onClick={() => handleButton('License')}   disabled={currentComponent === 'License'} >Add License</button>
             <button className="btn btn-sm btn-tabi-logo mx-1" onClick={() => handleButton('Contact')}   disabled={currentComponent === 'Contact'}>Add Contact</button>
             <button className="btn btn-sm btn-tabi-logo mx-1" onClick={() => handleButton('Address')}   disabled={currentComponent === 'Address'}>Add Address</button>
+            <button className="btn btn-sm btn-tabi-logo mx-1" onClick={() => handleButton('Picture')}   disabled={currentComponent === 'Picture'}>Add Picture</button>
             <button className="btn btn-sm btn-tabi-logo mx-1">View all Tickets</button>
         </div>
 
@@ -44,6 +47,7 @@ const CustomerButtons = ({ recordType }) => {
         {currentComponent === 'Equipment' && <EquipmentForm recordType={recordType} closeComponent={closeComponent}></EquipmentForm>}
         {currentComponent === 'Contact' && <ContactForm recordType={recordType} closeComponent={closeComponent}></ContactForm>}
         {currentComponent === 'License' && <LicenseForm recordType={recordType} closeComponent={closeComponent}></LicenseForm>}
+        {currentComponent === 'Picture' && <PictureForm recordType={recordType} closeComponent={closeComponent}></PictureForm>}
     
 
 

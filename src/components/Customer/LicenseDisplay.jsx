@@ -1,12 +1,10 @@
-
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
-import COLUMNS from './columns/LicenseColumns.js'
-import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
+import COLUMNS from './columns/LicenseColumns.jsx'
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel, createColumnHelper } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-
 
 const LicenseDisplay = ({ recordType, id }) => {
 
@@ -33,24 +31,6 @@ const LicenseDisplay = ({ recordType, id }) => {
             }
         }
     })
-
-
-
-        // LEFT OFF ON WORKING ON HOW TO DOWNLOAD THE FILE FROM THE SERVER
-    const downloadFile = async () => {
-    const response = await fetch('api/data/export', {
-        responseType: 'blob', // Important: tells axios to handle response as binary data
-    });
-    
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'data.csv');
-        document.body.appendChild(link);
-        link.click();
-        link.remove(); // Clean up
-        window.URL.revokeObjectURL(url); // Free memory
-    };
 
 
 

@@ -189,7 +189,7 @@ const LicenseForm = ({recordType, closeComponent}) => {
                                 <label className="form-label">License File</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input type='file' {...register('license_file', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.license_file && dirtyFields.license_file ? 'form-control is-invalid' : 'form-control'} placeholder={"License Key: (Optional)"} />
+                                <input type='file' {...register('license_file', { required: false })} className={errors.license_file && dirtyFields.license_file ? 'form-control is-invalid' : 'form-control'} placeholder={"License Key: (Optional)"} />
                             </div>
                         </div> 
 
@@ -224,13 +224,6 @@ const LicenseForm = ({recordType, closeComponent}) => {
                                 <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
                             </div>
                         </div>
-
-            
-
-
-     
-
-
 
 
                         <div className={"text-end"}>

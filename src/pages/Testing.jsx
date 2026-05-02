@@ -2,6 +2,7 @@ import AddressForm from "../components/Forms/AddressForm"
 import EquipmentForm from "../components/Forms/EquipmentForm"
 import LicenseForm from "../components/Forms/LicenseForm"
 import LicenseDisplay from "../components/Customer/LicenseDisplay.jsx"
+import PictureForm from "../components/Forms/PictureForm.jsx"
 import { useEffect } from "react"
 import { useSelector,useDispatch } from 'react-redux'
 import { selectedCustomerActions } from "../store/SelectedCustomerSlice.js";
@@ -35,7 +36,8 @@ const Testing = () => {
        {/* <AddressForm recordType={'customer'} id={1} closeComponent={closeComponent} /> */}
        {/* <EquipmentForm /> */}
        {/* <LicenseForm recordType={'customer'} closeComponent={closeComponent}></LicenseForm> */}
-       <LicenseDisplay />
+       {/* <LicenseDisplay /> */}
+       <PictureForm recordType={'customer'} id={1} closeComponent={closeComponent} />
        </>
           
     )

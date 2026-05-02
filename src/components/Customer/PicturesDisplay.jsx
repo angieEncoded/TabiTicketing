@@ -41,8 +41,8 @@ const PicturesDisplay = ({recordType, id}) => {
                     <Carousel interval={null}  data-bs-theme="dark">
                             {selectedCustomer.pictures.map(picture => (
                               <Carousel.Item key={picture.id}>
-                                <div onClick={() => openPicture(picture.url)}>
-                                    <CarouselImage url={picture.url}/>
+                                <div onClick={() => openPicture(`${urls.uploadsAPI}/pictures/${selectedCustomer.customer_name}/${picture.picture_file}`)}>
+                                    <CarouselImage url={`${urls.uploadsAPI}/pictures/${selectedCustomer.customer_name}/${picture.picture_file}`}/>
                                     <Carousel.Caption>
                                       <h3>{picture.title}</h3>
                                       <p>{picture.notes}</p>

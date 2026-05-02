@@ -4,6 +4,7 @@ const cors = require('cors');
 const logger = require('./util/logger');
 const app = express();
 const db = require('./util/database');
+const path = require('path');
 
 // Models that do not require associations (only for displaying selects), added here for sequelize sync
 const EquipmentType = require('./models/EquipmentType');
@@ -102,10 +103,12 @@ app.use(cors({
     origin: "http://localhost:3000"
 }))
 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '50mb' }));
 // Set up the folder where react will live
 app.use(express.static('client'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //Routes
 app.use('/customers', customerRoutes);
