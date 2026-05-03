@@ -21,11 +21,12 @@ const Equipment = require('./models/Equipment');
 const Ticket = require('./models/Ticket');
 const TicketComment = require('./models/TicketComment');
 const TicketTime = require('./models/TicketTime');
+const TicketHistory = require('./models/TicketHistory');
 const Technician = require('./models/Technician');
 const Address = require('./models/Address');
-const TicketHistory = require('./models/TicketHistory');
 const Picture = require('./models/Picture');
-
+const Project = require('./models/Project');
+const OnSiteVisit = require("./models/OnSiteVisit");
 
 // Association the customer's
 Contact.belongsTo(Customer, { constraints: true, onDelete: 'NO ACTION' }); // A single contact belongs to a single customer
@@ -53,15 +54,17 @@ Ticket.hasMany(Equipment);
 Ticket.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one customer, one issue
 Ticket.belongsTo(Contact, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one contact, one issue
 Ticket.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'}); // only one owning tech at time of close
+Ticket.belongsTo(Project, {constraints: true, onDelete: 'NO ACTION'} );
 Customer.hasMany(Ticket);
 Contact.hasMany(Ticket);
 Technician.hasMany(Ticket);
+Project.hasMany(Ticket);
 
-// a Ticket time belongs to only one ticket
+// a Ticket comment belongs to only one ticket
 TicketComment.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'});
 Ticket.hasMany(TicketComment);
 
-// A ticket comment belongs to only one ticket 
+// A ticket time belongs to only one ticket 
 TicketTime.belongsTo(Ticket, {constraints: true, onDelete:'NO ACTION'});
 Ticket.hasMany(TicketTime);
 
@@ -87,6 +90,19 @@ Customer.hasMany(Picture);
 Ticket.hasMany(Picture);
 Contact.hasMany(Picture);
 
+// A project belongs to a customer
+Project.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'} );
+Customer.hasMany(Project);
+
+// An onsite visit belongs to a ticket
+OnSiteVisit.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'});
+OnSiteVisit.belongsTo(Customer,  {constraints: true, onDelete: 'NO ACTION'});
+OnSiteVisit.belongsTo(Contact,  {constraints: true, onDelete: 'NO ACTION'});
+OnSiteVisit.belongsTo(Technician,  {constraints: true, onDelete: 'NO ACTION'});
+Ticket.hasMany(OnSiteVisit);
+Customer.hasMany(OnSiteVisit);
+Contact.hasMany(OnSiteVisit);
+Technician.hasMany(OnSiteVisit);
 
 // routes
 //============================================================
@@ -99,6 +115,7 @@ const pictureRoutes = require('./routes/pictures');
 const ticketRoutes = require('./routes/tickets');
 const userRoutes = require('./routes/users');
 const techniciansRoutes = require("./routes/technicians");
+const projectsRoutes = require("./routes/projects");
 
 app.use(cors({
     origin: "http://localhost:3000"
@@ -120,6 +137,7 @@ app.use('/licenses', licenseRoutes);
 app.use('/pictures', pictureRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/technicians', techniciansRoutes);
+app.use("/projects", projectsRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)
 
@@ -137,10 +155,12 @@ app.use((err, req, res, next) => {
     // Coming from the Multer middleware
     if(err.message.includes("Invalid file type. Only JPEG, PNG, GIF, TEXT and PDF are allowed.")){
         res.json({ "status": "415", "message": err.message })
+        return;
     }
+
+    res.json({ "status": "500", "message": err.message })
+
 });
-
-
 
 
 

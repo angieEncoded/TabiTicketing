@@ -1,6 +1,6 @@
 export const offcanvasLinks = [
     { "title": "Add Cust.", "href": "/add-customer", "icon": "la-4x las la-industry" },
-    { "title": "Add User", "href": "/add-user", "icon": "la-4x las la-user" },
+    { "title": "Add Tech", "href": "/add-technician", "icon": "la-4x las la-user" },
     { "title": "Reports", "href": "/reports", "icon": "la-4x las la-clipboard" },
     { "title": "History", "href": "/history", "icon": "la-4x las la-history" },
     { "title": "Backup", "href": "/backup", "icon": "la-4x las la-save" },
@@ -9,7 +9,7 @@ export const offcanvasLinks = [
 
 export const sidebarLinks = [
     { "title": "Add Cust.", "href": "/add-customer", "icon": "la-2x las la-industry" },
-    { "title": "Add User", "href": "/add-user", "icon": "la-2x las la-user" },
+    { "title": "Add Tech", "href": "/add-technician", "icon": "la-2x las la-user" },
     { "title": "Reports", "href": "/reports", "icon": "la-2x las la-clipboard" },
     { "title": "History", "href": "/history", "icon": "la-2x las la-history" },
     { "title": "Backup", "href": "/backup", "icon": "la-2x las la-save" },

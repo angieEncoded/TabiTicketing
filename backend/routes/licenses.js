@@ -58,7 +58,6 @@ router.get("/:customerId", async (req, res, next) => {
     })
     res.json(license);
     } catch (error) {
-      console.log("in the catch")
         res.json({status: 'error', error: error})
         
     }
@@ -90,7 +89,7 @@ router.post('/:recordType/:id', upload.single('license_file'), validateNewLicens
     } catch (error) {
       if(req.file){
           fs.unlink(req.file.path, error => {
-              console.log(error)
+        
           });
       }
       return res.json({ "status": "500", "message": error.message })

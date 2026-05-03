@@ -9,7 +9,7 @@ import LargeModal from '../Modal/LargeModal';
 import CustomerDisplay from "../Customer/CustomerDisplay";
 import { technicianActions } from "../../store/TechnicianSlice";
 
-const TechnicianForm = () => {
+const AddTechnicianForm = () => {
 
 
   const [isPending, setIsPending] = useState(false);
@@ -318,7 +318,7 @@ const TechnicianForm = () => {
   )
 }
 
-export default TechnicianForm
+export default AddTechnicianForm
 
 
 

@@ -10,24 +10,22 @@ import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { contactsActions } from "../../store/ContactSlice.js"
 import { technicianActions } from "../../store/TechnicianSlice.js";
+import { projectActions } from "../../store/ProjectSlice.js";
 
 const TicketForm = ({ recordType, closeComponent }) => {
 
-  
     const loggedInUser = 3;
 
-    const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
-    const [hasError, setHasError] = useState(false);
+
 
     const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
     const customerContacts = useSelector(state => state.contacts.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
+    const projects = useSelector(state => state.projects.projects);
 
     const dispatch = useDispatch();
-    console.log(technicians)
-
 
     // registration for the react form
     const {
@@ -45,41 +43,79 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
     // Get all the contacts attached to the current customer and load into slice
     useEffect(() => {
+
         const getContactsData = async () => {
             try {
-                setHasError(false);
-                setErrorMessage("");
+
                 setIsPending(true);
                 const contactsData = await fetch(`${urls.contactAPI}/${selectedCustomer.id}`);
-                if (!contactsData.ok) throw new Error("Failed to fetch contact data. Search may not work.");
+
+                if (!contactsData.ok) throw new Error("Failed to fetch contact data. Contacts may not be loaded.");
+
                 const contactsJson = await contactsData.json();
-                dispatch(contactsActions.loadContactsData(contactsJson));
-                setIsPending(false);
+     
+                // Make sure to handle the errors
+                if(contactsData.status == 200){
+                    dispatch(contactsActions.loadContactsData(contactsJson));
+                    setIsPending(false);
+                } else {
+                    throw new Error(contactsJson);
+                    setIsPending(false);
+                }
+
             } catch (error) {
                 setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
                 toast.error(error.message);
             }
         }
 
         const getTechniciansData = async () => {
             try {
-                setHasError(false);
-                setErrorMessage("");
+
                 setIsPending(true);
                 const technicianData = await fetch(`${urls.techniciansAPI}`);
-                if (!technicianData.ok) throw new Error("Failed to fetch techician data. Search may not work.");
+                if (!technicianData.ok) throw new Error("Failed to fetch techician data. Technicians may not be loaded.");
                 const technciansJson = await technicianData.json();
-                dispatch(technicianActions.loadTechnicianData(technciansJson));
-                setIsPending(false);
+
+                // Make sure to handle the errors
+                if(technciansJson.status == 200){
+                    dispatch(technicianActions.loadTechnicianData(technciansJson));
+                    setIsPending(false);
+                } else {
+                    throw new Error("Failed to fetch technician data. Technicians may not be loaded.");
+                    setIsPending(false);
+                }
+
             } catch (error) {
                 setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
                 toast.error(error.message);
             }
         }
+
+        const getProjectsData = async () => {
+            try {
+
+                setIsPending(true);
+                const projectsData = await fetch(`${urls.projectsAPI}`);
+                if (!projectsData.ok) throw new Error("Failed to fetch project data. Projects may not be loaded.");
+                const projectsJson = await projectsData.json();
+
+                // Make sure to handle the errors
+                if(projectsData.status == 200){
+                    dispatch(projectActions.loadProjectData(projectsJson));
+                    setIsPending(false);
+                } else {
+                    throw new Error(projectsJson);
+                    setIsPending(false);
+                }
+
+            } catch (error) {
+                setError("root.serverError", { type: error.status }) // prevent the form from clearing
+                toast.error(`Error: ${error.status} ${error.message}`)
+                setIsPending(false);
+            }
+        }
+        getProjectsData();
         getContactsData();
         getTechniciansData();
     }, []);
@@ -157,8 +193,8 @@ const TicketForm = ({ recordType, closeComponent }) => {
         closeComponent();
     }
 
-  return (
-      <>
+    return (
+        <>
             <div className="form-background mb-5 mx-auto">
                 <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -168,11 +204,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Title:</label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <input {...register('title', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              className={errors.title && dirtyFields.title ? 'form-control is-invalid' : 'form-control'} 
-                              placeholder={"Title: (Required)"} />
+                            <input {...register('title', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                className={errors.title && dirtyFields.title ? 'form-control is-invalid' : 'form-control'}
+                                placeholder={"Title: (Required)"} />
                         </div>
                     </div>
 
@@ -182,11 +219,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Agenda:</label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <textarea {...register('agenda', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              className={errors.agenda && dirtyFields.agenda ? 'form-control is-invalid' : 'form-control'} 
-                              placeholder={"What needs to be done?"}></textarea>
+                            <textarea {...register('agenda', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                className={errors.agenda && dirtyFields.agenda ? 'form-control is-invalid' : 'form-control'}
+                                placeholder={"What needs to be done?"}></textarea>
                         </div>
                     </div>
 
@@ -196,10 +234,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Ticket Status:<span className={'text-danger'}></span></label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <select   {...register('status', { required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              defaultValue='OPEN' 
-                              className={errors.status  && dirtyFields.status   ? 'form-select is-invalid' : 'form-select'}>
+                            <select   {...register('status', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                defaultValue='OPEN'
+                                className={errors.status && dirtyFields.status ? 'form-select is-invalid' : 'form-select'}>
                                 <option value={"OPEN"}>Open</option>
                                 <option value={"INPROGRESS"}>In Progress</option>
                                 <option value={"COMPLETED"}>Completed</option>
@@ -214,11 +254,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Ticket Priority:<span className={'text-danger'}></span></label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <select   {...register('priority', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              defaultValue='NORMAL' 
-                              className={errors.priority  && dirtyFields.priority   ? 'form-select is-invalid' : 'form-select'}>
+                            <select   {...register('priority', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                defaultValue='NORMAL'
+                                className={errors.priority && dirtyFields.priority ? 'form-select is-invalid' : 'form-select'}>
                                 <option value={"LOW"}>Low</option>
                                 <option value={"NORMAL"}>Normal</option>
                                 <option value={"HIGH"}>High</option>
@@ -233,15 +274,13 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label"> Contact:</label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <select   {...register('contact', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })}
-                              className={errors.contact  && dirtyFields.contact   ? 'form-select is-invalid' : 'form-select'}>
+                            <select   {...register('contact', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                className={errors.contact && dirtyFields.contact ? 'form-select is-invalid' : 'form-select'}>
                                 {customerContacts.map(contact => <option value={contact.id} key={contact.id}>{contact.first_name} {contact.last_name} - {contact.job_title}</option>)}
                             </select>
-
-
-
                         </div>
                     </div>
 
@@ -251,12 +290,31 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Assigned Technician:<span className={'text-danger'}></span></label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <select   {...register('technician', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              defaultValue={loggedInUser} 
-                              className={errors.technician  && dirtyFields.technician   ? 'form-select is-invalid' : 'form-select'}>
+                            <select   {...register('technician', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                defaultValue={loggedInUser}
+                                className={errors.technician && dirtyFields.technician ? 'form-select is-invalid' : 'form-select'}>
                                 {technicians.map(technician => <option value={technician.id} key={technician.id}>{technician.first_name} {technician.last_name}</option>)}
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* ================= PROJECT ====================== */}
+                    <div className="mb-3 row  align-items-center">
+                        <div className="col-12 col-md-3">
+                            <label className="form-label"> Project (Optional):</label>
+                        </div>
+                        <div className="col-12 col-md-9">
+                            <select   {...register('project', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                defaultValue={"0"}
+                                className={errors.project && dirtyFields.project ? 'form-select is-invalid' : 'form-select'}>
+                                <option value="0">No project</option>
+                                {projects.map(project => <option value={project.id} key={project.id}>{project.title}</option>)}
                             </select>
                         </div>
                     </div>
@@ -267,11 +325,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Technical Details:</label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <textarea {...register('technical_details', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              className={errors.technical_details && dirtyFields.technical_details ? 'form-control is-invalid' : 'form-control'} 
-                              placeholder={"Technical Details"}></textarea>
+                            <textarea {...register('technical_details', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                className={errors.technical_details && dirtyFields.technical_details ? 'form-control is-invalid' : 'form-control'}
+                                placeholder={"Technical Details"}></textarea>
                         </div>
                     </div>
 
@@ -281,11 +340,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Customer Friendly Solution:</label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <textarea {...register('customer_solution', { 
-                              required: true, 
-                              pattern: regexPatterns.alphaNumeric })} 
-                              className={errors.customer_solution && dirtyFields.customer_solution ? 'form-control is-invalid' : 'form-control'} 
-                              placeholder={"Customer Friendly Solution"}></textarea>
+                            <textarea {...register('customer_solution', {
+                                required: true,
+                                pattern: regexPatterns.alphaNumeric
+                            })}
+                                className={errors.customer_solution && dirtyFields.customer_solution ? 'form-control is-invalid' : 'form-control'}
+                                placeholder={"Customer Friendly Solution"}></textarea>
                         </div>
                     </div>
 
@@ -300,7 +360,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
             </div>
 
         </>
-  )
+    )
 }
 
 export default TicketForm

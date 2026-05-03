@@ -44,15 +44,17 @@ const NavBar = () => {
                         {/* Main Navigation */}
                         <Nav className="me-auto">
                             <Link className="nav-link" to="/queue">Ticket Queue</Link>
-                            <Link className="nav-link" to="/">Customers</Link>
-                            <Link className="nav-link" to="/calendar">Calendar <i className="las la-calendar-alt"></i></Link>
+                            <Link className="nav-link" to="/customers">Customers</Link>
+                            <Link className="nav-link" to="/contacts">Contacts</Link>
+                            <Link className="nav-link" to="/technicians">Technicians</Link>
+                            <Link className="nav-link" to="/all-tickets">All Tickets</Link>
                             <Link className="nav-link" to="/testing">Testing</Link>
-                            <Link className="nav-link" to="/testing">Users</Link>
                         </Nav>
                         
 
                         {/* User Login Controls */}
                         <Nav>
+                            <Link className="nav-link" to="/calendar"><i className="las la-calendar-alt"></i></Link>
                             <NavDropdown title="User Actions Placeholder" id="collasible-nav-dropdown">
                                 <Link className="dropdown-item" to="/">Profile</Link>
                                 <Link className="dropdown-item" to="/">Settings</Link>

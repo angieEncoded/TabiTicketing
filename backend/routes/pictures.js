@@ -68,7 +68,7 @@ router.post('/:recordType/:id', upload.single('picture_file'), validateNewPictur
     } catch (error) {
         if(req.file){
             fs.unlink(req.file.path, error => {
-                console.log(error)
+             
             });
         }
       return res.json({ "status": "500", "message": error.message })

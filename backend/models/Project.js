@@ -6,7 +6,7 @@ const Project = db.define('project', {
     uuid: {type: Sequelize.UUID, allowNull: false},
     title: {type: Sequelize.STRING, allowNull: false},
     agenda: {type: Sequelize.TEXT, allowNull: true},
-    status: {type: Sequelize.TEXT, allowNull: true},
+    status: {type: Sequelize.TEXT, allowNull: false},
     priority: {type: Sequelize.TEXT, allowNull: true},
     description: {type: Sequelize.TEXT, allowNull: true},
     customer_solution: {type: Sequelize.TEXT, allowNull: true},

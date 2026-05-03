@@ -27,7 +27,6 @@ router.get("/:customerId", async (req, res, next) => {
     res.json(equipment);
     } catch (error) {
         res.json({status: 'error', error: error})
-        console.log(error)
     }
 
 })

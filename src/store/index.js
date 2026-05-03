@@ -6,6 +6,7 @@ import urlSliceReducer from "./EndpointsSlice";
 import ticketsSliceReducer from "./TicketSlice";
 import contactSliceReducer from "./ContactSlice";
 import technicianSliceReducer from "./TechnicianSlice";
+import projectSliceReducer from "./ProjectSlice";
 
 const store = configureStore({
     reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
         auth: authenticationSliceReducer,
         urls: urlSliceReducer,
         contacts: contactSliceReducer,
-        technicians: technicianSliceReducer
+        technicians: technicianSliceReducer,
+        projects: projectSliceReducer
     }
 })
 
