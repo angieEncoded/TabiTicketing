@@ -75,7 +75,6 @@ module.exports.validateNewLicense = (req, res, next) => {
 
 module.exports.validateNewPicture = (req, res, next) => {
 
-    console.log(req.file)
     const data = {
         ...req.body,
         picture_file: req.file

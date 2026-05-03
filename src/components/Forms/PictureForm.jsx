@@ -8,7 +8,7 @@ import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-
+import { getTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 
 const PictureForm = ({ recordType, closeComponent }) => {
 
@@ -78,10 +78,8 @@ const PictureForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const selectedCustomerData = await fetch(`${urls.customerAPI}/${selectedCustomer.id}`);
-                    if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
-                    const selectedCustomerJson = await selectedCustomerData.json();
-                    dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
+                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 }
 
                 setIsPending(false)
@@ -124,7 +122,7 @@ const PictureForm = ({ recordType, closeComponent }) => {
                             <label className="form-label">Equipment Location:</label>
                         </div>
                         <div className="col-12 col-md-9">
-                            <input {...register('location', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.product_name && dirtyFields.product_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Location: (Optional)"} />
+                            <input {...register('location', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.product_name && dirtyFields.product_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Location: (Optional)"} />
                         </div>
                     </div>
 

@@ -23,6 +23,9 @@ const COLUMNS = [
     // The cell property is specifically for rendering the UI (icons, JSX)
         cell: (info) => {
 
+            if(!info.getValue()){
+                return "No file"
+            } else {
             const extension = info.getValue().split('.').pop(); 
     
             let icon;
@@ -34,6 +37,8 @@ const COLUMNS = [
             if(extension === 'gif'){icon = <i className="las la-image"></i>}
             
             return icon
+            }
+
 
         },
     }),

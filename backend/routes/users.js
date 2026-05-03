@@ -23,13 +23,18 @@ router.get("/technicians", async (req, res, next) => {
         if(technicians.length < 1){
             return res.json({"status": "500", "message": "There are no technicians to fetch." })
         }
-        return res.json({status: 200, message: "Successfully fetched", technicians:technicians});
+        return res.json({status: 200, message: "Successfully fetched", technicians});
     
     } catch (error) {
         return res.json({ "status": "500", "message": error.message })
     }
 
 })
+
+
+
+
+
 
 
 // Add a new user

@@ -23,7 +23,6 @@ import Technicians from './pages/Technicians';
 import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
 
-
 const router = createBrowserRouter([
   {
     path: "/",

@@ -8,7 +8,7 @@ import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-
+import { getTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 
 const LicenseForm = ({recordType, closeComponent}) => {
 
@@ -87,10 +87,8 @@ const LicenseForm = ({recordType, closeComponent}) => {
 
                 // Refresh the selected customer
                 if(recordType === 'customer'){
-                    const selectedCustomerData = await fetch(`${urls.customerAPI}/${selectedCustomer.id}`);
-                    if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
-                    const selectedCustomerJson = await selectedCustomerData.json();
-                    dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
+                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 } 
 
                 setIsPending(false)

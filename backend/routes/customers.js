@@ -16,17 +16,29 @@ const { validateNewCustomer, validateExistingCustomer } = require("../util/valid
 
 // fetch all active customers
 router.get("/", async (req, res, next) => {
-    const customers = await Customer.findAll({ 
-        where:{'status': 'Active'}, 
-        include: {
-            model: Address, 
-            where: {
-                type: 'Billing'
-            },
-            required: false
+
+    try {
+        const customers = await Customer.findAll({
+            where: { 'status': 'Active' },
+            include: {
+                model: Address,
+                where: {
+                    type: 'Billing'
+                },
+                required: false
+            }
+        });
+
+        // Handle if there are no technicians to fetch
+        if (customers.length < 1) {
+            return res.json({ status: "500", message: "There are no customers to fetch." })
         }
-    });
-    res.json(customers);
+        return res.json({ status: 200, message: "Successfully fetched", customers });
+
+    } catch (error) {
+        return res.json({ status: "500", message: error.message })
+    }
+
 })
 
 
@@ -38,26 +50,36 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
             uuid: uuidv4(),
             ...data
         })
-        return res.json({'status': 200, 'results': results });
+        return res.json({ status: 200, message: "Successfully Added", results: results });
 
     } catch (error) {
-        return res.json({ "status": "500", "message": error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
+
+
+
+
 
 // grab all the data for a single customer
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        const rows = await Customer.findOne({
-            where: {id: id},
+
+        const customer = await Customer.findOne({
+            where: { id: id },
             include: [Address, Contact, Equipment, License, Picture, Ticket]
         })
-        if (rows) { return res.json(rows.dataValues) }
-        else { return res.json({ status: 400, error: "Record does not exist" }) }
+
+        if (customer) {
+            return res.json({ status: 200, message: "Successfully Fetched", customer: customer.dataValues})
+        }
+        else {
+            return res.json({ status: 400, message: "Record does not exist" })
+        }
     } catch (error) {
-        return res.json({ "status": "500", "message": error.message })
+        return res.json({ status: 500, message: error.message })
     }
 })
 
@@ -118,10 +140,10 @@ router.put("/:id", validateExistingCustomer, async (req, res, next) => {
 
 // fetch all active customers
 router.get("/testing", async (req, res, next) => {
-    const customers = await Customer.findAll({ 
-        where:{'status': 'Active'}, 
+    const customers = await Customer.findAll({
+        where: { 'status': 'Active' },
         include: {
-            model: Address, 
+            model: Address,
             where: {
                 type: 'Billing'
             },

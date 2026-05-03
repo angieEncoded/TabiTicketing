@@ -40,13 +40,6 @@ const upload = multer({ storage:storage, fileFilter:(req, file, cb) => {
 })
 
 
-// /pictures/*
-
-router.get("/:customerId/pictures", async (req, res, next) => {
-    const filePath = path.join(__dirname, 'files', 'sample.pdf');
-    // res.download triggers a download prompt on the client
-    res.download(filePath, 'downloaded-file.pdf'); 
-})
 
 // Add a new Picture
 router.post('/:recordType/:id', upload.single('picture_file'), validateNewPicture, async (req, res, next)=> {
@@ -54,24 +47,25 @@ router.post('/:recordType/:id', upload.single('picture_file'), validateNewPictur
     const filename = req.file.filename;
     const data = req.body;
     const {recordType, id} = req.params;
+
     // Process some of the data
     if(req.file){data.picture_file = req.file.filename}
-    let results;
+
 
     try {
         if(recordType === 'customer'){ 
-            results = await Picture.create({uuid: uuidv4(), customerId: id, ...data})
+
+            customerPicture = await Picture.create({uuid: uuidv4(), customerId: id, ...data})
+            return res.json({status: 200, message: "Successfully saved", customerPicture: customerPicture });
         }
 
-        return res.json({'status': 200, 'message': results });
+        return res.json({status: 200, message: "You reached the server, but there was no command to execute" });
 
     } catch (error) {
         if(req.file){
-            fs.unlink(req.file.path, error => {
-             
-            });
+            fs.unlink(req.file.path, error => {console.log(error)});
         }
-      return res.json({ "status": "500", "message": error.message })
+         return res.json({ status: 500, message: error.message })
     }
 
 })

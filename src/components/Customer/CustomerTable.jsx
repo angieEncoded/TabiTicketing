@@ -9,7 +9,8 @@ import COLUMNS from './columns/CustomerColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import CustomerDisplay from './CustomerDisplay.jsx'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-
+import { getTableData } from "../../util/helperFunctions.js";
+import {getSelectedCustomerData} from "../../util/helperFunctions.js"
 
 const CustomerTable = () => {
 
@@ -38,35 +39,34 @@ const CustomerTable = () => {
 
     // Initially populate the data
     useEffect(() => {
-        const getTableData = async () => {
+        // Wrap in an async
+        const getData = async() => {
             try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const customerData = await fetch(`${urls.customerAPI}`);
-                if (!customerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
-                const customerJson = await customerData.json();
-                dispatch(customersActions.loadCustomerData(customerJson));
-                setIsPending(false);
+                setIsPending(true)
+                const results = await getTableData(urls.customerAPI, dispatch); // reach out to the helper function
+                if(results.status === 200){
+                    setIsPending(false);
+                } else {
+                    setIsPending(false);
+                    toast.error(`${results.status} ${results.message}`)
+                }
             } catch (error) {
                 setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
+                toast.error(error);
             }
         }
-        getTableData();
+        getData();
     }, []);
 
     const handleRowClick = async (row) => {
         setHasError(false);
         setErrorMessage("");
         setIsPending(true);
+
         // let's do one query to the db and be done with it, everyone else can subscribe
-        const selectedCustomerData = await fetch(`${urls.customerAPI}/${row.original.id}`);
-        if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
-        const selectedCustomerJson = await selectedCustomerData.json();
-        dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
+        const results = await getSelectedCustomerData(`${urls.customerAPI}/${row.original.id}`, dispatch);
+        if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
+         
         setIsPending(false);
         setShowModal(true); // show the modal with the form
     }

@@ -8,8 +8,9 @@ import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
+import { getTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 
-const salutations =[
+const salutations = [
     "",
     "Mr.",
     "Ms.",
@@ -25,9 +26,9 @@ const salutations =[
     "Sgt."
 ]
 
-const ContactForm = ({recordType, closeComponent}) => {
+const ContactForm = ({ recordType, closeComponent }) => {
 
-   const [isPending, setIsPending] = useState(false);
+    const [isPending, setIsPending] = useState(false);
 
     const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
@@ -53,7 +54,7 @@ const ContactForm = ({recordType, closeComponent}) => {
         }
     }, [formState, reset])
 
-  const onSubmit = async (formData) => {
+    const onSubmit = async (formData) => {
 
         setIsPending(true); // invoke our spinner
 
@@ -74,7 +75,7 @@ const ContactForm = ({recordType, closeComponent}) => {
                 body: JSON.stringify(formPost)
             })
 
-    
+
             // if server cannot respond
             if (!results.ok) {
                 // !!! TODO - logging here
@@ -95,22 +96,12 @@ const ContactForm = ({recordType, closeComponent}) => {
 
             if (serverResponse.status == "200") {
                 toast.success(`Successfully added new contact for ${selectedCustomer.customer_name}`);
- 
-                
-                // Refresh the background table
-                const customerData = await fetch(`${urls.customerAPI}`);
-                if (!customerData.ok) throw new Error("Failed to fetch customer data for background refresh. Please refresh the system.");
-                const customerJson = await customerData.json();
-                dispatch(customersActions.loadCustomerData(customerJson));
 
-
-                // Refresh the selected customer as well if customer
-                if(recordType === 'customer'){
-                    const selectedCustomerData = await fetch(`${urls.customerAPI}/${selectedCustomer.id}`);
-                    if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
-                    const selectedCustomerJson = await selectedCustomerData.json();
-                    dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
-                } 
+                // Refresh the selected customer
+                if (recordType === 'customer') {
+                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
+                }
 
                 setIsPending(false)
                 return;
@@ -136,152 +127,152 @@ const ContactForm = ({recordType, closeComponent}) => {
 
 
 
-  return (
-   <>
+    return (
+        <>
 
-                <div className="form-background mb-5 mx-auto">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-background mb-5 mx-auto">
+                <form onSubmit={handleSubmit(onSubmit)}>
 
 
-                <div className="row">
+                    <div className="row">
 
-                    {/* FIRST COLUMN */}
-                    <div className="col-12 col-lg-6">
+                        {/* FIRST COLUMN */}
+                        <div className="col-12 col-lg-6">
 
-                        {/* ================= FIRST NAME ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">First Name</label>
+                            {/* ================= FIRST NAME ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">First Name</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('first_name', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.first_name && dirtyFields.first_name ? 'form-control is-invalid' : 'form-control'} placeholder={"First Name: (Required)"} />
+                                </div>
                             </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('first_name', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.first_name && dirtyFields.first_name ? 'form-control is-invalid' : 'form-control'} placeholder={"First Name: (Required)"} />
+
+                            {/* ================= LAST NAME ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Last Name</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('last_name', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.last_name && dirtyFields.last_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Last Name: (Required)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= WORK PHONE NUMBER ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Work Phone</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('work_phone', { required: true, pattern: regexPatterns.phone })} className={errors.work_phone && dirtyFields.work_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Required)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= JOB TITLE ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Job Title</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input  {...register('job_title', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.job_title && dirtyFields.job_title ? 'form-control is-invalid' : 'form-control'} placeholder={"Job Title: (Required)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= EMAIL ADDRESS ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">
+                                        Email
+                                    </label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input  {...register('email', { required: false, pattern: regexPatterns.email })} className={errors.email && dirtyFields.email ? 'form-control is-invalid' : 'form-control'} placeholder={"Email Address (Optional)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= EXTENSION ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Extension</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('extension', { required: false, pattern: regexPatterns.extensions })} className={errors.extension && dirtyFields.extension ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 8009 (Optional)"} />
+                                </div>
+                            </div>
+
+
+                        </div>
+                        {/* SECOND COLUMN  (or below first)*/}
+                        <div className="col-12 col-lg-6">
+
+                            {/* ================= SALUTATION ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Salutation</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <select {...register('salutation', { required: false, pattern: regexPatterns.alphaNumeric })} defaultValue='NJ' className={errors.salutation && dirtyFields.salutation ? 'form-select is-invalid' : 'form-select'}>
+                                        {salutations.map(salutation => <option key={salutation} value={salutation}>{salutation}</option>)}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* ================= MIDDLE NAME ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Middle Name</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('middle_name', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.middle_name && dirtyFields.middle_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Middle Name: (Optional)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= CELL PHONE NUMBER ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Cell Phone</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('cell_phone', { required: false, pattern: regexPatterns.phone })} className={errors.cell_phone && dirtyFields.cell_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= FAX ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Fax</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('fax', { required: false, pattern: regexPatterns.phone })} className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
+                                </div>
+                            </div>
+
+                            {/* ================= NOTES FIELD ====================== */}
+                            <div className="mb-3 row align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Notes</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
+                                </div>
                             </div>
                         </div>
-
-                        {/* ================= LAST NAME ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Last Name</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('last_name', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.last_name && dirtyFields.last_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Last Name: (Required)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= WORK PHONE NUMBER ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Work Phone</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('work_phone', { required: true, pattern: regexPatterns.phone })} className={errors.work_phone && dirtyFields.work_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Required)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= JOB TITLE ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Job Title</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input  {...register('job_title', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.job_title && dirtyFields.job_title ? 'form-control is-invalid' : 'form-control'} placeholder={"Job Title: (Required)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= EMAIL ADDRESS ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">
-                                    Email 
-                                </label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input  {...register('email', { required: false, pattern: regexPatterns.email })} className={errors.email  && dirtyFields.email ? 'form-control is-invalid' : 'form-control'} placeholder={"Email Address (Optional)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= EXTENSION ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Extension</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('extension', { required: false, pattern: regexPatterns.extensions })} className={errors.extension && dirtyFields.extension ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 8009 (Optional)"} />
-                            </div>
-                        </div>
-
-
                     </div>
-                    {/* SECOND COLUMN  (or below first)*/}
-                    <div className="col-12 col-lg-6">
 
-                        {/* ================= SALUTATION ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Salutation</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <select {...register('salutation', { required: false, pattern: regexPatterns.alphaNumeric })} defaultValue='NJ' className={errors.salutation && dirtyFields.salutation ? 'form-select is-invalid' : 'form-select'}>
-                                    {salutations.map(salutation => <option key={salutation} value={salutation}>{salutation}</option>)}
-                                </select>
-                            </div>
-                        </div>
 
-                        {/* ================= MIDDLE NAME ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Middle Name</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('middle_name', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.middle_name && dirtyFields.middle_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Middle Name: (Optional)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= CELL PHONE NUMBER ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Cell Phone</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('cell_phone', { required: false, pattern: regexPatterns.phone })} className={errors.cell_phone && dirtyFields.cell_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= FAX ====================== */}
-                        <div className="mb-3 row  align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Fax</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <input {...register('fax', { required: false, pattern: regexPatterns.phone })} className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
-                            </div>
-                        </div>
-
-                        {/* ================= NOTES FIELD ====================== */}
-                        <div className="mb-3 row align-items-center">
-                            <div className="col-12 col-md-3">
-                                <label className="form-label">Notes</label>
-                            </div>
-                            <div className="col-12 col-md-9">
-                                <textarea {...register('notes', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.notes && dirtyFields.notes    ? 'form-control is-invalid' : 'form-control'} rows="3" placeholder={"Notes..."}></textarea>
-                            </div>
+                    <div className={"text-end"}>
+                        <div>
+                            <Buttontabi type='button' buttonClass={'warning float-start'} title={"Cancel and close"} onClick={() => cancelTask()} />
+                            <Buttontabi type='button' buttonClass={'secondary'} title={"Clear Form"} onClick={() => reset()} />
+                            <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save Contact" : "Submitting..."} disabled={!isValid} />
                         </div>
                     </div>
-                </div>
+                </form>
+            </div>
 
-
-                        <div className={"text-end"}>
-                            <div>
-                                <Buttontabi type='button' buttonClass={'warning float-start'} title={"Cancel and close"} onClick={() => cancelTask()} />
-                                <Buttontabi type='button' buttonClass={'secondary'} title={"Clear Form"} onClick={() => reset()} />
-                                <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save Contact" : "Submitting..."} disabled={!isValid} />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-        
         </>
-  )
+    )
 }
 
 export default ContactForm

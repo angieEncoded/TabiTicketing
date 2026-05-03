@@ -14,13 +14,13 @@ router.get("/:customerId", async (req, res, next) => {
     try {
         const contacts = await Contact.findAll({ where:{'customerId':  customerId} });
         if(contacts.length < 1){
-            return res.json({"status": "500", "message": "There are no contacts to fetch for this customer." })
+            return res.json({status: 500, message: "There are no contacts to fetch for this customer." })
         }
 
         return res.json({status: 200, message: "Successfully fetched", contacts:contacts});
         
     } catch (error) {
-        return res.json({ "status": "500", "message": error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
@@ -31,19 +31,18 @@ router.post('/:recordType/:id', validateNewContact, async (req,res,next)=> {
 
     const data = req.body;
     const {recordType, id} = req.params;
-    let results;
 
     try {
         
         if(recordType === 'customer'){ 
-            results = await Contact.create({uuid: uuidv4(), customerId: id, ...data})
-
+            customerContacts = await Contact.create({uuid: uuidv4(), customerId: id, ...data})
+            return res.json({status: 200, message: "Successfully saved", customerContacts: customerContacts });
         }
 
-        return res.json({'status': 200, 'results': results });
+        return res.json({status: 200, message: "You reached the server, but there was no command to execute" });
 
     } catch (error) {
-         return res.json({ "status": "500", "message": error.message })
+         return res.json({ status: 500, message: error.message })
     }
 
 })

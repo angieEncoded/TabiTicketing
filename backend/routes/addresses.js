@@ -25,25 +25,18 @@ router.post('/:recordType/:id', validateNewAddress, async (req,res,next)=> {
 
     const data = req.body;
     const {recordType, id} = req.params;
-    let results;
-
-
     try {
         
         if(recordType === 'customer'){ 
-            results = await Address.create({uuid: uuidv4(), customerId: id, ...data})
+            const customerAddress = await Address.create({uuid: uuidv4(), customerId: id, ...data})
+            return res.json({status: 200, message: "Successfully saved", customerAddress: customerAddress });
         }
 
-        // may need to get the customer information in a query first and then add it here, if we even do addresses for contacts
-        if(recordType === 'contact'){ results = await Address.create({uuid: uuidv4(), contactId: id, ...data})}
-
-
-        if(recordType === 'technician'){ results = await Address.create({uuid: uuidv4(), technicianId: id, ...data})}
-
-        return res.json({'status': 200, 'results': results });
+        return res.json({status: 200, message: "You reached the server, but there was no command to execute" });
 
     } catch (error) {
-         return res.json({ "status": "500", "message": error.message })
+        console.log(error)
+         return res.json({ status: "500", message: error.message })
     }
 
 })

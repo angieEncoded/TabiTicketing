@@ -35,10 +35,10 @@ const CustomerButtons = ({ recordType }) => {
     <div className="container">
 
       <div className="ms-start d-grid gap-2 d-md-block mb-3">
+        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Address')} disabled={currentComponent === 'Address'}>Add Address</button>
+        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Contact')} disabled={currentComponent === 'Contact'}>Add Contact</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Equipment')} disabled={currentComponent === 'Equipment'}>Add Equipment</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('License')} disabled={currentComponent === 'License'} >Add License</button>
-        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Contact')} disabled={currentComponent === 'Contact'}>Add Contact</button>
-        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Address')} disabled={currentComponent === 'Address'}>Add Address</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Picture')} disabled={currentComponent === 'Picture'}>Add Picture</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Ticket')} disabled={currentComponent === 'Ticket'} >Add Ticket</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" >Add Project</button>
