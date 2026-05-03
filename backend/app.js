@@ -22,7 +22,7 @@ const Ticket = require('./models/Ticket');
 const TicketComment = require('./models/TicketComment');
 const TicketTime = require('./models/TicketTime');
 const TicketHistory = require('./models/TicketHistory');
-const Technician = require('./models/Technician');
+const User = require('./models/User');
 const Address = require('./models/Address');
 const Picture = require('./models/Picture');
 const Project = require('./models/Project');
@@ -35,29 +35,29 @@ Customer.hasMany(Contact); // set up the inverse relation
 // a license can belong to a customer or a user
 License.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
 License.belongsTo(Contact, {constraints:true, onDelete: 'NO ACTION'}); 
-License.belongsTo(Technician, {constraints:true, onDelete: 'NO ACTION'}); 
+License.belongsTo(User, {constraints:true, onDelete: 'NO ACTION'}); 
 Contact.hasMany(License);
 Customer.hasMany(License);
-Technician.hasMany(License);
+User.hasMany(License);
 
 // A piece of equipment can belong to a customer, a user, and can be referenced by a ticket
 Equipment.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
 Equipment.belongsTo(Contact, {constraints:true, onDelete: 'NO ACTION'}); 
-Equipment.belongsTo(Technician, {constraints:true, onDelete: 'NO ACTION'}); 
+Equipment.belongsTo(User, {constraints:true, onDelete: 'NO ACTION'}); 
 Equipment.belongsTo(Ticket, {constraints:true, onDelete: 'NO ACTION'})
 Customer.hasMany(Equipment);
 Contact.hasMany(Equipment);
-Technician.hasMany(Equipment);
+User.hasMany(Equipment);
 Ticket.hasMany(Equipment);
 
-// A ticket references a customer, a user, and a technician. History will be captured in a separate table
+// A ticket references a customer, a user, and a User. History will be captured in a separate table
 Ticket.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one customer, one issue
 Ticket.belongsTo(Contact, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one contact, one issue
-Ticket.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'}); // only one owning tech at time of close
+Ticket.belongsTo(User, {constraints: true, onDelete: 'NO ACTION'}); // only one owning tech at time of close
 Ticket.belongsTo(Project, {constraints: true, onDelete: 'NO ACTION'} );
 Customer.hasMany(Ticket);
 Contact.hasMany(Ticket);
-Technician.hasMany(Ticket);
+User.hasMany(Ticket);
 Project.hasMany(Ticket);
 
 // a Ticket comment belongs to only one ticket
@@ -71,16 +71,16 @@ Ticket.hasMany(TicketTime);
 // An address can belong to anything, and anything can have more than one address
 Address.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
 Address.belongsTo(Contact, {constraints: true, onDelete: 'NO ACTION'});
-Address.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'});
+Address.belongsTo(User, {constraints: true, onDelete: 'NO ACTION'});
 Customer.hasMany(Address)
 Contact.hasMany(Address)
-Technician.hasMany(Address)
+User.hasMany(Address)
 
 // A ticket history belongs to a ticket and a user
 TicketHistory.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'})
-TicketHistory.belongsTo(Technician, {constraints: true, onDelete: 'NO ACTION'})
+TicketHistory.belongsTo(User, {constraints: true, onDelete: 'NO ACTION'})
 Ticket.hasMany(TicketHistory);
-Technician.hasMany(TicketHistory);
+User.hasMany(TicketHistory);
 
 // A picture belongs to a customer, contact or a ticket.
 Picture.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
@@ -98,11 +98,11 @@ Customer.hasMany(Project);
 OnSiteVisit.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'});
 OnSiteVisit.belongsTo(Customer,  {constraints: true, onDelete: 'NO ACTION'});
 OnSiteVisit.belongsTo(Contact,  {constraints: true, onDelete: 'NO ACTION'});
-OnSiteVisit.belongsTo(Technician,  {constraints: true, onDelete: 'NO ACTION'});
+OnSiteVisit.belongsTo(User,  {constraints: true, onDelete: 'NO ACTION'});
 Ticket.hasMany(OnSiteVisit);
 Customer.hasMany(OnSiteVisit);
 Contact.hasMany(OnSiteVisit);
-Technician.hasMany(OnSiteVisit);
+User.hasMany(OnSiteVisit);
 
 // routes
 //============================================================
@@ -114,7 +114,6 @@ const licenseRoutes = require('./routes/licenses');
 const pictureRoutes = require('./routes/pictures');
 const ticketRoutes = require('./routes/tickets');
 const userRoutes = require('./routes/users');
-const techniciansRoutes = require("./routes/technicians");
 const projectsRoutes = require("./routes/projects");
 
 app.use(cors({
@@ -136,7 +135,7 @@ app.use('/equipment', equipmentRoutes);
 app.use('/licenses', licenseRoutes);
 app.use('/pictures', pictureRoutes);
 app.use('/tickets', ticketRoutes);
-app.use('/technicians', techniciansRoutes);
+app.use('/users', userRoutes);
 app.use("/projects", projectsRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)

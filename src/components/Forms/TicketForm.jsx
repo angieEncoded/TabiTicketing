@@ -23,7 +23,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
     const selectedCustomer = useSelector(state => state.scust.customer);
     const customerContacts = useSelector(state => state.contacts.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
-    const projects = useSelector(state => state.projects.projects);
+    const customerProjects = useSelector(state => state.projects.projects);
 
     const dispatch = useDispatch();
 
@@ -46,20 +46,22 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
         const getContactsData = async () => {
             try {
-
                 setIsPending(true);
                 const contactsData = await fetch(`${urls.contactAPI}/${selectedCustomer.id}`);
 
-                if (!contactsData.ok) throw new Error("Failed to fetch contact data. Contacts may not be loaded.");
+                if (!contactsData.ok){
+                    toast.error(`Error ${contactsData.status} - ${contactsData.message} `)
+                    setIsPending(false);
+                }
 
                 const contactsJson = await contactsData.json();
      
                 // Make sure to handle the errors
-                if(contactsData.status == 200){
+                if(contactsJson.status == 200){
                     dispatch(contactsActions.loadContactsData(contactsJson));
                     setIsPending(false);
                 } else {
-                    throw new Error(contactsJson);
+                  toast.error(`Error ${contactsJson.status} - ${contactsJson.message} `)
                     setIsPending(false);
                 }
 
@@ -71,18 +73,22 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
         const getTechniciansData = async () => {
             try {
-
                 setIsPending(true);
-                const technicianData = await fetch(`${urls.techniciansAPI}`);
-                if (!technicianData.ok) throw new Error("Failed to fetch techician data. Technicians may not be loaded.");
+                const technicianData = await fetch(`${urls.techniciansAPI}/technicians`);
+
+                if (!technicianData.ok) {
+                    toast.error(`Error ${technicianData.status} - ${technicianData.message} `)
+                    setIsPending(false);
+                }
+
                 const technciansJson = await technicianData.json();
 
-                // Make sure to handle the errors
                 if(technciansJson.status == 200){
-                    dispatch(technicianActions.loadTechnicianData(technciansJson));
+                    dispatch(technicianActions.loadTechnicianData(technciansJson.technicians));
                     setIsPending(false);
                 } else {
-                    throw new Error("Failed to fetch technician data. Technicians may not be loaded.");
+                    console.log("undefined")
+                    toast.error(`Error ${technciansJson.status} - ${technciansJson.message} `)
                     setIsPending(false);
                 }
 
@@ -92,6 +98,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
             }
         }
 
+
         const getProjectsData = async () => {
             try {
 
@@ -99,9 +106,10 @@ const TicketForm = ({ recordType, closeComponent }) => {
                 const projectsData = await fetch(`${urls.projectsAPI}`);
                 if (!projectsData.ok) throw new Error("Failed to fetch project data. Projects may not be loaded.");
                 const projectsJson = await projectsData.json();
-
+                console.log(projectsJson);
+            
                 // Make sure to handle the errors
-                if(projectsData.status == 200){
+                if(projectsJson.status == 200){
                     dispatch(projectActions.loadProjectData(projectsJson));
                     setIsPending(false);
                 } else {
@@ -115,8 +123,8 @@ const TicketForm = ({ recordType, closeComponent }) => {
                 setIsPending(false);
             }
         }
-        getProjectsData();
-        getContactsData();
+        // getProjectsData();
+        // getContactsData();
         getTechniciansData();
     }, []);
 
@@ -296,28 +304,13 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             })}
                                 defaultValue={loggedInUser}
                                 className={errors.technician && dirtyFields.technician ? 'form-select is-invalid' : 'form-select'}>
+                                <option value={"NONE"} key={"NONE"}>NO TECHNICIAN SELECTED</option>
                                 {technicians.map(technician => <option value={technician.id} key={technician.id}>{technician.first_name} {technician.last_name}</option>)}
                             </select>
                         </div>
                     </div>
 
-                    {/* ================= PROJECT ====================== */}
-                    <div className="mb-3 row  align-items-center">
-                        <div className="col-12 col-md-3">
-                            <label className="form-label"> Project (Optional):</label>
-                        </div>
-                        <div className="col-12 col-md-9">
-                            <select   {...register('project', {
-                                required: true,
-                                pattern: regexPatterns.alphaNumeric
-                            })}
-                                defaultValue={"0"}
-                                className={errors.project && dirtyFields.project ? 'form-select is-invalid' : 'form-select'}>
-                                <option value="0">No project</option>
-                                {projects.map(project => <option value={project.id} key={project.id}>{project.title}</option>)}
-                            </select>
-                        </div>
-                    </div>
+
 
                     {/* ================= TECHNICAL DETAILS ====================== */}
                     <div className="mb-3 row  align-items-center">

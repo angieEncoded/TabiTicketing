@@ -17,8 +17,8 @@ router.get("/", async (req, res, next) => {
                         { 'status': "CLOSED" },
                     ]
             }
-
         });
+        console.log(projects)
         res.json(projects);
     } catch (error) {
         return res.json({ "status": "500", "message": error.message })

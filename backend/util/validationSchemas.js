@@ -100,7 +100,7 @@ module.exports.pictureSchema = Joi.object({
     updated_by: Joi.string().required(),
 })
 
-module.exports.technicianSchema = Joi.object({
+module.exports.userSchema = Joi.object({
     salutation: Joi.string().allow(''),
     first_name: Joi.string().required(),
     middle_name: Joi.string().allow(''),
@@ -112,6 +112,7 @@ module.exports.technicianSchema = Joi.object({
     work_email: Joi.string().required(),
     personal_email: Joi.string().allow(''),
     status: Joi.string().required(),
+    is_technician: Joi.string().required(),
     notes: Joi.string().allow(''),
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),

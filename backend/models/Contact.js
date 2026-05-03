@@ -3,7 +3,6 @@ const db = require("../util/database");
 
 const Contact = db.define('contact', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true},
-    uuid: {type: Sequelize.UUID, allowNull: false},
     salutation: {type: Sequelize.STRING, allowNull: true},
     first_name: {type: Sequelize.STRING, allowNull: false},
     middle_name: {type: Sequelize.STRING, allowNull: true},
@@ -17,6 +16,7 @@ const Contact = db.define('contact', {
     notes: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
+    uuid: {type: Sequelize.UUID, allowNull: false},
 
 }, {paranoid: true})
 

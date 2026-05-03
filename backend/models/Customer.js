@@ -3,7 +3,6 @@ const db = require("../util/database");
 
 const Customer = db.define('customer', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true},
-    uuid: {type: Sequelize.UUID, allowNull: false},
     customer_name: {type: Sequelize.STRING, allowNull: false},
     primary_phone: {type: Sequelize.STRING, allowNull: false},
     secondary_phone: {type: Sequelize.STRING, allowNull: true},
@@ -14,6 +13,7 @@ const Customer = db.define('customer', {
     status: {type:Sequelize.STRING, allowNull: false},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
+    uuid: {type: Sequelize.UUID, allowNull: false},
     
 }, {paranoid: true})
 

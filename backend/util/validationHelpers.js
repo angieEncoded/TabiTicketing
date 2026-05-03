@@ -97,8 +97,8 @@ module.exports.validateNewPicture = (req, res, next) => {
 }
 
 
-module.exports.validateNewTechnician = (req, res, next) => {
-    const { error } = technicianSchema.validate(req.body);
+module.exports.validateNewUser = (req, res, next) => {
+    const { error } = userSchema.validate(req.body);
         if (error) {
         const message = error.details.map((element) => element.message).join(",");
         return res.json({'status': 400, 'message': message })

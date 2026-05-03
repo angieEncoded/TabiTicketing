@@ -11,8 +11,17 @@ const { validateNewContact } = require("../util/validationHelpers")
 router.get("/:customerId", async (req, res, next) => {
 
     const { customerId } = req.params
-    const contacts = await Contact.findAll({ where:{'customerId':  customerId} });
-    res.json(contacts);
+    try {
+        const contacts = await Contact.findAll({ where:{'customerId':  customerId} });
+        if(contacts.length < 1){
+            return res.json({"status": "500", "message": "There are no contacts to fetch for this customer." })
+        }
+
+        return res.json({status: 200, message: "Successfully fetched", contacts:contacts});
+        
+    } catch (error) {
+        return res.json({ "status": "500", "message": error.message })
+    }
 
 })
 

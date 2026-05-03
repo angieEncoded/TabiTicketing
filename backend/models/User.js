@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require("../util/database");
 
-const Technician = db.define('technician', {
+const User = db.define('user', {
     id: {type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true},
     uuid: {type: Sequelize.UUID, allowNull: false},
     salutation: {type: Sequelize.STRING, allowNull: true},
@@ -15,9 +15,10 @@ const Technician = db.define('technician', {
     work_email: {type: Sequelize.STRING, allowNull: false},
     personal_email: {type: Sequelize.STRING, allowNull: true},
     status: {type: Sequelize.STRING, allowNull: false},
+    is_technician:  {type: Sequelize.STRING, allowNull: false},
     notes: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
 }, {paranoid: true})
 
-module.exports = Technician;
+module.exports = User;
