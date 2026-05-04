@@ -9,7 +9,7 @@ import LargeModal from '../Modal/LargeModal';
 import CustomerDisplay from "../Customer/CustomerDisplay";
 import { technicianActions } from "../../store/TechnicianSlice";
 
-const AddTechnicianForm = () => {
+const UserForm = () => {
 
 
   const [isPending, setIsPending] = useState(false);
@@ -57,7 +57,7 @@ const AddTechnicianForm = () => {
     try {
 
       // Post the new technicians
-      const results = await fetch(urls.techniciansAPI, {
+      const results = await fetch(urls.usersAPI, {
         method: "POST",
         headers: {
           "Content-Type": 'application/json'
@@ -84,7 +84,7 @@ const AddTechnicianForm = () => {
       }
 
       if (serverResponse.status == "200") {
-        toast.success(`Successfully added ${serverResponse.results.first_name}`);
+        toast.success(`Successfully added ${serverResponse.user.first_name}`);
         setIsPending(false);
       } else {
         setIsPending(false);
@@ -95,7 +95,7 @@ const AddTechnicianForm = () => {
       
     } catch (error) { // will capture if the server is down
       setIsPending(false)
-      toast.error(`${serverResponse.status} ${serverResponse.message}`)
+      toast.error(`${error.status} ${error.message}`)
     }
   }
 
@@ -108,7 +108,7 @@ const AddTechnicianForm = () => {
     <>
 
       <div className="form-background mb-5 mx-auto">
-        <h2 className="text-center noticaText">Add a new Technician</h2>
+        <h2 className="text-center noticaText">Add a new user</h2>
         <hr />
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -193,6 +193,25 @@ const AddTechnicianForm = () => {
                     className={errors.status && dirtyFields.status ? 'form-select is-invalid' : 'form-select'}>
                     <option value={"Active"}>Active</option>
                     <option value={"Inactive"}>Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* ================= USER TYPE ====================== */}
+              <div className="mb-3 row  align-items-center">
+                <div className="col-12 col-md-3">
+                  <label className="form-label">User Type:<span className={'text-danger'}></span></label>
+                </div>
+                <div className="col-12 col-md-9">
+                  <select   {...register('user_type', {
+                    required: true,
+                    pattern: regexPatterns.alphaNumeric
+                  })}
+                    defaultValue='Active'
+                    className={errors.status && dirtyFields.status ? 'form-select is-invalid' : 'form-select'}>
+                    <option value={"TECH"}>Technician</option>
+                    <option value={"OFFICE"}>Office Admin</option>
+                    <option value={"ADMIN"}>System Admin</option>
                   </select>
                 </div>
               </div>
@@ -307,7 +326,7 @@ const AddTechnicianForm = () => {
           <div className={"text-end"}>
             <div>
               <Buttontabi type='button' buttonClass={'secondary'} title={"Clear Form"} onClick={() => reset()} />
-              <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save Technician" : "Submitting..."} disabled={!isValid} />
+              <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Save User" : "Submitting..."} disabled={!isValid} />
             </div>
           </div>
         </form>
@@ -318,7 +337,7 @@ const AddTechnicianForm = () => {
   )
 }
 
-export default AddTechnicianForm
+export default UserForm
 
 
 

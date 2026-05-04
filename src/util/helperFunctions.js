@@ -62,6 +62,82 @@ const getSelectedCustomerData = async (url, dispatch) => {
 
 }
 
+/*
+const techniciansResults = await getTechnicians(`${urls.techniciansAPI}/technicians`, dispatch);
+if (techniciansResults.status !== 200) { toast.error(`${techniciansResults.status} - ${techniciansResults.message}`) }
+*/
+const getTechnicianData = async (url, dispatch) => {
+
+    try {
+        const technicianData = await fetch(url);
+        if (!technicianData.ok) { 
+            return({status: technicianData.status, message: technicianData.statusText}) 
+        }
+        const technicianJSON = await technicianData.json();
+
+        if (technicianJSON.status === 200) {
+            dispatch(technicianActions.loadTechnicianData (technicianJSON.technicians));
+            return ({ status: 200, message: "Successfully Fetched" })
+        } else {
+            return technicianJSON;
+        }
+    } catch (error) {
+        return ({ status: error.status, message: error.message })
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Default react snippet for this function
+/*
+const contactsResults = await getContacts(`${urls.contactAPI}/${selectedCustomer.id}`, dispatch);
+if (contactsResults.status !== 200) { toast.error(`${contactsResults.status} - ${contactsResults.message}`) }
+*/
+const getContactsData = async (url, dispatch) => {
+
+    try {
+        const contactsData = await fetch(url);
+        if (!contactsData.ok) { 
+            return({status: contactsData.status, message: contactsData.statusText}) 
+        }
+        const contactsJSON = await contactsData.json();
+        console.log(contactsJSON)
+        if (contactsJSON.status === 200) {
+            dispatch(contactsActions.loadContactsData(contactsJSON.contacts));
+            return ({ status: 200, message: "Successfully Fetched" })
+        } else {
+            return contactsJSON;
+        }
+    } catch (error) {
+        return ({ status: error.status, message: error.message })
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
 // Default snippet for this function
 
 
@@ -116,4 +192,4 @@ const fancyFormat = (duration) => {
 }
 
 
-export { formatRemainingSeconds, fancyFormat, getTableData, getSelectedCustomerData }
+export { formatRemainingSeconds, fancyFormat, getTableData, getSelectedCustomerData, getContactsData, getTechnicianData }

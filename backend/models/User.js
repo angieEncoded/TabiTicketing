@@ -15,7 +15,7 @@ const User = db.define('user', {
     work_email: {type: Sequelize.STRING, allowNull: false},
     personal_email: {type: Sequelize.STRING, allowNull: true},
     status: {type: Sequelize.STRING, allowNull: false},
-    is_technician:  {type: Sequelize.STRING, allowNull: false},
+    user_type:  {type: Sequelize.STRING, allowNull: false},
     notes: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},

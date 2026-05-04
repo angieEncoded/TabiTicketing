@@ -15,7 +15,7 @@ router.get("/technicians", async (req, res, next) => {
             [Op.and]:
             [
                 {'status': "ACTIVE"},
-                {'is_technician': "TRUE"}  
+                {'user_type': "TECH"}  
             ]
         } });
 
@@ -43,14 +43,14 @@ router.post('/', validateNewUser, async (req,res,next)=> {
     const data = req.body;
 
     try {
-        results = await User.create({uuid: uuidv4(), ...data})
-        return res.json({'status': 200, 'results': results });
+        user = await User.create({uuid: uuidv4(), ...data})
+        return res.json({status: 200, message: "Successfully saved", user: user });
+
     } catch (error) {
-         return res.json({ "status": "500", "message": error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
-
 
 
 module.exports = router;

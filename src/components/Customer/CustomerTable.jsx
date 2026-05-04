@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from '../../store/SelectedCustomerSlice.js'
+import { contactsActions } from "../../store/ContactSlice.js";
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
@@ -66,7 +67,7 @@ const CustomerTable = () => {
         // let's do one query to the db and be done with it, everyone else can subscribe
         const results = await getSelectedCustomerData(`${urls.customerAPI}/${row.original.id}`, dispatch);
         if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
-         
+  
         setIsPending(false);
         setShowModal(true); // show the modal with the form
     }

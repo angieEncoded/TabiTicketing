@@ -6,6 +6,7 @@ import COLUMNS from './columns/ContactColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 
+
 const ContactDisplay = ({ recordType, id }) => {
 
     const [errorMessage, setErrorMessage] = useState("");

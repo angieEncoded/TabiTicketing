@@ -7,6 +7,7 @@ const Ticket = require("../models/Ticket");
 const Equipment = require("../models/Equipment");
 const License = require("../models/License");
 const Picture = require("../models/Picture");
+const Project = require("../models/Project");
 
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
@@ -62,14 +63,14 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 
 
 
-// grab all the data for a single customer
+// grab all the data for a single customer - REVISIT THIS QUERY TO ONLY REQUEST OPEN\ACTIVE ITEMS
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
 
         const customer = await Customer.findOne({
             where: { id: id },
-            include: [Address, Contact, Equipment, License, Picture, Ticket]
+            include: [Address, Contact, Equipment, License, Picture, Ticket, Project]
         })
 
         if (customer) {

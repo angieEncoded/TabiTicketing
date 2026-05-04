@@ -9,7 +9,7 @@ import CustomerTable from "./pages/CustomerTable";
 import Login from "./components/Authentication/Login";
 import AddCustomer from "./pages/AddCustomer"
 import History from './pages/History';
-import AddUser from './pages/AddTechnician';
+import AddUser from './pages/AddUser';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import Backup from './pages/Backup';
@@ -18,7 +18,7 @@ import TicketQueue from './pages/TicketQueue';
 import TabiCalendar from './pages/TabiCalendar';
 import Error from './pages/Error';
 import AddTicket from './pages/AddTicket';
-import AddTechnician from './pages/AddTechnician';
+import AddUSer from './pages/AddUser';
 import Technicians from './pages/Technicians';
 import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
       { path: "/", element: <CustomerTable /> },
       { path: "/customers", element: <CustomerTable />  },
       { path: "/add-customer", element: <AddCustomer /> },
-      { path: "/add-technician", element: <AddUser /> },
+      { path: "/add-user", element: <AddUser /> },
       { path: "/calendar", element: <TabiCalendar /> },
       { path: "/reports", element: <Reports /> },
       { path: "/settings", element: <Settings /> },

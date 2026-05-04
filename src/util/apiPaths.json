@@ -7,6 +7,6 @@
     "pictureAPI": "http://localhost:8080/pictures",
     "ticketAPI": "http://localhost:8080/tickets",
     "uploadsAPI": "http://localhost:8080/uploads",
-    "techniciansAPI": "http://localhost:8080/users",
+    "usersAPI": "http://localhost:8080/users",
     "projectsAPI": "http://localhost:8080/projects"
 }

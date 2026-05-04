@@ -11,6 +11,9 @@ import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { contactsActions } from "../../store/ContactSlice.js"
 import { technicianActions } from "../../store/TechnicianSlice.js";
 import { projectActions } from "../../store/ProjectSlice.js";
+import { getTechnicianData } from "../../util/helperFunctions.js";
+
+
 
 const TicketForm = ({ recordType, closeComponent }) => {
 
@@ -21,7 +24,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
     const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
-    const customerContacts = useSelector(state => state.contacts.contacts);
+    const customerContacts = useSelector(state => state.scust.customer.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
     const customerProjects = useSelector(state => state.projects.projects);
 
@@ -44,58 +47,10 @@ const TicketForm = ({ recordType, closeComponent }) => {
     // Get all the contacts attached to the current customer and load into slice
     useEffect(() => {
 
-        const getContactsData = async () => {
-            try {
-                setIsPending(true);
-                const contactsData = await fetch(`${urls.contactAPI}/${selectedCustomer.id}`);
 
-                if (!contactsData.ok){
-                    toast.error(`Error ${contactsData.status} - ${contactsData.message} `)
-                    setIsPending(false);
-                }
-
-                const contactsJson = await contactsData.json();
-     
-                // Make sure to handle the errors
-                if(contactsJson.status == 200){
-                    dispatch(contactsActions.loadContactsData(contactsJson));
-                    setIsPending(false);
-                } else {
-                  toast.error(`Error ${contactsJson.status} - ${contactsJson.message} `)
-                    setIsPending(false);
-                }
-
-            } catch (error) {
-                setIsPending(false);
-                toast.error(error.message);
-            }
-        }
-
-        const getTechniciansData = async () => {
-            try {
-                setIsPending(true);
-                const technicianData = await fetch(`${urls.techniciansAPI}/technicians`);
-
-                if (!technicianData.ok) {
-                    toast.error(`Error ${technicianData.status} - ${technicianData.message} `)
-                    setIsPending(false);
-                }
-
-                const technciansJson = await technicianData.json();
-
-                if(technciansJson.status == 200){
-                    dispatch(technicianActions.loadTechnicianData(technciansJson.technicians));
-                    setIsPending(false);
-                } else {
-                    console.log("undefined")
-                    toast.error(`Error ${technciansJson.status} - ${technciansJson.message} `)
-                    setIsPending(false);
-                }
-
-            } catch (error) {
-                setIsPending(false);
-                toast.error(error.message);
-            }
+        const getTechnicians = async () => {
+            const techniciansResults = await getTechnicianData(`${urls.techniciansAPI}/technicians`, dispatch);
+            if (techniciansResults.status !== 200) { toast.error(`${techniciansResults.status} - ${techniciansResults.message}`) }
         }
 
 
@@ -123,9 +78,8 @@ const TicketForm = ({ recordType, closeComponent }) => {
                 setIsPending(false);
             }
         }
-        // getProjectsData();
-        // getContactsData();
-        getTechniciansData();
+
+        getTechnicians();
     }, []);
 
 
@@ -287,6 +241,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
                                 pattern: regexPatterns.alphaNumeric
                             })}
                                 className={errors.contact && dirtyFields.contact ? 'form-select is-invalid' : 'form-select'}>
+                                <option value={"NO CONTACT SELECTED"} key={"NOCONTACT"}>NO CONTACT SELECTED</option>
                                 {customerContacts.map(contact => <option value={contact.id} key={contact.id}>{contact.first_name} {contact.last_name} - {contact.job_title}</option>)}
                             </select>
                         </div>
