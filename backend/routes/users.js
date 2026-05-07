@@ -8,14 +8,18 @@ const { Op } = require('sequelize');
 
 // /users
 
+
+// REVISIT THIS, SHOULD STILL JUST BE A TECHNICIAN FLAG, NEED TO RETHINK THIS DESIGN. 
+
+
 // fetch all active users who are also technicians
 router.get("/technicians", async (req, res, next) => {
     try {
         const technicians = await User.findAll({ where:{
             [Op.and]:
             [
-                {'status': "ACTIVE"},
-                {'user_type': "TECH"}  
+                {'status': "Active"},
+                {'is_technician': true}  
             ]
         } });
 
@@ -40,7 +44,8 @@ router.get("/technicians", async (req, res, next) => {
 // Add a new user
 router.post('/', validateNewUser, async (req,res,next)=> {
 
-    const data = req.body;
+    const data = req.body; 
+    console.log(data)
 
     try {
         user = await User.create({uuid: uuidv4(), ...data})

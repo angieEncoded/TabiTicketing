@@ -1,4 +1,4 @@
-const { customerSchema, addressSchema, equipmentSchema, contactSchema, licenseSchema, pictureSchema, technicianSchema, userSchema } = require("./validationSchemas");
+const { customerSchema, addressSchema, equipmentSchema, contactSchema, licenseSchema, pictureSchema, technicianSchema, userSchema, ticketSchema } = require("./validationSchemas");
 const fs = require("fs");
 
 module.exports.validateNewCustomer = (req, res, next) => {
@@ -98,6 +98,17 @@ module.exports.validateNewPicture = (req, res, next) => {
 
 module.exports.validateNewUser = (req, res, next) => {
     const { error } = userSchema.validate(req.body);
+        if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({status: 400, message: message })
+    } else {
+        next();
+    }
+}
+
+
+module.exports.validateNewTicket = (req, res, next) => {
+    const { error } = ticketSchema.validate(req.body);
         if (error) {
         const message = error.details.map((element) => element.message).join(",");
         return res.json({status: 400, message: message })

@@ -25,7 +25,7 @@ const getTableData = async (url, dispatch) => {
         }
         const customerJson = await customerData.json();
         if (customerJson.status === 200) {
-            dispatch(customersActions.loadCustomerData(customerJson.customers));
+            await dispatch(customersActions.loadCustomerData(customerJson.customers));
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
             return customerJson;
@@ -51,7 +51,7 @@ const getSelectedCustomerData = async (url, dispatch) => {
         const selectedCustomerJson = await selectedCustomerData.json();
 
         if (selectedCustomerJson.status === 200) {
-            dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson.customer));
+            await dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson.customer));
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
             return selectedCustomerJson;
@@ -74,9 +74,9 @@ const getTechnicianData = async (url, dispatch) => {
             return({status: technicianData.status, message: technicianData.statusText}) 
         }
         const technicianJSON = await technicianData.json();
-
         if (technicianJSON.status === 200) {
-            dispatch(technicianActions.loadTechnicianData (technicianJSON.technicians));
+            await dispatch(technicianActions.loadTechnicianData (technicianJSON.technicians));
+            console.log()
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
             return technicianJSON;
@@ -118,7 +118,7 @@ const getContactsData = async (url, dispatch) => {
         const contactsJSON = await contactsData.json();
         console.log(contactsJSON)
         if (contactsJSON.status === 200) {
-            dispatch(contactsActions.loadContactsData(contactsJSON.contacts));
+            await dispatch(contactsActions.loadContactsData(contactsJSON.contacts));
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
             return contactsJSON;
@@ -150,7 +150,7 @@ const getSelectedContactData = async(url, dispatch) => {
         const contactJson = await contactJson.json();
 
         if (contactJson.status === 200) {
-            dispatch(contactsActions.loadContactsData(contactJson.contacts));
+            await dispatch(contactsActions.loadContactsData(contactJson.contacts));
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
             return contactJson;

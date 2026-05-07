@@ -19,7 +19,6 @@ import TabiCalendar from './pages/TabiCalendar';
 import Error from './pages/Error';
 import AddTicket from './pages/AddTicket';
 import AddUSer from './pages/AddUser';
-import Technicians from './pages/Technicians';
 import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
 
@@ -40,7 +39,6 @@ const router = createBrowserRouter([
       { path: "/backup", element: <Backup /> },
       { path: "/queue", element: <TicketQueue /> },
       { path: "/add-ticket", element: <TicketQueue /> },
-      { path: "/technicians", element: <Technicians /> },
       { path: "/contacts", element: <Contacts /> },
       { path: "/all-tickets", element: <AllTickets /> },
       { path: "/testing", element: <Testing /> },

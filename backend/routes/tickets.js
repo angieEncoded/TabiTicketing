@@ -20,13 +20,11 @@ router.get("/", async (req, res, next) => {
                 'status': {
                     [Op.ne]: 'CLOSED'
                 }
-
         },
         include: [Technician, Contact, Customer]
     });
     res.json(tickets);
 })
-
 
 
 // fetch all active tickets for a customer
@@ -48,6 +46,26 @@ router.get("/:customerId", async (req, res, next) => {
     });
     res.json(tickets);
 })
+
+// Add a new ticket
+// LEFT OFF AT ADDING NEW TICKET IM BEAT
+router.post("/:id", async (req, res, next) => {
+
+    const data = req.body;
+    const { id } = req.params;
+
+    try {
+        
+        const ticket = await Ticket.create({uuid: uuidv4(), customerId: id, ...data});
+        return res.json({status: 200, message: "Successfully saved", customerContacts: customerContacts });
+
+    } catch (error) {
+         return res.json({ status: 500, message: error.message })
+    }
+
+})
+
+
 
 
 module.exports = router;

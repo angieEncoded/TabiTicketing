@@ -197,21 +197,22 @@ const UserForm = () => {
                 </div>
               </div>
 
-              {/* ================= USER TYPE ====================== */}
+              {/* ================= ROLE ====================== */}
               <div className="mb-3 row  align-items-center">
                 <div className="col-12 col-md-3">
-                  <label className="form-label">User Type:<span className={'text-danger'}></span></label>
+                  <label className="form-label">Role:<span className={'text-danger'}></span></label>
                 </div>
                 <div className="col-12 col-md-9">
-                  <select   {...register('user_type', {
+                  <select   {...register('role', {
                     required: true,
                     pattern: regexPatterns.alphaNumeric
                   })}
                     defaultValue='Active'
                     className={errors.status && dirtyFields.status ? 'form-select is-invalid' : 'form-select'}>
-                    <option value={"TECH"}>Technician</option>
-                    <option value={"OFFICE"}>Office Admin</option>
-                    <option value={"ADMIN"}>System Admin</option>
+                    <option value={"SUPPORT"}>Customer Support</option>
+                    <option value={"OFFICE"}>Office Administration</option>
+                    <option value={"MGMT"}>Management</option>
+                    <option value={"SYSADMIN"}>System Administration</option>
                   </select>
                 </div>
               </div>
@@ -317,6 +318,23 @@ const UserForm = () => {
                     placeholder={"Notes..."}></textarea>
                 </div>
               </div>
+
+              {/* ================= IS TECHNICIAN ====================== */}
+              <div className="mb-3 row  align-items-center">
+                <div className="col-12 col-md-3">
+                  <label className="form-check-label me-5">Technician?</label>
+                </div>
+                <div className="col-12 col-md-9">
+                  <input  type="checkbox" {...register('is_technician', {
+                    required: false,
+                  })}
+                    className={errors.is_technician && dirtyFields.is_technician ? 'form-check-input is-invalid' : 'form-check-input'}
+                    placeholder={"Personal Email Address (Optional)"} />
+
+                </div>
+              </div>
+
+
 
 
 

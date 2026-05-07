@@ -35,7 +35,7 @@ router.post('/:recordType/:id', validateNewContact, async (req,res,next)=> {
     try {
         
         if(recordType === 'customer'){ 
-            customerContacts = await Contact.create({uuid: uuidv4(), customerId: id, ...data})
+            const customerContacts = await Contact.create({uuid: uuidv4(), customerId: id, ...data})
             return res.json({status: 200, message: "Successfully saved", customerContacts: customerContacts });
         }
 

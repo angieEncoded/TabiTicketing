@@ -46,7 +46,6 @@ const NavBar = () => {
                             <Link className="nav-link" to="/queue">Ticket Queue</Link>
                             <Link className="nav-link" to="/customers">Customers</Link>
                             <Link className="nav-link" to="/contacts">Contacts</Link>
-                            <Link className="nav-link" to="/technicians">Technicians</Link>
                             <Link className="nav-link" to="/all-tickets">All Tickets</Link>
                             <Link className="nav-link" to="/testing">Testing</Link>
                         </Nav>

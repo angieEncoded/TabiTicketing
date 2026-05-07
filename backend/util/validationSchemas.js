@@ -112,7 +112,21 @@ module.exports.userSchema = Joi.object({
     work_email: Joi.string().required(),
     personal_email: Joi.string().allow(''),
     status: Joi.string().required(),
-    user_type: Joi.string().required(),
+    role: Joi.string().required(),
+    is_technician: Joi.boolean().required(),
+    notes: Joi.string().allow(''),
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})
+
+
+module.exports.ticketSchema = Joi.object({
+    title: Joi.string().required(),
+    agenda: Joi.string().allow(''),
+    status: Joi.string().required(),
+    prioirity: Joi.string().required(),
+    details: Joi.string().allow(''),
+    customer_solution: Joi.string().allow(''),
     notes: Joi.string().allow(''),
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
