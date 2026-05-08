@@ -11,7 +11,7 @@ import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { contactsActions } from "../../store/ContactSlice.js"
 import { technicianActions } from "../../store/TechnicianSlice.js";
 import { projectActions } from "../../store/ProjectSlice.js";
-import { getTechnicianData } from "../../util/helperFunctions.js";
+import { getTechnicianData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 import Loading from '../LoadingScreens/Loading.jsx'
 
 
@@ -29,7 +29,6 @@ const TicketForm = ({ recordType, closeComponent }) => {
     const customerProjects = useSelector(state => state.projects.projects);
 
     const dispatch = useDispatch();
-    console.log(technicians)
 
     // registration for the react form
     const {
@@ -89,7 +88,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
         }
     }, [formState, reset])
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (formData) => {
 
         setIsPending(true); // invoke spinner
 
@@ -99,12 +98,13 @@ const TicketForm = ({ recordType, closeComponent }) => {
             updated_by: 'SYSTEM'
         }
 
-
         try {
-
-            const results = await fetch(`${urls.ticketsAPI}`, {
+            const results = await fetch(`${urls.ticketAPI}/${selectedCustomer.id}`, {
                 method: "POST",
-                body: formData
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify(formPost)
             })
 
             // if server cannot respond
@@ -120,14 +120,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
             // Successful submit
             if (serverResponse.status == "200") {
-                toast.success(`Successfully added a new picture for ${selectedCustomer.customer_name}`);
+                toast.success(`Successfully added a new ticket for ${selectedCustomer.customer_name}`);
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const selectedCustomerData = await fetch(`${urls.customerAPI}/${selectedCustomer.id}`);
-                    if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
-                    const selectedCustomerJson = await selectedCustomerData.json();
-                    dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
+                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 }
 
                 setIsPending(false)

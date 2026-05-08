@@ -7,7 +7,7 @@ const Ticket = db.define('ticket', {
     agenda: {type: Sequelize.TEXT, allowNull: true},
     status: {type: Sequelize.STRING, allowNull: true},
     priority: {type: Sequelize.STRING, allowNull: true},
-    details: {type: Sequelize.TEXT, allowNull: true},
+    technical_details: {type: Sequelize.TEXT, allowNull: true},
     customer_solution: {type: Sequelize.TEXT, allowNull: true},
     notes: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},

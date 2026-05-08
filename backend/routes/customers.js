@@ -8,7 +8,8 @@ const Equipment = require("../models/Equipment");
 const License = require("../models/License");
 const Picture = require("../models/Picture");
 const Project = require("../models/Project");
-
+const User = require("../models/User");
+const { Op } = require('sequelize');
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
 const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
@@ -70,7 +71,11 @@ router.get("/:id", async (req, res, next) => {
 
         const customer = await Customer.findOne({
             where: { id: id },
-            include: [Address, Contact, Equipment, License, Picture, Ticket, Project]
+            include: [
+                {model: Ticket, where:{ status:  { [Op.ne]: 'CLOSED' }}, include: [User], required: false}, // required false to prevent fail in querying with empty values
+                Address, Contact, Equipment, License, Picture, Project
+            ]   
+                
         })
 
         if (customer) {

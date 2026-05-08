@@ -4,10 +4,10 @@ const Ticket = require("../models/Ticket")
 const Technician = require("../models/User");
 const Contact = require("../models/Contact");
 const Customer = require("../models/Customer");
-const {Op} = require('sequelize');
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
+const { validateNewCustomer, validateExistingCustomer, validateNewTicket } = require("../util/validationHelpers")
+const { Op } = require('sequelize');
 
 // /tickets
 
@@ -48,16 +48,19 @@ router.get("/:customerId", async (req, res, next) => {
 })
 
 // Add a new ticket
-// LEFT OFF AT ADDING NEW TICKET IM BEAT
-router.post("/:id", async (req, res, next) => {
+router.post("/:id", validateNewTicket, async (req, res, next) => {
 
     const data = req.body;
+
+    if(data.contactId === ''){
+        data.contactId = null;
+    }
     const { id } = req.params;
 
     try {
         
         const ticket = await Ticket.create({uuid: uuidv4(), customerId: id, ...data});
-        return res.json({status: 200, message: "Successfully saved", customerContacts: customerContacts });
+        return res.json({status: 200, message: "Successfully saved", ticket: ticket });
 
     } catch (error) {
          return res.json({ status: 500, message: error.message })

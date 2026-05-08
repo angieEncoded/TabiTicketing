@@ -6,6 +6,10 @@ import PictureForm from "../components/Forms/PictureForm.jsx"
 import { useEffect } from "react"
 import { useSelector,useDispatch } from 'react-redux'
 import { selectedCustomerActions } from "../store/SelectedCustomerSlice.js";
+import TicketForm from "../components/Forms/TicketForm.jsx"
+import { getSelectedCustomerData, getTechnicianData, getContactsData} from "../util/helperFunctions.js"
+import { useState } from "react"
+
 
 const closeComponent = () => {
     // console.log('yay')
@@ -13,20 +17,32 @@ const closeComponent = () => {
 
 const Testing = () => {
 
+    const [isPending, setIsPending] = useState(true)
     const urls = useSelector(state => state.urls.urls);
+    const selectedCustomer = useSelector(state => state.scust.customer);
+    const customerContacts = useSelector(state => state.scust.customer.contacts);
+    const technicians = useSelector(state => state.technicians.technicians);
+    const customerProjects = useSelector(state => state.projects.projects);
     const dispatch = useDispatch();
 
     useEffect(() => {
-    const populateACustomer = async() => {
-        const selectedCustomerData = await fetch(`${urls.customerAPI}/1`);
-        if (!selectedCustomerData.ok) throw new Error("Failed to fetch customer data. Please refresh the system.");
-        const selectedCustomerJson = await selectedCustomerData.json();
-        dispatch(selectedCustomerActions.loadCustomerData(selectedCustomerJson));
-    }
-    populateACustomer()
+        const populateACustomer = async() => {
+            const selectedCustomerData = await getSelectedCustomerData(`${urls.customerAPI}/1`, dispatch);
+            if (!selectedCustomerData.status !== 200) {toast.error(`${selectedCustomerData.status} - ${selectedCustomerData.message}`)}
+        }
+
+        const getTechnicians = async () => {
+            const techniciansResults = await getTechnicianData(`${urls.usersAPI}/technicians`, dispatch)
+            if (techniciansResults.status !== 200) {toast.error(`${techniciansResults.status} - ${techniciansResults.message}`)}
+        }
+
+        populateACustomer()
+        getTechnicians();
+        setIsPending(false);
     }, [])
     
-    
+
+
 
     
 
@@ -37,7 +53,8 @@ const Testing = () => {
        {/* <EquipmentForm /> */}
        {/* <LicenseForm recordType={'customer'} closeComponent={closeComponent}></LicenseForm> */}
        {/* <LicenseDisplay /> */}
-       <PictureForm recordType={'customer'} id={1} closeComponent={closeComponent} />
+       {/* <PictureForm recordType={'customer'} id={1} closeComponent={closeComponent} /> */}
+        <TicketForm />
        </>
           
     )

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
-import COLUMNS from './columns/TicketColumns.js'
+import COLUMNS from './columns/TicketColumns.jsx'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 

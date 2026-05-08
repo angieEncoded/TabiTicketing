@@ -66,6 +66,8 @@ const CustomerTable = () => {
 
         // let's do one query to the db and be done with it, everyone else can subscribe
         const results = await getSelectedCustomerData(`${urls.customerAPI}/${row.original.id}`, dispatch);
+        console.log(results)
+        console.log(row.original.id)
         if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
   
         setIsPending(false);
