@@ -13,7 +13,7 @@ const store = configureStore({
     reducer: {
         cust: customerSliceReducer,
         scust: selectedCustomerSliceReducer,
-        tick: ticketsSliceReducer,
+        ticket: ticketsSliceReducer,
         auth: authenticationSliceReducer,
         contacts: contactSliceReducer,
         technicians: technicianSliceReducer,

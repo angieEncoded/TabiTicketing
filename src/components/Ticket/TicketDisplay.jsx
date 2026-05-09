@@ -3,8 +3,13 @@ import Loading from '../LoadingScreens/Loading.jsx'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-import { getSelectedTicketData } from "../../util/helperFunctions.js";
+import { getSelectedTicketData } from "../../util/helperFunctions.js"
 import TicketDetails from './TicketDetails.jsx'
+import TicketTimes from './TicketTimes.jsx'
+import TicketComments from './TicketComments.jsx'
+import StartTicketTask from './StartTicketTask.jsx'
+import OpenTicketTasks from './OpenTicketTasks.jsx'
+import TicketHistory from './TicketHistory.jsx'
 
 const TicketDisplay = ({ id }) => {
 
@@ -14,15 +19,17 @@ const TicketDisplay = ({ id }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [hasError, setHasError] = useState(false);
     const [isPending, setIsPending] = useState(false);
-  
+
+    const selectedTicket = useSelector(state => state.sticket.ticket)
+    const dispatch = useDispatch();
+
     // Initially populate the data
     useEffect(() => {
         // Wrap in an async
         const getData = async () => {
             try {
                 setIsPending(true)
-                const results = await getSelectedTicketData(urls, id, dispatch); // reach out to the helper function
-                console.log(results)
+                const results = await getSelectedTicketData(id, dispatch); // reach out to the helper function
                 if (results.status === 200) {
                     setIsPending(false);
                 } else {
@@ -43,7 +50,13 @@ const TicketDisplay = ({ id }) => {
             {!isPending && hasError && <ErrorAlert error={errorMessage} />}
             {!isPending && !hasError &&
                 <>
-                   <TicketDetails />
+                    <StartTicketTask />
+                    <OpenTicketTasks />
+                    <TicketDetails />
+                    {/* <TicketComments /> */}
+                    {/* <TicketTimes /> */}
+                    {/* <TicketHistory /> */}
+
                 </>
             }
         </>

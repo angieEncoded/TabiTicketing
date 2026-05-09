@@ -26,7 +26,6 @@ const TicketForm = ({ recordType, closeComponent }) => {
     const customerContacts = useSelector(state => state.scust.customer.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
     const customerProjects = useSelector(state => state.projects.projects);
-    const testing = useSelector(state => state.tab)
 
     const dispatch = useDispatch();
 
@@ -46,7 +45,8 @@ const TicketForm = ({ recordType, closeComponent }) => {
     useEffect(() => {
 
         const getTechnicians = async () => {
-            const techniciansResults = await getTechnicianData(`${urls.usersAPI}/technicians`, dispatch)
+            const techniciansResults = await getTechnicianData(dispatch);
+            console.log(techniciansResults)
             if (techniciansResults.status !== 200) {toast.error(`${techniciansResults.status} - ${techniciansResults.message}`)}
             setIsPending(false)
         }
@@ -126,12 +126,6 @@ const TicketForm = ({ recordType, closeComponent }) => {
                 if (recordType === 'customer') {
                     const custResults = await getSelectedCustomerData(selectedCustomer, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
-
-                    console.log("got here")
-                    // Invoke the new tab
-                    await dispatch(tabActions.loadTabData({currentTab: "TICKET", ticketId: serverResponse.id }))
-                    console.log(testing)
-
                 }
 
                 setIsPending(false)

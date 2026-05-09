@@ -11,6 +11,7 @@ const Ticket = db.define('ticket', {
     customer_solution: {type: Sequelize.TEXT, allowNull: true},
     ticket_time: {type: Sequelize.INTEGER, allowNull: true},
     notes: {type: Sequelize.TEXT, allowNull: true},
+    tags: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
     uuid: {type: Sequelize.UUID, allowNull: false},

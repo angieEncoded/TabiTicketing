@@ -136,7 +136,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
                             </div>
                         </div>
 
-                        {/* ================= STREET 2 ====================== */}
+                        {/* ================= STREET 1 ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
                                 <label className="form-label">Street Address 1</label>
@@ -146,7 +146,7 @@ const AddressForm = ({ recordType, closeComponent }) => {
                             </div>
                         </div>
 
-                        {/* ================= STREET 1 ====================== */}
+                        {/* ================= STREET 2 ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
                                 <label className="form-label">Street Address 2</label>

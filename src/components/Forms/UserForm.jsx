@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import LargeModal from '../Modal/LargeModal';
 import CustomerDisplay from "../Customer/CustomerDisplay";
 import { technicianActions } from "../../store/TechnicianSlice";
+import urls from "../../util/apiPaths.json";
 
 const UserForm = () => {
 
@@ -15,7 +16,6 @@ const UserForm = () => {
   const [isPending, setIsPending] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const urls = useSelector(state => state.urls.urls);
 
   const dispatch = useDispatch();
 

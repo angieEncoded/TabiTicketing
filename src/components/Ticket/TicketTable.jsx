@@ -7,7 +7,7 @@ import LargeModal from "../Modal/LargeModal.jsx"
 import COLUMNS from './TicketColumns.js';
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-
+import urls from "../../util/apiPaths.json";
 
 const TicketTable = () => {
 
@@ -19,8 +19,7 @@ const TicketTable = () => {
 
 
     // Grab items from the slices
-    const urls = useSelector(state => state.urls.urls);
-    const ticketsForTable = useSelector(state => state.tick.tickets);
+    const ticketsForTable = useSelector(state => state.ticket.tickets);
 
     const dispatch = useDispatch();
 

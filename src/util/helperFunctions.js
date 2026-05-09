@@ -6,18 +6,11 @@ import { selectedCustomerActions } from "../store/SelectedCustomerSlice";
 import { selectedTicketActions } from "../store/SelectedTicketSlice";
 import urls from "../util/apiPaths.json";
 
-// Import all the dispatcher actions
-
-// Send in the url and the dispatcher for all these functions
+// Send in dispatcher for all these functions
 //================================================================
 
-// default react snippet for this function
-/*
-// Refresh the background table
-const tableResults = await getTableData(dispatch);
-if (tableResults.status !== 200) { toast.error(`${tableResults.status} - ${tableResults.message}`) }
-*/
-
+// const tableResults = await getTableData(dispatch);
+// if (tableResults.status !== 200) { toast.error(`${tableResults.status} - ${tableResults.message}`) }
 const getCustomerTableData = async (dispatch) => {
 
     try {
@@ -37,12 +30,8 @@ const getCustomerTableData = async (dispatch) => {
     }
 }
 
-
-// Default react snippet for this function
-/*
-const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
-if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
-*/
+// const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
+// if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
 const getSelectedCustomerData = async (id, dispatch) => {
     try {
         const selectedCustomerData = await fetch(`${urls.customerAPI}/${id}`);
@@ -63,14 +52,12 @@ const getSelectedCustomerData = async (id, dispatch) => {
 
 }
 
-
 // const techniciansResults = await getTechnicians(dispatch);
 // if (techniciansResults.status !== 200) { toast.error(`${techniciansResults.status} - ${techniciansResults.message}`) }
-
 const getTechnicianData = async (dispatch) => {
 
     try {
-        const technicianData = await fetch(url);
+        const technicianData = await fetch(`${urls.usersAPI}/technicians`);
         if (!technicianData.ok) { 
             return({status: technicianData.status, message: technicianData.statusText}) 
         }
@@ -88,13 +75,8 @@ const getTechnicianData = async (dispatch) => {
 
 }
 
-
-// Default react snippet for this function
-
-
-// const contactsResults = await getContacts(urls, selectedCustomer.id, dispatch);
+// const contactsResults = await getContacts(selectedCustomer.id, dispatch);
 // if (contactsResults.status !== 200) { toast.error(`${contactsResults.status} - ${contactsResults.message}`) }
-
 const getContactsData = async (customerId, dispatch) => {
 
     try {
@@ -116,18 +98,7 @@ const getContactsData = async (customerId, dispatch) => {
 
 }
 
-
-
-
-
-
-
-
-
-
 // Default snippet for this function
-
-
 const getSelectedContactData = async(dispatch) => {
     try {
         const contactData = await fetch(url);
@@ -147,14 +118,8 @@ const getSelectedContactData = async(dispatch) => {
     }
 }
 
-
-
-
-// Default react snippet for this function
-/*
-const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
-if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
-*/
+// const selectedTicketResults = await getSelectedTicketData(selectedTicket.id, dispatch);
+// if (selectedTicketResults.status !== 200) { toast.error(`${selectedTicketResults.status} - ${selectedTicketResults.message}`) }
 const getSelectedTicketData = async (id, dispatch) => {
     try {
         const selectedTicketData = await fetch(`${urls.ticketAPI}/${id}`);
@@ -162,7 +127,7 @@ const getSelectedTicketData = async (id, dispatch) => {
             return({status: selectedTicketData.status, message: selectedTicketData.statusText}) 
         }
         const selectedTicketJson = await selectedTicketData.json();
-        console.log(selectedTicketJson)
+   
         if (selectedTicketJson.status === 200) {
             await dispatch(selectedTicketActions.loadTicketData(selectedTicketJson.ticket));
             return ({ status: 200, message: "Successfully Fetched" })
@@ -172,10 +137,7 @@ const getSelectedTicketData = async (id, dispatch) => {
     } catch (error) {
         return ({ status: error.status, message: error.message })
     }
-
 }
-
-
 
 //================================================================
 // END Send in the url and the dispatcher for all these functions
