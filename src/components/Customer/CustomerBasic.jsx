@@ -13,8 +13,6 @@ const CustomerBasic = ({ id }) => {
     const [selectedCustomerData, setSelectedCustomerData] = useState({});
     const [clipboard, setClipboard] = useState(false);
     
-
-    const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer)
 
     // handle these two timers with a reference

@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 import Carousel from 'react-bootstrap/Carousel';
-import CarouselImage from './CarouselImage.jsx'
+import CarouselImage from './CarouselImage.jsx';
+import urls from "../../util/apiPaths.json";
 
 const PicturesCarousel = ({recordType, id}) => {
 
@@ -13,7 +14,6 @@ const PicturesCarousel = ({recordType, id}) => {
     const [hasError, setHasError] = useState(false);
 
     // Grab items from the slices
-    const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
 
     const openPicture = async (url) => {

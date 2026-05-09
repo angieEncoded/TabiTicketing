@@ -24,7 +24,6 @@ const CustomerTable = () => {
     const [showModal, setShowModal] = useState(false);
 
     // Grab items from the slices
-    const urls = useSelector(state => state.urls.urls);
     const customersForTable = useSelector(state => state.cust.customers);
     const selectedCustomerForModal = useSelector(state => state.scust.customer);
 
@@ -46,7 +45,7 @@ const CustomerTable = () => {
         const getData = async() => {
             try {
                 setIsPending(true)
-                const results = await getCustomerTableData(urls, dispatch); // reach out to the helper function
+                const results = await getCustomerTableData(dispatch); // reach out to the helper function
                 if(results.status === 200){
                     setIsPending(false);
                 } else {
@@ -67,7 +66,7 @@ const CustomerTable = () => {
         setIsPending(true);
 
         // let's do one query to the db and be done with it, everyone else can subscribe
-        const results = await getSelectedCustomerData(urls, row.original.id, dispatch);
+        const results = await getSelectedCustomerData(row.original.id, dispatch);
         if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
   
         setIsPending(false);

@@ -14,7 +14,7 @@ import { projectActions } from "../../store/ProjectSlice.js";
 import { getTechnicianData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 import Loading from '../LoadingScreens/Loading.jsx'
 import {tabActions} from "../../store/TabDisplaySlice.js";
-
+import urls from "../../util/apiPaths.json";
 
 const TicketForm = ({ recordType, closeComponent }) => {
 
@@ -22,8 +22,6 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
     const [isPending, setIsPending] = useState(true); // make sure component doesnt render before the use effect is done...
 
-
-    const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
     const customerContacts = useSelector(state => state.scust.customer.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
@@ -126,7 +124,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const custResults = await getSelectedCustomerData(urls, selectedCustomer, dispatch);
+                    const custResults = await getSelectedCustomerData(selectedCustomer, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
 
                     console.log("got here")

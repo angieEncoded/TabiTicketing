@@ -4,7 +4,7 @@ import { technicianActions } from "../store/TechnicianSlice";
 import { ticketsActions } from "../store/TicketSlice";
 import { selectedCustomerActions } from "../store/SelectedCustomerSlice";
 import { selectedTicketActions } from "../store/SelectedTicketSlice";
-
+import urls from "../util/apiPaths.json";
 
 // Import all the dispatcher actions
 
@@ -14,11 +14,12 @@ import { selectedTicketActions } from "../store/SelectedTicketSlice";
 // default react snippet for this function
 /*
 // Refresh the background table
-const tableResults = await getTableData(urls, dispatch);
+const tableResults = await getTableData(dispatch);
 if (tableResults.status !== 200) { toast.error(`${tableResults.status} - ${tableResults.message}`) }
 */
 
-const getCustomerTableData = async (urls, dispatch) => {
+const getCustomerTableData = async (dispatch) => {
+
     try {
         const customerData = await fetch(urls.customerAPI);
         if (!customerData.ok) { 
@@ -39,10 +40,10 @@ const getCustomerTableData = async (urls, dispatch) => {
 
 // Default react snippet for this function
 /*
-const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
+const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
 if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
 */
-const getSelectedCustomerData = async (urls, id, dispatch) => {
+const getSelectedCustomerData = async (id, dispatch) => {
     try {
         const selectedCustomerData = await fetch(`${urls.customerAPI}/${id}`);
         if (!selectedCustomerData.ok) { 
@@ -62,11 +63,11 @@ const getSelectedCustomerData = async (urls, id, dispatch) => {
 
 }
 
-/*
-const techniciansResults = await getTechnicians(urls, dispatch);
-if (techniciansResults.status !== 200) { toast.error(`${techniciansResults.status} - ${techniciansResults.message}`) }
-*/
-const getTechnicianData = async (urls, dispatch) => {
+
+// const techniciansResults = await getTechnicians(dispatch);
+// if (techniciansResults.status !== 200) { toast.error(`${techniciansResults.status} - ${techniciansResults.message}`) }
+
+const getTechnicianData = async (dispatch) => {
 
     try {
         const technicianData = await fetch(url);
@@ -89,11 +90,12 @@ const getTechnicianData = async (urls, dispatch) => {
 
 
 // Default react snippet for this function
-/*
-const contactsResults = await getContacts(urls, selectedCustomer.id, dispatch);
-if (contactsResults.status !== 200) { toast.error(`${contactsResults.status} - ${contactsResults.message}`) }
-*/
-const getContactsData = async (urls, customerId, dispatch) => {
+
+
+// const contactsResults = await getContacts(urls, selectedCustomer.id, dispatch);
+// if (contactsResults.status !== 200) { toast.error(`${contactsResults.status} - ${contactsResults.message}`) }
+
+const getContactsData = async (customerId, dispatch) => {
 
     try {
         const contactsData = await fetch(`${urls.contactAPI}/${customerId}`);
@@ -126,7 +128,7 @@ const getContactsData = async (urls, customerId, dispatch) => {
 // Default snippet for this function
 
 
-const getSelectedContactData = async(urls, dispatch) => {
+const getSelectedContactData = async(dispatch) => {
     try {
         const contactData = await fetch(url);
         if (!contactData.ok) { 
@@ -150,17 +152,17 @@ const getSelectedContactData = async(urls, dispatch) => {
 
 // Default react snippet for this function
 /*
-const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
+const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
 if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
 */
-const getSelectedTicketData = async (urls, id, dispatch) => {
+const getSelectedTicketData = async (id, dispatch) => {
     try {
         const selectedTicketData = await fetch(`${urls.ticketAPI}/${id}`);
         if (!selectedTicketData.ok) { 
             return({status: selectedTicketData.status, message: selectedTicketData.statusText}) 
         }
         const selectedTicketJson = await selectedTicketData.json();
-
+        console.log(selectedTicketJson)
         if (selectedTicketJson.status === 200) {
             await dispatch(selectedTicketActions.loadTicketData(selectedTicketJson.ticket));
             return ({ status: 200, message: "Successfully Fetched" })

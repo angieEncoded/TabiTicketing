@@ -14,7 +14,6 @@ const EquipmentTable = ({ recordType, id }) => {
 
 
     // Grab items from the slices
-    const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
 
     // !!! TODO - add default sorting 

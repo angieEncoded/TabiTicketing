@@ -11,7 +11,6 @@ const AddressDisplay = ({ recordType, id  }) => {
   const [hasError, setHasError] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  const urls = useSelector(state => state.urls.urls);
   const selectedCustomer = useSelector(state => state.scust.customer);
 
   const editField = (fieldData) => {

@@ -9,11 +9,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { getCustomerTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
+import urls from "../../util/apiPaths.json";
 
 const PictureForm = ({ recordType, closeComponent }) => {
 
     const [isPending, setIsPending] = useState(false);
-    const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
     const dispatch = useDispatch();
 
@@ -78,7 +78,7 @@ const PictureForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
+                    const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 }
 

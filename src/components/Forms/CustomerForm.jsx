@@ -8,13 +8,12 @@ import LargeModal from '../Modal/LargeModal';
 import CustomerDisplay from "../Customer/CustomerDisplay";
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { getSelectedCustomerData } from "../../util/helperFunctions.js";
-
+import urls from "../../util/apiPaths.json";
 const CustomerForm = () => {
 
     const [isPending, setIsPending] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
-    const urls = useSelector(state => state.urls.urls);
     const selectedCustomer = useSelector(state => state.scust.customer);
 
     const dispatch = useDispatch();
@@ -84,7 +83,7 @@ const CustomerForm = () => {
             if (serverResponse.status == "200") {
                 toast.success(`Successfully added ${serverResponse.results.customer_name}`);
                 
-                const results = await getSelectedCustomerData(urls, serverResponse.results.id, dispatch);
+                const results = await getSelectedCustomerData(serverResponse.results.id, dispatch);
                 if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
 
                 setIsPending(false);
