@@ -84,7 +84,7 @@ const CustomerForm = () => {
             if (serverResponse.status == "200") {
                 toast.success(`Successfully added ${serverResponse.results.customer_name}`);
                 
-                const results = await getSelectedCustomerData(`${urls.customerAPI}/${serverResponse.results.id}`, dispatch);
+                const results = await getSelectedCustomerData(urls, serverResponse.results.id, dispatch);
                 if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
 
                 setIsPending(false);

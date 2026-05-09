@@ -8,10 +8,13 @@ import Loading from '../LoadingScreens/Loading.jsx'
 import LargeModal from "../Modal/LargeModal.jsx"
 import COLUMNS from './columns/CustomerColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
-import CustomerDisplay from './CustomerDisplay.jsx'
+// import CustomerDisplay from './CustomerDisplay.jsx'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-import { getTableData } from "../../util/helperFunctions.js";
+import{ getCustomerTableData } from "../../util/helperFunctions.js";
 import {getSelectedCustomerData} from "../../util/helperFunctions.js"
+import CustomerDisplay from '../../pages/CustomerDisplay.jsx';
+
+
 
 const CustomerTable = () => {
 
@@ -24,7 +27,6 @@ const CustomerTable = () => {
     const urls = useSelector(state => state.urls.urls);
     const customersForTable = useSelector(state => state.cust.customers);
     const selectedCustomerForModal = useSelector(state => state.scust.customer);
-    // console.log(selectedCustomerForModal)
 
     const dispatch = useDispatch();
 
@@ -44,7 +46,7 @@ const CustomerTable = () => {
         const getData = async() => {
             try {
                 setIsPending(true)
-                const results = await getTableData(urls.customerAPI, dispatch); // reach out to the helper function
+                const results = await getCustomerTableData(urls, dispatch); // reach out to the helper function
                 if(results.status === 200){
                     setIsPending(false);
                 } else {
@@ -65,9 +67,7 @@ const CustomerTable = () => {
         setIsPending(true);
 
         // let's do one query to the db and be done with it, everyone else can subscribe
-        const results = await getSelectedCustomerData(`${urls.customerAPI}/${row.original.id}`, dispatch);
-        console.log(results)
-        console.log(row.original.id)
+        const results = await getSelectedCustomerData(urls, row.original.id, dispatch);
         if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
   
         setIsPending(false);

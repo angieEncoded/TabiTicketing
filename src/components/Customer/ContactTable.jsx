@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
-import COLUMNS from './columns/EquipmentColumns.js'
+import COLUMNS from './columns/ContactColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 
-const EquipmentDisplay = ({ recordType, id }) => {
+
+const ContactTable = ({ recordType, id }) => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
-
 
     // Grab items from the slices
     const urls = useSelector(state => state.urls.urls);
@@ -19,7 +19,7 @@ const EquipmentDisplay = ({ recordType, id }) => {
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: selectedCustomer.equipment,
+        data: selectedCustomer.contacts,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -32,10 +32,12 @@ const EquipmentDisplay = ({ recordType, id }) => {
         }
     })
 
-
     const handleRowClick = async (row) => {
         toast.info(`Do something with the row :${row.original.id}`)
     }
+
+
+
 
     return (
         <>
@@ -46,11 +48,11 @@ const EquipmentDisplay = ({ recordType, id }) => {
 
                 <>
                     <hr></hr>
-                    <h5 className="text-center baskerville-font mb-3">Equipment</h5>
+                    <h5 className="text-center baskerville-font mb-3">Contacts</h5>
 
-                    {selectedCustomer.equipment && selectedCustomer.equipment.length < 1 && <p className="text-center">No Equipment recorded for this customer.</p>}
+                    {selectedCustomer.contacts && selectedCustomer.contacts.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
 
-                    {selectedCustomer.equipment && selectedCustomer.equipment.length >= 1 &&
+                    {selectedCustomer.contacts && selectedCustomer.contacts.length >= 1 &&
                         <>
 
                             <div className="row mb-3 g-3">
@@ -127,7 +129,10 @@ const EquipmentDisplay = ({ recordType, id }) => {
 
         </>
 
+
+
     )
 }
 
-export default EquipmentDisplay
+export default ContactTable
+

@@ -7,6 +7,8 @@ import ticketsSliceReducer from "./TicketSlice";
 import contactSliceReducer from "./ContactSlice";
 import technicianSliceReducer from "./TechnicianSlice";
 import projectSliceReducer from "./ProjectSlice";
+import tabSliceReducer from "./TabDisplaySlice";
+import selectedTicketSliceReducer from "./SelectedTicketSlice";
 
 const store = configureStore({
     reducer: {
@@ -17,7 +19,9 @@ const store = configureStore({
         urls: urlSliceReducer,
         contacts: contactSliceReducer,
         technicians: technicianSliceReducer,
-        projects: projectSliceReducer
+        projects: projectSliceReducer,
+        tab: tabSliceReducer,
+        sticket: selectedTicketSliceReducer
     }
 })
 

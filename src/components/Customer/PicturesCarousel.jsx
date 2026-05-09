@@ -6,7 +6,7 @@ import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 import Carousel from 'react-bootstrap/Carousel';
 import CarouselImage from './CarouselImage.jsx'
 
-const PicturesDisplay = ({recordType, id}) => {
+const PicturesCarousel = ({recordType, id}) => {
 
   const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
@@ -62,7 +62,7 @@ const PicturesDisplay = ({recordType, id}) => {
   )
 }
 
-export default PicturesDisplay
+export default PicturesCarousel
 
 
 

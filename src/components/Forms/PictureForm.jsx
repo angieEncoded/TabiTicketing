@@ -8,7 +8,7 @@ import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-import { getTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
+import { getCustomerTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 
 const PictureForm = ({ recordType, closeComponent }) => {
 
@@ -78,7 +78,7 @@ const PictureForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 }
 

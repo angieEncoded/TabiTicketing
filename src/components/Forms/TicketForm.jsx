@@ -13,6 +13,7 @@ import { technicianActions } from "../../store/TechnicianSlice.js";
 import { projectActions } from "../../store/ProjectSlice.js";
 import { getTechnicianData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 import Loading from '../LoadingScreens/Loading.jsx'
+import {tabActions} from "../../store/TabDisplaySlice.js";
 
 
 const TicketForm = ({ recordType, closeComponent }) => {
@@ -27,6 +28,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
     const customerContacts = useSelector(state => state.scust.customer.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
     const customerProjects = useSelector(state => state.projects.projects);
+    const testing = useSelector(state => state.tab)
 
     const dispatch = useDispatch();
 
@@ -124,8 +126,14 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    const custResults = await getSelectedCustomerData(urls, selectedCustomer, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
+
+                    console.log("got here")
+                    // Invoke the new tab
+                    await dispatch(tabActions.loadTabData({currentTab: "TICKET", ticketId: serverResponse.id }))
+                    console.log(testing)
+
                 }
 
                 setIsPending(false)

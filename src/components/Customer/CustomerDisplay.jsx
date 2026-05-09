@@ -1,24 +1,25 @@
 import CustomerButtons from './CustomerButtons.jsx'
 import CustomerBasic from './CustomerBasic.jsx'
 import AddressDisplay from './AddressDisplay.jsx'
-import ContactDisplay from './ContactDisplay.jsx'
-import EquipmentDisplay from './EquipmentDisplay.jsx'
-import LicenseDisplay from './LicenseDisplay.jsx'
-import PicturesDisplay from './PicturesDisplay.jsx'
-import TicketDisplay from './TicketDisplay.jsx'
+import ContactTable from './ContactTable.jsx'
+import EquipmentTable from './EquipmentTable.jsx'
+import LicenseTable from './LicenseTable.jsx'
+import PicturesCarousel from './PicturesCarousel.jsx'
+import TicketTable from './TicketTable.jsx'
 
 const CustomerDisplay = ({ recordType, id, recordName }) => {
 
+
   return (
     <>
-          <CustomerButtons  recordType={recordType} id={id} recordName={recordName}/>
-          <CustomerBasic    recordType={recordType} id={id}/>
-          <AddressDisplay   recordType={recordType} id={id}/>
-          <ContactDisplay   recordType={recordType} id={id}/>
-          <TicketDisplay    recordType={recordType} id={id}/>
-          <EquipmentDisplay recordType={recordType} id={id}/>
-          <LicenseDisplay   recordType={recordType} id={id}/>
-          <PicturesDisplay  recordType={recordType} id={id}/>
+      <CustomerButtons recordType={recordType} id={id} recordName={recordName} />
+      <CustomerBasic recordType={recordType} id={id} />
+      <AddressDisplay recordType={recordType} id={id} />
+      <ContactTable recordType={recordType} id={id} />
+      <TicketTable recordType={recordType} id={id} />
+      <EquipmentTable recordType={recordType} id={id} />
+      <LicenseTable recordType={recordType} id={id} />
+      <PicturesCarousel recordType={recordType} id={id} />
     </>
   )
 }

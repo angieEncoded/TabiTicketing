@@ -6,7 +6,7 @@ import COLUMNS from './columns/LicenseColumns.jsx'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel, createColumnHelper } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 
-const LicenseDisplay = ({ recordType, id }) => {
+const LicenseTable = ({ recordType, id }) => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
@@ -134,6 +134,6 @@ const LicenseDisplay = ({ recordType, id }) => {
     )
 }
 
-export default LicenseDisplay
+export default LicenseTable
 
 

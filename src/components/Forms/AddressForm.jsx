@@ -8,7 +8,7 @@ import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-import { getTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
+import { getCustomerTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 
 // need the id and the type for successful post to the correct endpoint
 // can post to a contact, a customer, or a technician. 
@@ -85,12 +85,12 @@ const AddressForm = ({ recordType, closeComponent }) => {
                 toast.success(`Successfully added new address for ${selectedCustomer.customer_name}`);
              
                 // Refresh the background table
-                const tableResults = await getTableData(`${urls.customerAPI}`, dispatch);
+                const tableResults = await getCustomerTableData(urls, dispatch);
                 if (tableResults.status !== 200) { toast.error(`${tableResults.status} - ${tableResults.message}`) }
 
                 // Refresh the selected customer as well if customer
                 if(recordType === 'customer'){
-                    const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+                    const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 } 
 

@@ -3,6 +3,8 @@ import { contactsActions } from "../store/ContactSlice";
 import { technicianActions } from "../store/TechnicianSlice";
 import { ticketsActions } from "../store/TicketSlice";
 import { selectedCustomerActions } from "../store/SelectedCustomerSlice";
+import { selectedTicketActions } from "../store/SelectedTicketSlice";
+
 
 // Import all the dispatcher actions
 
@@ -12,14 +14,13 @@ import { selectedCustomerActions } from "../store/SelectedCustomerSlice";
 // default react snippet for this function
 /*
 // Refresh the background table
-const tableResults = await getTableData(`${urls.customerAPI}`, dispatch);
+const tableResults = await getTableData(urls, dispatch);
 if (tableResults.status !== 200) { toast.error(`${tableResults.status} - ${tableResults.message}`) }
 */
 
-const getTableData = async (url, dispatch) => {
-
+const getCustomerTableData = async (urls, dispatch) => {
     try {
-        const customerData = await fetch(url);
+        const customerData = await fetch(urls.customerAPI);
         if (!customerData.ok) { 
             return({status: customerData.status, message: customerData.statusText}) 
         }
@@ -38,13 +39,12 @@ const getTableData = async (url, dispatch) => {
 
 // Default react snippet for this function
 /*
-const custResults = await getSelectedCustomerData(`${urls.customerAPI}/${selectedCustomer.id}`, dispatch);
+const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
 if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
 */
-const getSelectedCustomerData = async (url, dispatch) => {
-
+const getSelectedCustomerData = async (urls, id, dispatch) => {
     try {
-        const selectedCustomerData = await fetch(url);
+        const selectedCustomerData = await fetch(`${urls.customerAPI}/${id}`);
         if (!selectedCustomerData.ok) { 
             return({status: selectedCustomerData.status, message: selectedCustomerData.statusText}) 
         }
@@ -63,10 +63,10 @@ const getSelectedCustomerData = async (url, dispatch) => {
 }
 
 /*
-const techniciansResults = await getTechnicians(`${urls.techniciansAPI}/technicians`, dispatch);
+const techniciansResults = await getTechnicians(urls, dispatch);
 if (techniciansResults.status !== 200) { toast.error(`${techniciansResults.status} - ${techniciansResults.message}`) }
 */
-const getTechnicianData = async (url, dispatch) => {
+const getTechnicianData = async (urls, dispatch) => {
 
     try {
         const technicianData = await fetch(url);
@@ -88,30 +88,15 @@ const getTechnicianData = async (url, dispatch) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Default react snippet for this function
 /*
-const contactsResults = await getContacts(`${urls.contactAPI}/${selectedCustomer.id}`, dispatch);
+const contactsResults = await getContacts(urls, selectedCustomer.id, dispatch);
 if (contactsResults.status !== 200) { toast.error(`${contactsResults.status} - ${contactsResults.message}`) }
 */
-const getContactsData = async (url, dispatch) => {
+const getContactsData = async (urls, customerId, dispatch) => {
 
     try {
-        const contactsData = await fetch(url);
+        const contactsData = await fetch(`${urls.contactAPI}/${customerId}`);
         if (!contactsData.ok) { 
             return({status: contactsData.status, message: contactsData.statusText}) 
         }
@@ -141,7 +126,7 @@ const getContactsData = async (url, dispatch) => {
 // Default snippet for this function
 
 
-const getSelectedContactData = async(url, dispatch) => {
+const getSelectedContactData = async(urls, dispatch) => {
     try {
         const contactData = await fetch(url);
         if (!contactData.ok) { 
@@ -159,6 +144,35 @@ const getSelectedContactData = async(url, dispatch) => {
         return ({ status: error.status, message: error.message })
     }
 }
+
+
+
+
+// Default react snippet for this function
+/*
+const custResults = await getSelectedCustomerData(urls, selectedCustomer.id, dispatch);
+if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
+*/
+const getSelectedTicketData = async (urls, id, dispatch) => {
+    try {
+        const selectedTicketData = await fetch(`${urls.ticketAPI}/${id}`);
+        if (!selectedTicketData.ok) { 
+            return({status: selectedTicketData.status, message: selectedTicketData.statusText}) 
+        }
+        const selectedTicketJson = await selectedTicketData.json();
+
+        if (selectedTicketJson.status === 200) {
+            await dispatch(selectedTicketActions.loadTicketData(selectedTicketJson.ticket));
+            return ({ status: 200, message: "Successfully Fetched" })
+        } else {
+            return selectedTicketJson;
+        }
+    } catch (error) {
+        return ({ status: error.status, message: error.message })
+    }
+
+}
+
 
 
 //================================================================
@@ -192,4 +206,4 @@ const fancyFormat = (duration) => {
 }
 
 
-export { formatRemainingSeconds, fancyFormat, getTableData, getSelectedCustomerData, getContactsData, getTechnicianData }
+export { formatRemainingSeconds, fancyFormat, getCustomerTableData, getSelectedCustomerData, getContactsData, getTechnicianData, getSelectedTicketData }
