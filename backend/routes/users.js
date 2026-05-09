@@ -9,9 +9,6 @@ const { Op } = require('sequelize');
 // /users
 
 
-// REVISIT THIS, SHOULD STILL JUST BE A TECHNICIAN FLAG, NEED TO RETHINK THIS DESIGN. 
-
-
 // fetch all active users who are also technicians
 router.get("/technicians", async (req, res, next) => {
     try {

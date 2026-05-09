@@ -6,7 +6,7 @@ const Contact = require("../models/Contact");
 const Customer = require("../models/Customer");
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, validateExistingCustomer, validateNewTicket } = require("../util/validationHelpers")
+const { validateNewCustomer, validateExistingCustomer, validateNewTicket, validateStartTicketTask } = require("../util/validationHelpers")
 const { Op } = require('sequelize');
 const TicketComment = require("../models/TicketComment");
 const TicketTime = require("../models/TicketTime");
@@ -31,7 +31,7 @@ router.get("/", async (req, res, next) => {
     res.json(tickets);
 })
 
-
+// Fetch single ticket
 router.get("/:id", async (req ,res ,next) => {
     const {id} = req.params;
 
@@ -41,7 +41,6 @@ router.get("/:id", async (req ,res ,next) => {
             include: [ Customer, Contact, User, Project, TicketComment, TicketHistory, TicketTime]         
         })
 
-        console.log(ticket)
         if (ticket) {
             return res.json({ status: 200, message: "Successfully Fetched", ticket: ticket.dataValues})
         }
@@ -55,8 +54,7 @@ router.get("/:id", async (req ,res ,next) => {
 })
 
 
-
-// Add a new ticket
+// Add a new ticket for a customer
 router.post("/:id", validateNewTicket, async (req, res, next) => {
 
     const data = req.body;
@@ -72,6 +70,35 @@ router.post("/:id", validateNewTicket, async (req, res, next) => {
         return res.json({status: 200, message: "Successfully saved", ticket: ticket });
 
     } catch (error) {
+         return res.json({ status: 500, message: error.message })
+    }
+
+})
+
+// Add a new ticket time for a ticket
+router.post("/startTicketTask/:id", validateStartTicketTask, async(req, res, next) => {
+
+    const data = req.body;
+    const { id } = req.params;
+
+    if(data.contactId === ''){
+        data.contactId = null;
+    }
+
+    const now = new Date();
+    console.log(now)
+
+    try {
+        const ticketTime = await TicketTime.create({
+            uuid: uuidv4(), 
+            ...data,
+            start_time: now, 
+            ticketId : id,
+        });
+        return res.json({status: 200, message: "Successfully saved start task.", ticketTime: ticketTime });
+
+    } catch (error) {
+                console.log(error)
          return res.json({ status: 500, message: error.message })
     }
 

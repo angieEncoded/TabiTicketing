@@ -133,3 +133,13 @@ module.exports.ticketSchema = Joi.object({
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 })
+
+
+module.exports.startTicketTaskSchema = Joi.object({
+    start_task_name: Joi.string().required(),
+    contactId: Joi.number().allow(null),
+    customerId: Joi.number().required(),
+    userId: Joi.number().required(),
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})

@@ -26,7 +26,7 @@ const Picture = require('./models/Picture');
 const Project = require('./models/Project');
 const OnSiteVisit = require("./models/OnSiteVisit");
 
-// Association the customer's
+// A contact belongs to a customer
 Contact.belongsTo(Customer, { constraints: true, onDelete: 'NO ACTION' }); // A single contact belongs to a single customer
 Customer.hasMany(Contact); // set up the inverse relation 
 
@@ -48,7 +48,7 @@ Contact.hasMany(Equipment);
 User.hasMany(Equipment);
 Ticket.hasMany(Equipment);
 
-// A ticket references a customer, a user, and a User. History will be captured in a separate table
+// A ticket references a customer, a user, and a contact. History will be captured in a separate table
 Ticket.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one customer, one issue
 Ticket.belongsTo(Contact, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one contact, one issue
 Ticket.belongsTo(User, {constraints: true, onDelete: 'NO ACTION'}); // only one owning tech at time of close
@@ -60,11 +60,28 @@ Project.hasMany(Ticket);
 
 // a Ticket comment belongs to only one ticket
 TicketComment.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'});
+TicketComment.belongsTo(User, {constraints: true, onDelete: 'NO ACTION'});
 Ticket.hasMany(TicketComment);
+User.hasMany(TicketComment);
 
-// A ticket time belongs to only one ticket 
+// A ticket time belongs to a ticket and a user
 TicketTime.belongsTo(Ticket, {constraints: true, onDelete:'NO ACTION'});
+TicketTime.belongsTo(User, {constraints: true, onDelete:'NO ACTION'});
 Ticket.hasMany(TicketTime);
+User.hasMany(TicketTime)
+
+// Ticket History belongs to a ticket and a user
+TicketHistory.belongsTo(Ticket, {constraints: true, onDelete:'NO ACTION'});
+TicketHistory.belongsTo(User, {constraints: true, onDelete:'NO ACTION'});
+Ticket.hasMany(TicketHistory);
+User.hasMany(TicketHistory);
+
+// A project belongs to a customer or a user
+Project.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
+Project.belongsTo(User, {constraints: true, onDelete:'NO ACTION'});
+Customer.hasMany(Project);
+User.hasMany(Project);
+
 
 // An address can belong to anything, and anything can have more than one address
 Address.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
@@ -74,12 +91,6 @@ Customer.hasMany(Address)
 Contact.hasMany(Address)
 User.hasMany(Address)
 
-// A ticket history belongs to a ticket and a user
-TicketHistory.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'})
-TicketHistory.belongsTo(User, {constraints: true, onDelete: 'NO ACTION'})
-Ticket.hasMany(TicketHistory);
-User.hasMany(TicketHistory);
-
 // A picture belongs to a customer, contact or a ticket.
 Picture.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
 Picture.belongsTo(Ticket, {constraints: true, onDelete:'NO ACTION'});
@@ -88,9 +99,7 @@ Customer.hasMany(Picture);
 Ticket.hasMany(Picture);
 Contact.hasMany(Picture);
 
-// A project belongs to a customer
-Project.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'} );
-Customer.hasMany(Project);
+
 
 // An onsite visit belongs to a ticket
 OnSiteVisit.belongsTo(Ticket, {constraints: true, onDelete: 'NO ACTION'});
