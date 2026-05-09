@@ -9,8 +9,6 @@ import classes from './login.module.css';
 import logo from "../../assets/tabiLogo.png"
 import Loading from '../LoadingScreens/Loading';
 import { toast } from 'react-toastify';
-import { endpointActions } from "../../store/EndpointsSlice"
-import localURLS from "../../util/apiPaths.json"
 
 
 const Login = () => {
@@ -27,7 +25,6 @@ const Login = () => {
 
     if (isValid) {
 
-      dispatch(endpointActions.loadEndpoints(localURLS))
       dispatch(authenticationActions.loginValid());
 
 
