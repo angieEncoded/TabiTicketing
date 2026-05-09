@@ -64,7 +64,7 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 
 
 
-// grab all the data for a single customer - REVISIT THIS QUERY TO ONLY REQUEST OPEN\ACTIVE ITEMS
+// grab all the data for a single customer
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -88,77 +88,6 @@ router.get("/:id", async (req, res, next) => {
         return res.json({ status: 500, message: error.message })
     }
 })
-
-
-
-// Update a single customer
-router.put("/:id", validateExistingCustomer, async (req, res, next) => {
-
-    try {
-        const id = req.params.id;
-        const customer = req.body;
-        const country = "United States";
-
-        // make sure the record exists
-        const [row] = await Customer.findById(id);
-        if (row && row.length) {
-            const updatedRecord = new Customer(
-                id,
-                null,
-                customer.customer_name,
-                customer.primary_phone,
-                customer.fax,
-                customer.secondary_phone,
-                customer.website,
-                customer.email,
-                customer.notes,
-                customer.billing_one,
-                customer.billing_two,
-                customer.billing_city,
-                customer.billing_state,
-                customer.billing_zip,
-                country,
-                customer.shipping_one,
-                customer.shipping_two,
-                customer.shipping_city,
-                customer.shipping_state,
-                customer.shipping_zip,
-                country,
-                null,
-                "SYSTEMUPDATE",
-                null,
-                null,
-                customer.status
-            )
-
-            const results = await updatedRecord.updateCustomer();
-            return res.json({ "status": "200", "message": "Successfully saved the record" })
-
-        } else {
-            return res.json({ "status": "400", "message": "Record not found" })
-        }
-    } catch (error) {
-        return res.json({ "status": "500", "error": error.message })
-    }
-})
-
-// Archive a customer (paranoid delete)
-
-// fetch all active customers
-router.get("/testing", async (req, res, next) => {
-    const customers = await Customer.findAll({
-        where: { 'status': 'Active' },
-        include: {
-            model: Address,
-            where: {
-                type: 'Billing'
-            },
-            required: false
-        }
-    });
-    res.json(customers);
-})
-
 
 
 

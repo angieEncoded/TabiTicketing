@@ -10,8 +10,6 @@ const path = require('path');
 const EquipmentType = require('./models/EquipmentType');
 const EquipmentVendor = require('./models/EquipmentVendor');
 const LicenseVendor = require('./models/LicenseVendor');
-const TicketPriority = require('./models/TicketPriority');
-const TicketStatus = require('./models/TicketStatus');
 
 // Import models to create the associations
 const Customer = require('./models/Customer');

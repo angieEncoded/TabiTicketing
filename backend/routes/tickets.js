@@ -8,6 +8,11 @@ const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
 const { validateNewCustomer, validateExistingCustomer, validateNewTicket } = require("../util/validationHelpers")
 const { Op } = require('sequelize');
+const TicketComment = require("../models/TicketComment");
+const TicketTime = require("../models/TicketTime");
+const TicketHistory = require("../models/TicketHistory");
+const User = require("../models/User");
+const Project = require("../models/Project");
 
 // /tickets
 
@@ -27,25 +32,29 @@ router.get("/", async (req, res, next) => {
 })
 
 
-// fetch all active tickets for a customer
-router.get("/:customerId", async (req, res, next) => {
+router.get("/:id", async (req ,res ,next) => {
+    const {id} = req.params;
 
-    const { customerId } = req.params
-    const tickets = await Ticket.findAll({ 
-        where:{
-            [Op.and]:
-            [
-                {'customerId':  customerId},
-                {'status': {
-                    [Op.ne]: 'CLOSED'
-                }
-            }
-            ],
-        },
-        include: [Technician, Contact]
-    });
-    res.json(tickets);
+    try {
+        const ticket = await Ticket.findOne({
+            where: { id: id },
+            include: [ Customer, Contact, User, Project, TicketComment, TicketHistory, TicketTime]         
+        })
+
+        console.log(ticket)
+        if (ticket) {
+            return res.json({ status: 200, message: "Successfully Fetched", ticket: ticket.dataValues})
+        }
+        else {
+            return res.json({ status: 400, message: "Record does not exist" })
+        }
+    } catch (error) {
+        return res.json({ status: 500, message: error.message })
+    }
+
 })
+
+
 
 // Add a new ticket
 router.post("/:id", validateNewTicket, async (req, res, next) => {
