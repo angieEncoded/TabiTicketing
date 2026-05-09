@@ -14,7 +14,7 @@ const StartTicketTask = () => {
 
     const [isPending, setIsPending] = useState(false);
     const selectedTicket = useSelector(state => state.sticket.ticket);
-  
+
     const dispatch = useDispatch();
 
 
@@ -101,7 +101,6 @@ const StartTicketTask = () => {
             }
         } catch (error) { // will capture if the server is down
             setIsPending(false)
-            // console.log(error)
             toast.error(`${error.message} - is the server down?`)
         }
     }
@@ -109,27 +108,22 @@ const StartTicketTask = () => {
     return (
 
         <>
-            <div className="form-background mb-5 mx-auto">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* ================= STREET 2 ====================== */}
-                    <div className="mb-3 row  align-items-center">
-                        <div className="col-12 col-md-3">
-                            <label className="form-label">Task name</label>
-                        </div>
-                        <div className="col-12 col-md-6">
-                            <input {...register('start_task_name', {
-                                required: true,
-                                pattern: regexPatterns.alphaNumeric
-                            })}
-                                className={errors.start_task_name && dirtyFields.start_task_name ? 'form-control is-invalid' : 'form-control'}
-                                placeholder={"Task Description: (What are you going to do?)"} />
-                        </div>
-                        <div className="col-12 col-md-3">
-                            <Buttontabi type='submit' buttonClass={'logo'} title={!isPending ? "Start task" : "Submitting..."} disabled={!isValid} />
-                        </div>
-                    </div>
-                </form>
-            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {/* ================= START TASK ====================== */}
+
+                <label className="form-label">Start the clock on a new task</label>
+                <input {...register('start_task_name', {
+                    required: true,
+                    pattern: regexPatterns.alphaNumeric
+                })}
+                    className={errors.start_task_name && dirtyFields.start_task_name ? 'form-control is-invalid mb-3' : 'form-control mb-3'}
+                    placeholder={"Task Description: (What are you going to do?)"} />
+
+                <Buttontabi type='submit' buttonClass={'logo mb-3'} title={!isPending ? "Start task" : "Submitting..."} disabled={!isValid} />
+
+            </form>
+
         </>
 
     )

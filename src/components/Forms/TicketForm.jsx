@@ -46,7 +46,6 @@ const TicketForm = ({ recordType, closeComponent }) => {
 
         const getTechnicians = async () => {
             const techniciansResults = await getTechnicianData(dispatch);
-            console.log(techniciansResults)
             if (techniciansResults.status !== 200) {toast.error(`${techniciansResults.status} - ${techniciansResults.message}`)}
             setIsPending(false)
         }

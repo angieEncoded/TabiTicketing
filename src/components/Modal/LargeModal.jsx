@@ -13,6 +13,7 @@ const LargeModal = ({ showFormModal, hideFormModal, title, children }) => {
             backdrop="static"
             centered
             keyboard={false}
+            contentClassName="fixed-height-content"
         // fullscreen 
         >
             <Modal.Header closeButton>

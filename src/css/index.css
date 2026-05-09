@@ -58,6 +58,20 @@ body {
   color: var(--tabi-logo-darker)
 }
 
+a {
+  color: var(--tabi-logo-darker); /* Specific Hex color */
+}
+
+/* 1. Base color for all tab links */
+.nav-tabs .nav-link {
+  color: var(--tabi-logo); /* Your desired link color */
+}
+
+
+.fixed-height-content {
+  min-height: 90%; /* Prevents shrinking when component is small */
+  height: 90%; /* Forces exact size */
+}
 
 .tabi-hover:hover {
   cursor: pointer;
@@ -212,6 +226,7 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 
 
 /* =========================================== FORMS CSS ===================================================*/

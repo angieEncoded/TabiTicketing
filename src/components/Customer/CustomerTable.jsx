@@ -13,8 +13,7 @@ import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 import{ getCustomerTableData } from "../../util/helperFunctions.js";
 import {getSelectedCustomerData} from "../../util/helperFunctions.js"
 import CustomerDisplay from '../../pages/CustomerDisplay.jsx';
-
-
+import ModalNavigationWrapper from './ModalNavigationWrapper.jsx';
 
 const CustomerTable = () => {
 
@@ -87,11 +86,12 @@ const CustomerTable = () => {
 
                 <>
 
-                    {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomerForModal.customer_name}>
-                        <CustomerDisplay recordType={'customer'} ></CustomerDisplay>
-                    </LargeModal>}
+            
+                    <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomerForModal.customer_name}>
+                        <ModalNavigationWrapper />
+                    </LargeModal>
 
-                    {customersForTable.length < 1 && <h3 className="text-center noticaText">There's no customers! Why don't you add some?</h3>}
+                    {customersForTable && customersForTable.length < 1 && <h3 className="text-center noticaText">There's no customers! Why don't you add some?</h3>}
 
                     {customersForTable && customersForTable.length >= 1 &&
 

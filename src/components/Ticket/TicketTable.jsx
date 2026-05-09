@@ -8,6 +8,7 @@ import COLUMNS from './TicketColumns.js';
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 import urls from "../../util/apiPaths.json";
+import TicketDisplay from './TicketDisplay.jsx'
 
 const TicketTable = () => {
 
@@ -20,7 +21,6 @@ const TicketTable = () => {
 
     // Grab items from the slices
     const ticketsForTable = useSelector(state => state.ticket.tickets);
-
     const dispatch = useDispatch();
 
 
@@ -76,9 +76,7 @@ const TicketTable = () => {
                 <>
 
                     {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={`${selectedTicket.title}`}>
-                        <div>THE CUSTOM TICKET COMPONENT WILL BE IN HERE</div>
-                        <div>Ticket ID {selectedTicket.id}</div>
-                        <div>Assigned to: {selectedTicket.technician.first_name} {selectedTicket.technician.last_name}</div>
+                        <TicketDisplay id={selectedTicket.id}></TicketDisplay>
                     </LargeModal>}
 
                     {ticketsForTable.length < 1 && <h3 className="text-center noticaText">There's no Tickets! Why don't you add some? I'm sure someone needs your help!</h3>}

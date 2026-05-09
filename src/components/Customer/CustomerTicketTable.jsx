@@ -8,7 +8,7 @@ import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getF
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 
 
-const TicketDisplay = ({ recordType, id }) => {
+const CustomerTicketTable = ({ recordType, id }) => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
@@ -35,7 +35,6 @@ const TicketDisplay = ({ recordType, id }) => {
 
     const handleRowClick = async (row) => {
         toast.info(`Do something with the row :${row.original.id}`)
-        // console.log(row.original)
     }
 
 
@@ -143,6 +142,6 @@ const TicketDisplay = ({ recordType, id }) => {
     )
 }
 
-export default TicketDisplay
+export default CustomerTicketTable
 
 

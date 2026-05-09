@@ -6,15 +6,13 @@ import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 import { getSelectedTicketData } from "../../util/helperFunctions.js"
 import TicketDetails from './TicketDetails.jsx'
 import TicketTimes from './TicketTimes.jsx'
-import TicketComments from './TicketComments.jsx'
+import TicketCommentsTable from './TicketCommentsTable.jsx'
 import StartTicketTask from './StartTicketTask.jsx'
 import OpenTicketTasks from './OpenTicketTasks.jsx'
 import TicketHistory from './TicketHistory.jsx'
+import AddTicketComment from "./AddTicketComment.jsx"
 
 const TicketDisplay = ({ id }) => {
-
-    // hard code for now
-    id = 5;
 
     const [errorMessage, setErrorMessage] = useState("");
     const [hasError, setHasError] = useState(false);
@@ -50,10 +48,25 @@ const TicketDisplay = ({ id }) => {
             {!isPending && hasError && <ErrorAlert error={errorMessage} />}
             {!isPending && !hasError &&
                 <>
-                    <StartTicketTask />
+
                     <OpenTicketTasks />
                     <TicketDetails />
-                    {/* <TicketComments /> */}
+                    <TicketCommentsTable />
+
+                    <h4 className="text-center noticaText">Ticket Actions</h4>
+                    <hr></hr>
+
+                    <div className="row">
+
+                        <div className="col-12 col-md-6">
+                            <StartTicketTask />
+                        </div>
+
+                        <div className="col-12 col-md-6">
+                            <AddTicketComment />
+                        </div>
+                    </div>
+
                     {/* <TicketTimes /> */}
                     {/* <TicketHistory /> */}
 

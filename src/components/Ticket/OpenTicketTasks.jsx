@@ -54,7 +54,6 @@ const OpenTicketTasks = () => {
             }
         } catch (error) { // will capture if the server is down
             setIsPending(false)
-            // console.log(error)
             toast.error(`${error.message} - is the server down?`)
         }
   }
@@ -68,7 +67,7 @@ const OpenTicketTasks = () => {
 
       {selectedTicket.ticket_times && selectedTicket.ticket_times.length > 0 &&
         <>
-
+        <h5  className="text-center noticaText">Currently Active Tasks:</h5>
           <table className="table">
             <thead>
               <tr>

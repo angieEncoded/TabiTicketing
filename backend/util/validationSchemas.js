@@ -143,3 +143,10 @@ module.exports.startTicketTaskSchema = Joi.object({
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 })
+
+module.exports.ticketCommentSchema = Joi.object({
+    comment: Joi.string().required(),
+    userId: Joi.number().required(),
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})

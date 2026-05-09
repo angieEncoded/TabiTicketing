@@ -6,7 +6,7 @@ const Testing = () => {
     return (
        <>
 
-        <TicketDisplay />
+        <TicketDisplay id={5}/>
        </>
           
     )

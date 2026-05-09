@@ -7,7 +7,8 @@ const { customerSchema,
     technicianSchema, 
     userSchema, 
     ticketSchema, 
-    startTicketTaskSchema } = require("./validationSchemas");
+    startTicketTaskSchema, 
+    ticketCommentSchema } = require("./validationSchemas");
 
 const fs = require("fs");
 
@@ -137,3 +138,12 @@ module.exports.validateStartTicketTask = (req, res, next) => {
     }
 }
 
+module.exports.validateTicketComment = (req, res, next) => {
+    const { error } = ticketCommentSchema.validate(req.body);
+        if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({status: 400, message: message })
+    } else {
+        next();
+    }
+}

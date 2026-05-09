@@ -41,9 +41,9 @@ const CustomerButtons = ({ recordType }) => {
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('License')} disabled={currentComponent === 'License'} >Add License</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Picture')} disabled={currentComponent === 'Picture'}>Add Picture</button>
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Ticket')} disabled={currentComponent === 'Ticket'} >Add Ticket</button>
-        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" >Add Project</button>
-        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3">View all Tickets</button>
-        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3">View all Projects</button>
+        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" disabled >Add Project</button>
+        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" disabled>View all Tickets</button>
+        <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" disabled>View all Projects</button>
       </div>
 
 

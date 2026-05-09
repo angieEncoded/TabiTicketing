@@ -1,3 +1,8 @@
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel, createColumnHelper } from '@tanstack/react-table'
+
+const columnHelper = createColumnHelper()
+
+
 const COLUMNS = [
     {
         header: 'Title',
@@ -16,7 +21,7 @@ const COLUMNS = [
     },
     {
         header: 'Technician',
-        accessorFn: row => `${row.technician.first_name} ${row.technician.last_name}`,
+        accessorFn: row => `${row.user.first_name} ${row.user.last_name}`,
         disableFilters: true,
     },
     {
@@ -24,11 +29,14 @@ const COLUMNS = [
         accessorFn: row => `${row.customer.customer_name}`,
         disableFilters: true,
     },
-    {
-        header: 'Contact',
-        accessorFn: row => `${row.contact.first_name} ${row.contact.last_name}`,
-        disableFilters: true,
-    }
+    columnHelper.accessor(row => row.contact?.first_name ?? '', {
+    id: 'first_name',
+    header: 'First Name',
+    }),
+    columnHelper.accessor(row => row.contact?.last_name ?? '', {
+    id: 'Last_name',
+    header: 'Last Name',
+    }),
 ];
 
 export default COLUMNS
