@@ -12,7 +12,7 @@ Pulled this out of everything, i think I have it all in state now
 */
 
 
-const CustomerDisplay = () => {
+const CustomerDisplay = ({handleRowClick}) => {
 
 
   return (
@@ -20,7 +20,7 @@ const CustomerDisplay = () => {
       <CustomerBasic/>
       <AddressDisplay/>
       <ContactTable/>
-      <CustomerTicketTable/>
+      <CustomerTicketTable handleRowClick={handleRowClick}/>
       <EquipmentTable/>
       <LicenseTable/>
       <PicturesCarousel/>

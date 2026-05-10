@@ -8,12 +8,27 @@ import ContactTable from './ContactTable';
 import AddressDisplay from './AddressDisplay';
 import EquipmentTable from './EquipmentTable';
 import LicenseTable from './LicenseTable';
-import TicketTable from "../Ticket/TicketTable";
 import PicturesCarousel from './PicturesCarousel';
+import TicketDisplay from '../Ticket/TicketDisplay';
+import Buttontabi from '../Button/Buttontabi';
 
 const ModalNavigationWrapper = () => {
 
     const [key, setKey] = useState('home');
+    const [currentTicketId, setCurrentTicketId] = useState(0);
+
+    const handleRowClick = (row) => {
+        setCurrentTicketId(row.original.id);
+        setKey("ticket");
+    }
+
+    const closeTab = () => {
+        setCurrentTicketId(0);
+        setKey("home");
+        
+    }
+
+
     return (
         <>
             <Tabs
@@ -25,7 +40,7 @@ const ModalNavigationWrapper = () => {
                 
                 <Tab eventKey="home" title="Home">
                     <CustomerButtons />
-                    <CustomerDisplay />
+                    <CustomerDisplay handleRowClick={handleRowClick}/>
                 </Tab>
 
                 <Tab eventKey="address" title="Addresses">
@@ -39,12 +54,19 @@ const ModalNavigationWrapper = () => {
                 <Tab eventKey="equipment" title="Equipment">
                     <EquipmentTable />
                 </Tab>
+
                 <Tab eventKey="license" title="Licenses">
                     <ContactTable />
                 </Tab>
-                <Tab eventKey="ticket" title="Tickets">
-                    <TicketTable />
-                </Tab>
+                {currentTicketId > 0 &&
+                    <Tab 
+                    eventKey="ticket" 
+                    title={<>Ticket# {currentTicketId} </>}
+                    >
+                    
+                    <TicketDisplay id={currentTicketId} closeTab={closeTab}/>
+                    </Tab>
+                }
                 <Tab eventKey="picture" title="Pictures">
                     <PicturesCarousel />
                 </Tab>

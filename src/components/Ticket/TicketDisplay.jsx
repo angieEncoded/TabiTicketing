@@ -11,21 +11,26 @@ import StartTicketTask from './StartTicketTask.jsx'
 import OpenTicketTasks from './OpenTicketTasks.jsx'
 import TicketHistory from './TicketHistory.jsx'
 import AddTicketComment from "./AddTicketComment.jsx"
+import Buttontabi from '../Button/Buttontabi.jsx'
 
-const TicketDisplay = ({ id }) => {
+const TicketDisplay = ({ id, closeTab }) => {
+
 
     const [errorMessage, setErrorMessage] = useState("");
     const [hasError, setHasError] = useState(false);
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, setIsPending] = useState(true); // remember to set these as true so it doesnt try to read immediately on mount, if it fails on the first item this is why its happening
 
     const selectedTicket = useSelector(state => state.sticket.ticket)
+
     const dispatch = useDispatch();
 
     // Initially populate the data
     useEffect(() => {
+  
         // Wrap in an async
         const getData = async () => {
             try {
+          
                 setIsPending(true)
                 const results = await getSelectedTicketData(id, dispatch); // reach out to the helper function
                 if (results.status === 200) {
@@ -49,11 +54,19 @@ const TicketDisplay = ({ id }) => {
             {!isPending && !hasError &&
                 <>
 
+                    <h4 className="text-center baskerville-font mb-3">
+                         {selectedTicket.customer.customer_name} - {selectedTicket.title}
+                        <i className="las la-window-close float-end" onClick={() => closeTab()}></i>
+                    </h4>
+
+
+                    <hr />
+
                     <OpenTicketTasks />
                     <TicketDetails />
                     <TicketCommentsTable />
 
-                    <h4 className="text-center noticaText">Ticket Actions</h4>
+                    <h5 className="text-center noticaText">Ticket Actions</h5>
                     <hr></hr>
 
                     <div className="row">

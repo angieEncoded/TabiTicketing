@@ -57,8 +57,7 @@ const TicketTable = () => {
     }, []);
 
     const handleRowClick = async (row) => {
-        setSelectedTicket(row.original); // set the state to the currently selected customer
-        setShowModal(true); // show the modal with the form
+        setSelectedTicket(row.original);
     }
 
     const closeModal = () => {

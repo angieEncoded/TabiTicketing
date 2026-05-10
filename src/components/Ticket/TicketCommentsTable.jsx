@@ -20,7 +20,7 @@ const TicketCommentsTable = () => {
   const [isPending, setIsPending] = useState(false);
   const [hasError, setHasError] = useState(false);
   const selectedTicketComments = useSelector(state => state.sticket.ticket);
-  
+
   const table = useReactTable({
     data: selectedTicketComments.ticket_comments,
     columns: COLUMNS,
@@ -31,16 +31,16 @@ const TicketCommentsTable = () => {
   })
 
 
-const popover = (row) => {
-  return (
-  <Popover id={row.original.id}  style={{ '--bs-popover-max-width': '500px' }}>
-    <Popover.Header as="h3">Comment Details</Popover.Header>
-    <Popover.Body>
-      {row.original.comment}
-    </Popover.Body>
-  </Popover>
-);
-}
+  const popover = (row) => {
+    return (
+      <Popover id={row.original.id} style={{ '--bs-popover-max-width': '500px' }}>
+        <Popover.Header as="h3">Comment Details</Popover.Header>
+        <Popover.Body>
+          {row.original.comment}
+        </Popover.Body>
+      </Popover>
+    );
+  }
 
 
 
@@ -57,12 +57,20 @@ const popover = (row) => {
       {!isPending && !hasError &&
 
         <>
-        <hr></hr>
-          {selectedTicketComments.ticket_comments && selectedTicketComments.ticket_comments.length < 1 && <h3 className="text-center noticaText">There are no comments on this ticket</h3>}
-        <hr></hr>
+
+          {selectedTicketComments.ticket_comments && selectedTicketComments.ticket_comments.length < 1 &&
+            <>
+              <hr></hr>
+              <h5 className="text-center noticaText tabi-text-light">There are no comments on this ticket</h5>
+              <hr />
+            </>
+          }
+     
+
           {selectedTicketComments.ticket_comments && selectedTicketComments.ticket_comments.length >= 1 &&
 
             <>
+              <hr></hr>
               <div className="form-background mb-5 mx-auto">
                 <h4 className="text-center noticaText">Comments</h4>
 
@@ -89,15 +97,15 @@ const popover = (row) => {
                   </thead>
                   <tbody>
                     {table.getRowModel().rows.map((row) => (
-                          <OverlayTrigger trigger="click" placement="top" overlay={popover(row)} rootClose key={row.id}>
-                            <tr key={row.id} >
-                              {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id}>
-                                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                              ))}
-                            </tr>
-                          </OverlayTrigger>
+                      <OverlayTrigger trigger="click" placement="top" overlay={popover(row)} rootClose key={row.id}>
+                        <tr key={row.id} >
+                          {row.getVisibleCells().map((cell) => (
+                            <td key={cell.id}>
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                          ))}
+                        </tr>
+                      </OverlayTrigger>
                     ))}
                   </tbody>
                 </table>

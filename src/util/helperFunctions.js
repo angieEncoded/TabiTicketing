@@ -64,7 +64,6 @@ const getTechnicianData = async (dispatch) => {
         const technicianJSON = await technicianData.json();
         if (technicianJSON.status === 200) {
             await dispatch(technicianActions.loadTechnicianData (technicianJSON.technicians));
-            console.log()
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
             return technicianJSON;
@@ -85,7 +84,7 @@ const getContactsData = async (customerId, dispatch) => {
             return({status: contactsData.status, message: contactsData.statusText}) 
         }
         const contactsJSON = await contactsData.json();
-        console.log(contactsJSON)
+
         if (contactsJSON.status === 200) {
             await dispatch(contactsActions.loadContactsData(contactsJSON.contacts));
             return ({ status: 200, message: "Successfully Fetched" })
@@ -127,7 +126,6 @@ const getSelectedTicketData = async (id, dispatch) => {
             return({status: selectedTicketData.status, message: selectedTicketData.statusText}) 
         }
         const selectedTicketJson = await selectedTicketData.json();
-   
         if (selectedTicketJson.status === 200) {
             await dispatch(selectedTicketActions.loadTicketData(selectedTicketJson.ticket));
             return ({ status: 200, message: "Successfully Fetched" })

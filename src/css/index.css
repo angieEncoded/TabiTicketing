@@ -58,6 +58,10 @@ body {
   color: var(--tabi-logo-darker)
 }
 
+.tabi-text-light {
+  color: var(--tabi-text-light)
+}
+
 a {
   color: var(--tabi-logo-darker); /* Specific Hex color */
 }
