@@ -58,6 +58,7 @@ const TicketTable = () => {
 
     const handleRowClick = async (row) => {
         setSelectedTicket(row.original);
+        setShowModal(true);
     }
 
     const closeModal = () => {
@@ -74,9 +75,9 @@ const TicketTable = () => {
 
                 <>
 
-                    {showModal && <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={`${selectedTicket.title}`}>
+                    <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={`${selectedTicket.title}`}>
                         <TicketDisplay id={selectedTicket.id}></TicketDisplay>
-                    </LargeModal>}
+                    </LargeModal>
 
                     {ticketsForTable.length < 1 && <h3 className="text-center noticaText">There's no Tickets! Why don't you add some? I'm sure someone needs your help!</h3>}
 

@@ -11,6 +11,7 @@ const Customer = db.define('customer', {
     email: {type: Sequelize.STRING, allowNull: true},
     notes: {type: Sequelize.TEXT, allowNull: true},
     status: {type:Sequelize.STRING, allowNull: false},
+    is_vendor: {type:Sequelize.BOOLEAN, allowNull: true, defaultValue: false},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
     uuid: {type: Sequelize.UUID, allowNull: false},

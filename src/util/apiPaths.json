@@ -8,5 +8,6 @@
     "ticketAPI": "http://localhost:8080/tickets",
     "uploadsAPI": "http://localhost:8080/uploads",
     "usersAPI": "http://localhost:8080/users",
-    "projectsAPI": "http://localhost:8080/projects"
+    "projectsAPI": "http://localhost:8080/projects",
+    "verificationsAPI": "http://localhost:8080/verifications"
 }

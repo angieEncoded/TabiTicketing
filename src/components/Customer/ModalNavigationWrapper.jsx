@@ -11,6 +11,9 @@ import LicenseTable from './LicenseTable';
 import PicturesCarousel from './PicturesCarousel';
 import TicketDisplay from '../Ticket/TicketDisplay';
 import Buttontabi from '../Button/Buttontabi';
+import ContactCards from './ContactCards';
+import EquipmentCards from './EquipmentCards';
+import LicenseCards from './LicenseCards';
 
 const ModalNavigationWrapper = () => {
 
@@ -43,20 +46,16 @@ const ModalNavigationWrapper = () => {
                     <CustomerDisplay handleRowClick={handleRowClick}/>
                 </Tab>
 
-                <Tab eventKey="address" title="Addresses">
-                    <AddressDisplay />
-                </Tab>
-
                 <Tab eventKey="contact" title="Contacts">
-                    <ContactTable />
+                    <ContactCards />
                 </Tab>
 
                 <Tab eventKey="equipment" title="Equipment">
-                    <EquipmentTable />
+                    <EquipmentCards />
                 </Tab>
 
                 <Tab eventKey="license" title="Licenses">
-                    <ContactTable />
+                    <LicenseCards />
                 </Tab>
                 {currentTicketId > 0 &&
                     <Tab 

@@ -80,8 +80,6 @@ const OpenTicketTasks = () => {
             <tbody>
               {selectedTicket.ticket_times.map(task => (
 
-
-
                 <tr key={task.id}>
                   <td>{task.user.first_name} {task.user.last_name}</td>
                   <td>{task.start_task_name}</td>

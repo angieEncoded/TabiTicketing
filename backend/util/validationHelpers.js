@@ -8,8 +8,10 @@ const { customerSchema,
     userSchema, 
     ticketSchema, 
     startTicketTaskSchema, 
-    ticketCommentSchema } = require("./validationSchemas");
-
+    ticketCommentSchema
+} = require("./validationSchemas");
+const { ticketPutSchema 
+} = require("../util/validationSchemaForks");
 const fs = require("fs");
 
 module.exports.validateNewCustomer = (req, res, next) => {
@@ -120,6 +122,16 @@ module.exports.validateNewUser = (req, res, next) => {
 
 module.exports.validateNewTicket = (req, res, next) => {
     const { error } = ticketSchema.validate(req.body);
+        if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({status: 400, message: message })
+    } else {
+        next();
+    }
+}
+
+module.exports.validateTicketPut = (req, res, next) => {
+    const { error } = ticketPutSchema.validate(req.body, { stripUnknown: true });
         if (error) {
         const message = error.details.map((element) => element.message).join(",");
         return res.json({status: 400, message: message })

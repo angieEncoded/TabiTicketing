@@ -12,6 +12,7 @@ import placeholderLogo from "../assets/icons/logo.png"
 const NavBar = () => {
 
     const [show, setShow] = useState(false);
+    const loggedInUser = "Angie";
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -44,22 +45,22 @@ const NavBar = () => {
                         {/* Main Navigation */}
                         <Nav className="me-auto">
                             <Link className="nav-link" to="/queue">Ticket Queue</Link>
+                            <Link className="nav-link" to="/open-tasks">Open Tasks</Link>
                             <Link className="nav-link" to="/customers">Customers</Link>
                             <Link className="nav-link" to="/contacts">Contacts</Link>
-                            <Link className="nav-link" to="/all-tickets">All Tickets</Link>
-                            <Link className="nav-link" to="/testing">Testing</Link>
+                            <Link className="nav-link" to="/testing">Angie's mess</Link>
                         </Nav>
                         
 
                         {/* User Login Controls */}
                         <Nav>
                             <Link className="nav-link" to="/calendar"><i className="las la-calendar-alt"></i></Link>
-                            <NavDropdown title="User Actions Placeholder" id="collasible-nav-dropdown">
+                            <NavDropdown title={`Welcome, ${loggedInUser}`} id="collasible-nav-dropdown">
                                 <Link className="dropdown-item" to="/">Profile</Link>
                                 <Link className="dropdown-item" to="/">Settings</Link>
                                 <Link className="dropdown-item" to="/">Change Password</Link>
                                 <NavDropdown.Divider />
-                                <Link className="dropdown-item" to="/">Manually refresh Database</Link>
+                                <Link className="dropdown-item" to="/">Refresh DB</Link>
                             </NavDropdown>
                         </Nav>
                     </Navigation.Collapse>

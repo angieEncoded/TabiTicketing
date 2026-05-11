@@ -21,6 +21,7 @@ import AddTicket from './pages/AddTicket';
 import AddUSer from './pages/AddUser';
 import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
+import OpenTasks from './pages/OpenTasks';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       { path: "/queue", element: <TicketQueue /> },
       { path: "/add-ticket", element: <TicketQueue /> },
       { path: "/contacts", element: <Contacts /> },
-      { path: "/all-tickets", element: <AllTickets /> },
+      { path: "/open-tasks", element: <OpenTasks /> },
       { path: "/testing", element: <Testing /> },
     ],
   },

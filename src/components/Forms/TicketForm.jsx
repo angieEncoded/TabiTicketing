@@ -197,8 +197,8 @@ const TicketForm = ({ recordType, closeComponent }) => {
                                     className={errors.status && dirtyFields.status ? 'form-select is-invalid' : 'form-select'}>
                                     <option value={"OPEN"}>Open</option>
                                     <option value={"INPROGRESS"}>In Progress</option>
-                                    <option value={"COMPLETED"}>Completed</option>
                                     <option value={"WAITINGONCUST"}>Waiting on Customer</option>
+                                    <option value={"CLOSED"}>Closed</option>
                                 </select>
                             </div>
                         </div>
@@ -234,7 +234,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
                                     pattern: regexPatterns.alphaNumeric
                                 })}
                                     className={errors.contact && dirtyFields.contact ? 'form-select is-invalid' : 'form-select'}>
-                                    {customerContacts.map(contact => <option value={contact.id} key={contact.id}>{contact.first_name} {contact.last_name} - {contact.job_title}</option>)}
+                                    {customerContacts?.map(contact => <option value={contact.id} key={contact.id}>{contact.first_name} {contact.last_name} - {contact.job_title}</option>)}
                                 </select>
                             </div>
                         </div>
@@ -252,7 +252,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
                                     defaultValue={loggedInUser}
                                     className={errors.technician && dirtyFields.technician ? 'form-select is-invalid' : 'form-select'}>
                                     <option value={"NONE"} key={"NONE"}>NO TECHNICIAN SELECTED</option>
-                                    {technicians.map(technician => <option value={technician.id} key={technician.id}>{technician.first_name} {technician.last_name}</option>)}
+                                    {technicians?.map(technician => <option value={technician.id} key={technician.id}>{technician.first_name} {technician.last_name}</option>)}
                                 </select>
                             </div>
                         </div>

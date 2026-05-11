@@ -33,11 +33,6 @@ router.get("/technicians", async (req, res, next) => {
 })
 
 
-
-
-
-
-
 // Add a new user
 router.post('/', validateNewUser, async (req,res,next)=> {
 

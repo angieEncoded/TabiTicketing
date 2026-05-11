@@ -32,7 +32,7 @@ const ContactTable = ({ recordType, id }) => {
     })
 
     const handleRowClick = async (row) => {
-        toast.info(`Do something with the row :${row.original.id}`)
+        toast.info(`Wire up something with the row :${row.original.id}`)
     }
 
 

@@ -119,7 +119,6 @@ module.exports.userSchema = Joi.object({
     updated_by: Joi.string().required(),
 })
 
-
 module.exports.ticketSchema = Joi.object({
     title: Joi.string().required(),
     agenda: Joi.string().allow(''),
@@ -133,7 +132,6 @@ module.exports.ticketSchema = Joi.object({
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 })
-
 
 module.exports.startTicketTaskSchema = Joi.object({
     start_task_name: Joi.string().required(),

@@ -6,7 +6,13 @@ const Contact = require("../models/Contact");
 const Customer = require("../models/Customer");
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, validateExistingCustomer, validateNewTicket, validateStartTicketTask, validateTicketComment } = require("../util/validationHelpers")
+const { validateNewCustomer, 
+    validateExistingCustomer, 
+    validateNewTicket, 
+    validateStartTicketTask, 
+    validateTicketComment, 
+    validateTicketPut
+} = require("../util/validationHelpers")
 const { Op, where } = require('sequelize');
 const TicketComment = require("../models/TicketComment");
 const TicketTime = require("../models/TicketTime");
@@ -30,45 +36,6 @@ router.get("/", async (req, res, next) => {
     });
     res.json(tickets);
 })
-
-
-
-router.get('/testing/:id', async(req, res, next) => {
- 
-    const {id} = req.params;
-
-    const ticketTime = await TicketTime.findByPk(id);
-    const startTime = new Date(ticketTime.start_time)
-    const endTime = new Date(ticketTime.end_time);
-    const difference = Math.round((endTime - startTime) / (1000 * 60)); // get the difference in minutes and round it
-
-    // get the details from the ticket
-    const ticket = await Ticket.findByPk(ticketTime.ticketId);
-    const currentMinutes = ticket.ticket_time;
-    const runningTotal = currentMinutes + difference;
-
-    // Post the new details back to the ticket
-    const timeResults = await Ticket.update(
-            {
-                ticket_time: timeResults,
-            },
-            {
-                where: {id : ticketTime.ticketId}
-            }   
-    )
-
-
-
-
-
-    return res.send("done")
-
-        // Calculate the total time spent
-
-        // Write that to the Ticket record
-
-})
-
 
 
 // Fetch single ticket
@@ -118,6 +85,65 @@ router.post("/:id", validateNewTicket, async (req, res, next) => {
     }
 
 })
+
+router.put("/:id", validateTicketPut, async (req, res, next) =>{
+
+    // TODO - put in logic to reject if the customer solution field is empty. 
+    // It's checking on the front end for the demo but needs to be in place for real
+
+    const data = req.body;
+
+    if(data.contactId === ''){
+        data.contactId = null;
+    }
+
+    const { id } = req.params;
+
+    try {
+        
+        const ticket = await Ticket.update(
+            {...data},
+            {where: 
+                {id: id}
+            }
+        );
+
+        return res.json({status: 200, message: "Successfully updated", ticket: ticket });
+
+    } catch (error) {
+         return res.json({ status: 500, message: error.message })
+    }
+
+})
+
+router.get('/testing/:id', async(req, res, next) => {
+ 
+    const {id} = req.params;
+
+    const ticketTime = await TicketTime.findByPk(id);
+    const startTime = new Date(ticketTime.start_time)
+    const endTime = new Date(ticketTime.end_time);
+    const difference = Math.round((endTime - startTime) / (1000 * 60)); // get the difference in minutes and round it
+
+    // get the details from the ticket
+    const ticket = await Ticket.findByPk(ticketTime.ticketId);
+    const currentMinutes = ticket.ticket_time;
+    const runningTotal = currentMinutes + difference;
+
+    // Post the new details back to the ticket
+    const timeResults = await Ticket.update(
+            {
+                ticket_time: timeResults,
+            },
+            {
+                where: {id : ticketTime.ticketId}
+            }   
+    )
+
+    return res.send("done")
+
+})
+
 
 // Add a new ticket time for a ticket
 router.post("/startTicketTask/:id", validateStartTicketTask, async(req, res, next) => {
@@ -197,8 +223,6 @@ router.put("/endTicketTask/:id", validateStartTicketTask, async(req, res, next) 
 
 })
 
-
-
 // Post a new comment
 router.post("/comment/:id", validateTicketComment, async (req, res, next) => {
 
@@ -224,6 +248,7 @@ router.post("/comment/:id", validateTicketComment, async (req, res, next) => {
          return res.json({ status: 500, message: error.message })
     }
 })
+
 
 
 
