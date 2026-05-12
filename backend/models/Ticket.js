@@ -10,6 +10,7 @@ const Ticket = db.define('ticket', {
     technical_details: {type: Sequelize.TEXT, allowNull: true},
     customer_solution: {type: Sequelize.TEXT, allowNull: true},
     ticket_time: {type: Sequelize.INTEGER, allowNull: true, defaultValue:0},
+    ticket_type: {type: Sequelize.STRING, allowNull: false, defaultValue: 'REMOTE'},
     notes: {type: Sequelize.TEXT, allowNull: true},
     tags: {type: Sequelize.TEXT, allowNull: true},
     added_by: {type: Sequelize.STRING, allowNull: false},

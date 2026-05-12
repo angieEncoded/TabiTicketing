@@ -223,6 +223,27 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             </div>
                         </div>
 
+                        {/* ================= TICKET TYPE ====================== */}
+                        <div className="mb-3 row  align-items-center">
+                            <div className="col-12 col-md-3">
+                                <label className="form-label">Ticket Type:<span className={'text-danger'}></span></label>
+                            </div>
+                            <div className="col-12 col-md-9">
+                                <select   {...register('ticket_type', {
+                                    required: true,
+                                    pattern: regexPatterns.alphaNumeric
+                                })}
+                                    defaultValue='OPEN'
+                                    className={errors.ticket_type && dirtyFields.ticket_type ? 'form-select is-invalid' : 'form-select'}>
+                                    <option value={"REMOTE"}>Remote</option>
+                                    <option value={"BUILD"}>Build</option>
+                                    <option value={"ONSITE"}>On Site</option>
+                                    <option value={"HYBRID"}>Hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+
+
                         {/* ================= CONTACT ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
@@ -247,11 +268,11 @@ const TicketForm = ({ recordType, closeComponent }) => {
                             <div className="col-12 col-md-9">
                                 <select   {...register('userId', {
                                     required: true,
-                                    pattern: regexPatterns.alphaNumeric
+                                    pattern: regexPatterns.numericSigned
                                 })}
                                     defaultValue={loggedInUser}
                                     className={errors.technician && dirtyFields.technician ? 'form-select is-invalid' : 'form-select'}>
-                                    <option value={"NONE"} key={"NONE"}>NO TECHNICIAN SELECTED</option>
+                                    <option value={-1} key={-1}>UNASSIGNED</option>
                                     {technicians?.map(technician => <option value={technician.id} key={technician.id}>{technician.first_name} {technician.last_name}</option>)}
                                 </select>
                             </div>

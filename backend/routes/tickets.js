@@ -6,11 +6,11 @@ const Contact = require("../models/Contact");
 const Customer = require("../models/Customer");
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, 
-    validateExistingCustomer, 
-    validateNewTicket, 
-    validateStartTicketTask, 
-    validateTicketComment, 
+const { validateNewCustomer,
+    validateExistingCustomer,
+    validateNewTicket,
+    validateStartTicketTask,
+    validateTicketComment,
     validateTicketPut
 } = require("../util/validationHelpers")
 const { Op, where } = require('sequelize');
@@ -23,14 +23,17 @@ const Project = require("../models/Project");
 // /tickets
 
 
+
+
+
 // Fetch all open tickets
 router.get("/", async (req, res, next) => {
 
-    const tickets = await Ticket.findAll({ 
-        where:{           
-                'status': {
-                    [Op.ne]: 'CLOSED'
-                }
+    const tickets = await Ticket.findAll({
+        where: {
+            'status': {
+                [Op.ne]: 'CLOSED'
+            }
         },
         include: [Technician, Contact, Customer]
     });
@@ -38,22 +41,52 @@ router.get("/", async (req, res, next) => {
 })
 
 
+// Fetch tasks along with associated tickets and nested contacts
+router.get("/tasks", async (req, res, next) => {
+
+    try {
+
+        const tasks = await TicketTime.findAll({
+            where: { 'status': 'OPEN' },
+            include: [ Technician, 
+                { model: Ticket, where: { status: { [Op.ne]: 'CLOSED' } }, include: [Customer, Contact], required: false },
+            ]
+        });
+
+
+        // Handle if there are no technicians to fetch
+        if (tasks?.length < 1) {
+            return res.json({ status: "500", message: "There are no tasks to fetch." })
+        }
+
+        return res.json({ status: 200, message: "Successfully fetched", tasks });
+
+    } catch (error) {
+        return res.json({ status: "500", message: error.message })
+    }
+
+
+})
+
+
+
+
 // Fetch single ticket
-router.get("/:id", async (req ,res ,next) => {
-    const {id} = req.params;
+router.get("/:id", async (req, res, next) => {
+    const { id } = req.params;
 
     try {
         const ticket = await Ticket.findOne({
             where: { id: id },
-            include: [ 
+            include: [
                 Customer, Contact, User, Project, TicketHistory,
-                {model: TicketTime, where:{ status:  { [Op.ne]: 'CLOSED' }}, include: [User], required: false},
-                {model: TicketComment, include: [User], required: false},
-            ]  
+                { model: TicketTime, where: { status: { [Op.ne]: 'CLOSED' } }, include: [User], required: false },
+                { model: TicketComment, include: [User], required: false },
+            ]
         })
 
         if (ticket) {
-            return res.json({ status: 200, message: "Successfully Fetched", ticket: ticket.dataValues})
+            return res.json({ status: 200, message: "Successfully Fetched", ticket: ticket.dataValues })
         }
         else {
             return res.json({ status: 400, message: "Record does not exist" })
@@ -69,56 +102,63 @@ router.get("/:id", async (req ,res ,next) => {
 router.post("/:id", validateNewTicket, async (req, res, next) => {
 
     const data = req.body;
+    console.log(data)
 
-    if(data.contactId === ''){
+    if (data.contactId === '') {
         data.contactId = null;
     }
+
+    if (data.userId === '-1'){
+        data.userId = null;
+    }
+
     const { id } = req.params;
 
     try {
-        
-        const ticket = await Ticket.create({uuid: uuidv4(), customerId: id, ticket_time: 0, ...data});
-        return res.json({status: 200, message: "Successfully saved", ticket: ticket });
+
+        const ticket = await Ticket.create({ uuid: uuidv4(), customerId: id, ticket_time: 0, ...data });
+        return res.json({ status: 200, message: "Successfully saved", ticket: ticket });
 
     } catch (error) {
-         return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
 
-router.put("/:id", validateTicketPut, async (req, res, next) =>{
+router.put("/:id", validateTicketPut, async (req, res, next) => {
 
     // TODO - put in logic to reject if the customer solution field is empty. 
     // It's checking on the front end for the demo but needs to be in place for real
 
     const data = req.body;
 
-    if(data.contactId === ''){
+    if (data.contactId === '') {
         data.contactId = null;
     }
 
     const { id } = req.params;
 
     try {
-        
+
         const ticket = await Ticket.update(
-            {...data},
-            {where: 
-                {id: id}
+            { ...data },
+            {
+                where:
+                    { id: id }
             }
         );
 
-        return res.json({status: 200, message: "Successfully updated", ticket: ticket });
+        return res.json({ status: 200, message: "Successfully updated", ticket: ticket });
 
     } catch (error) {
-         return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
 
-router.get('/testing/:id', async(req, res, next) => {
- 
-    const {id} = req.params;
+router.get('/testing/:id', async (req, res, next) => {
+
+    const { id } = req.params;
 
     const ticketTime = await TicketTime.findByPk(id);
     const startTime = new Date(ticketTime.start_time)
@@ -132,12 +172,12 @@ router.get('/testing/:id', async(req, res, next) => {
 
     // Post the new details back to the ticket
     const timeResults = await Ticket.update(
-            {
-                ticket_time: timeResults,
-            },
-            {
-                where: {id : ticketTime.ticketId}
-            }   
+        {
+            ticket_time: timeResults,
+        },
+        {
+            where: { id: ticketTime.ticketId }
+        }
     )
 
     return res.send("done")
@@ -146,38 +186,38 @@ router.get('/testing/:id', async(req, res, next) => {
 
 
 // Add a new ticket time for a ticket
-router.post("/startTicketTask/:id", validateStartTicketTask, async(req, res, next) => {
+router.post("/startTicketTask/:id", validateStartTicketTask, async (req, res, next) => {
 
     const data = req.body;
     const { id } = req.params;
 
-    if(data.contactId === ''){
+    if (data.contactId === '') {
         data.contactId = null;
     }
 
     const now = new Date();
 
     try {
-        
+
         // Add the ticket time
         const ticketTime = await TicketTime.create({
-            uuid: uuidv4(), 
+            uuid: uuidv4(),
             ...data,
             start_time: now,
-            status: 'OPEN', 
-            ticketId : id,
+            status: 'OPEN',
+            ticketId: id,
         });
 
-        return res.json({status: 200, message: "Successfully saved start task.", ticketTime: ticketTime });
+        return res.json({ status: 200, message: "Successfully saved start task.", ticketTime: ticketTime });
 
     } catch (error) {
-         return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
 
 // End the ticket time for a ticket
-router.put("/endTicketTask/:id", validateStartTicketTask, async(req, res, next) => {
+router.put("/endTicketTask/:id", validateStartTicketTask, async (req, res, next) => {
 
     const { id } = req.params;
     const now = new Date();
@@ -190,8 +230,8 @@ router.put("/endTicketTask/:id", validateStartTicketTask, async(req, res, next) 
                 status: 'CLOSED',
             },
             {
-                where: {id : id}
-            }             
+                where: { id: id }
+            }
         );
 
         // Re-fetch the task with the completed information
@@ -207,18 +247,18 @@ router.put("/endTicketTask/:id", validateStartTicketTask, async(req, res, next) 
 
         // Post the new details back to the ticket
         const timeResults = await Ticket.update(
-                {
-                    ticket_time: runningTotal,
-                },
-                {
-                    where: {id : getTicketTime.ticketId}
-                }   
+            {
+                ticket_time: runningTotal,
+            },
+            {
+                where: { id: getTicketTime.ticketId }
+            }
         )
 
-        return res.json({status: 200, message: "Successfully closed task.", ticketTime: ticketTime });
+        return res.json({ status: 200, message: "Successfully closed task.", ticketTime: ticketTime });
 
     } catch (error) {
-         return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
@@ -229,23 +269,23 @@ router.post("/comment/:id", validateTicketComment, async (req, res, next) => {
     const data = req.body;
     const { id } = req.params;
 
-    if(data.contactId === ''){
+    if (data.contactId === '') {
         data.contactId = null;
     }
 
     try {
-        
+
         // Add the ticket time
         const ticketComment = await TicketComment.create({
-            uuid: uuidv4(), 
+            uuid: uuidv4(),
             ...data,
-            ticketId : id,
+            ticketId: id,
         });
 
-        return res.json({status: 200, message: "Successfully saved your comment.", ticketComment: ticketComment });
+        return res.json({ status: 200, message: "Successfully saved your comment.", ticketComment: ticketComment });
 
     } catch (error) {
-         return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: error.message })
     }
 })
 

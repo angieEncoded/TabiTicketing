@@ -124,6 +124,7 @@ module.exports.ticketSchema = Joi.object({
     agenda: Joi.string().allow(''),
     status: Joi.string().required(),
     priority: Joi.string().required(),
+    ticket_type: Joi.string().required(),
     technical_details: Joi.string().allow(''),
     customer_solution: Joi.string().allow(''),
     notes: Joi.string().allow(''),
@@ -134,7 +135,7 @@ module.exports.ticketSchema = Joi.object({
 })
 
 module.exports.startTicketTaskSchema = Joi.object({
-    start_task_name: Joi.string().required(),
+    task_name: Joi.string().required(),
     contactId: Joi.number().allow(null),
     customerId: Joi.number().required(),
     userId: Joi.number().required(),

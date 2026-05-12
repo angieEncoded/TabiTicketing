@@ -63,7 +63,7 @@ const ModalNavigationWrapper = () => {
                     title={<>Ticket# {currentTicketId} </>}
                     >
                     
-                    <TicketDisplay id={currentTicketId} closeTab={closeTab}/>
+                    <TicketDisplay id={currentTicketId} closeTab={closeTab} calledFrom={"customer"}/>
                     </Tab>
                 }
                 <Tab eventKey="picture" title="Pictures">

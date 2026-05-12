@@ -22,6 +22,7 @@ import AddUSer from './pages/AddUser';
 import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
 import OpenTasks from './pages/OpenTasks';
+import KnowledgeBase from './pages/KnowledgeBase';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       { path: "/add-user", element: <AddUser /> },
       { path: "/calendar", element: <TabiCalendar /> },
       { path: "/reports", element: <Reports /> },
+      { path: "/knowledge-base", element: <KnowledgeBase /> },
       { path: "/settings", element: <Settings /> },
       { path: "/history", element: <History /> },
       { path: "/backup", element: <Backup /> },

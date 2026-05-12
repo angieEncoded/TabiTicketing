@@ -4,6 +4,7 @@ import { technicianActions } from "../store/TechnicianSlice";
 import { ticketsActions } from "../store/TicketSlice";
 import { selectedCustomerActions } from "../store/SelectedCustomerSlice";
 import { selectedTicketActions } from "../store/SelectedTicketSlice";
+import { ticketTasksActions } from "../store/TicketTasksSlice";
 import urls from "../util/apiPaths.json";
 
 // Send in dispatcher for all these functions
@@ -29,6 +30,29 @@ const getCustomerTableData = async (dispatch) => {
         return ({ status: error.status, message: error.message })
     }
 }
+
+// const ticketTaskResults = await getTicketTasksData(dispatch);
+// if (ticketTaskResults.status !== 200) { toast.error(`${ticketTaskResults.status} - ${ticketTaskResults.message}`) }
+const getTicketTasksData = async(dispatch) => {
+
+    try {
+        const openTicketTasks = await fetch(`${urls.ticketAPI}/tasks`);
+        if (!openTicketTasks.ok) { 
+            return({status: openTicketTasks.status, message: openTicketTasks.statusText}) 
+        }
+        const openTicketTasksJson = await openTicketTasks.json();
+        if (openTicketTasksJson.status === 200) {
+            await dispatch(ticketTasksActions.loadTicketTasksData(openTicketTasksJson.tasks));
+            return ({ status: 200, message: "Successfully Fetched" })
+        } else {
+            return openTicketTasksJson;
+        }
+    } catch (error) {
+        return ({ status: error.status, message: error.message })
+    }
+
+}
+
 
 // const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
 // if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
@@ -168,4 +192,12 @@ const fancyFormat = (duration) => {
 }
 
 
-export { formatRemainingSeconds, fancyFormat, getCustomerTableData, getSelectedCustomerData, getContactsData, getTechnicianData, getSelectedTicketData }
+export { formatRemainingSeconds, 
+    fancyFormat, 
+    getCustomerTableData, 
+    getSelectedCustomerData, 
+    getContactsData, 
+    getTechnicianData, 
+    getSelectedTicketData,
+    getTicketTasksData
+}

@@ -36,7 +36,7 @@ const COLUMNS = [
     }),
     {
         header: 'Technician',
-        accessorFn: row => `${row.user.first_name} ${row.user.last_name} `,
+        accessorFn: row => row.user?.id == null ? 'UNASSIGNED' : `${row.user?.first_name} ${row.user?.last_name}`,
         disableFilters: true,
     },
 ];

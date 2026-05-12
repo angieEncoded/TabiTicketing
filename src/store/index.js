@@ -8,6 +8,7 @@ import technicianSliceReducer from "./TechnicianSlice";
 import projectSliceReducer from "./ProjectSlice";
 import tabSliceReducer from "./TabDisplaySlice";
 import selectedTicketSliceReducer from "./SelectedTicketSlice";
+import ticketTasksSliceReducer from "./TicketTasksSlice";
 
 const store = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
         technicians: technicianSliceReducer,
         projects: projectSliceReducer,
         tab: tabSliceReducer,
-        sticket: selectedTicketSliceReducer
+        sticket: selectedTicketSliceReducer,
+        ttasks: ticketTasksSliceReducer
     }
 })
 

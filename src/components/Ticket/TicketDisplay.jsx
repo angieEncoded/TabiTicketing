@@ -13,7 +13,7 @@ import TicketHistory from './TicketHistory.jsx'
 import AddTicketComment from "./AddTicketComment.jsx"
 import Buttontabi from '../Button/Buttontabi.jsx'
 
-const TicketDisplay = ({ id, closeTab }) => {
+const TicketDisplay = ({ id, closeTab, calledFrom }) => {
 
 
     const [errorMessage, setErrorMessage] = useState("");
@@ -26,11 +26,11 @@ const TicketDisplay = ({ id, closeTab }) => {
 
     // Initially populate the data
     useEffect(() => {
-  
+
         // Wrap in an async
         const getData = async () => {
             try {
-          
+
                 setIsPending(true)
                 const results = await getSelectedTicketData(id, dispatch); // reach out to the helper function
                 if (results.status === 200) {
@@ -53,12 +53,12 @@ const TicketDisplay = ({ id, closeTab }) => {
             {!isPending && hasError && <ErrorAlert error={errorMessage} />}
             {!isPending && !hasError &&
                 <>
+                <span>
 
-                    <h4 className="text-center baskerville-font mb-3">
-                         {selectedTicket.customer.customer_name} - {selectedTicket.title}
-                        <i className="las la-window-close float-end" onClick={() => closeTab()}></i>
-                    </h4>
+                    {calledFrom && calledFrom === "customer" && <span className={'float-end '}>Close<i className="las la-window-close tabi-hover" onClick={() => closeTab()}></i></span>}
+                    <h4 className="text-center baskerville-font mb-3">{selectedTicket.customer.customer_name} - {selectedTicket.title}</h4>
 
+                </span>
 
                     <hr />
 

@@ -39,7 +39,7 @@ const TicketDetails = () => {
         setEditingField("empty");
     }
 
-   const onSubmit = async (formData) => {
+    const onSubmit = async (formData) => {
 
         setIsPending(true); // invoke spinner
 
@@ -51,8 +51,8 @@ const TicketDetails = () => {
         }
 
         // Guardrails before even asking the server, check on the server as well
-        if(formData.status && formData.status === "CLOSED"){
-            if(selectedTicket.customer_solution === ''){
+        if (formData.status && formData.status === "CLOSED") {
+            if (selectedTicket.customer_solution === '') {
                 setIsPending(false)
                 swapToNormalField();
                 reset();
@@ -90,7 +90,7 @@ const TicketDetails = () => {
                 // Refresh the ticket
                 const selectedTicketResults = await getSelectedTicketData(selectedTicket.id, dispatch);
                 if (selectedTicketResults.status !== 200) { toast.error(`${selectedTicketResults.status} - ${selectedTicketResults.message}`) }
-                
+
                 // refresh the background customer
                 const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
                 if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
@@ -285,8 +285,6 @@ const TicketDetails = () => {
                             </form>
                         </div>
                         :
-
-
                         <div className="row mb-3">
                             <div className={"col-2"}><strong>Priority:</strong></div>
                             <div className={"col-9"}>{selectedTicket.priority}</div>
@@ -297,8 +295,44 @@ const TicketDetails = () => {
                     }
 
 
+                    {editingField && editingField === "ticket_type" ?
+                        <div className="row mb-3">
+                            <form onSubmit={handleSubmit(onSubmit)}>
 
+                                {/* ================= TICKET TYPE ====================== */}
+                                <div className="mb-3 row  align-items-center">
+                                    <div className="col-12 col-md-3">
+                                        <label className="form-label">Ticket Type:<span className={'text-danger'}></span></label>
+                                    </div>
+                                    <div className="col-12 col-md-9">
+                                        <select   {...register('ticket_type', {
+                                            required: true,
+                                            pattern: regexPatterns.alphaNumeric
+                                        })}
+                                            defaultValue='OPEN'
+                                            className={errors.ticket_type && dirtyFields.ticket_type ? 'form-select is-invalid' : 'form-select'}>
+                                            <option value={"REMOTE"}>Remote</option>
+                                            <option value={"BUILD"}>Build</option>
+                                            <option value={"ONSITE"}>On Site</option>
+                                            <option value={"HYBRID"}>Hybrid</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="float-end">
+                                    <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                    <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                </div>
+                            </form>
+                        </div>
+                        :
 
+                        <div className="row mb-3">
+                            <div className={"col-2"}><strong>Type:</strong></div>
+                            <div className={"col-9"}>{selectedTicket.ticket_type}</div>
+                            <div className={"col-1"}><i className="las la-edit icon-hover" onClick={() => swapToEditField("ticket_type", selectedTicket.ticket_type)}></i></div>
+                        </div>
+
+                    }
 
 
 
@@ -408,7 +442,7 @@ const TicketDetails = () => {
                                 })}
                                     className={errors.technical_details && dirtyFields.technical_details ? 'form-control is-invalid' : 'form-control'}
                                     defaultValue={selectedTicket.technical_details}
-                                    ></textarea>
+                                ></textarea>
                             </div>
                         </div>
 

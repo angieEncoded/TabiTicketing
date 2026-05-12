@@ -86,7 +86,7 @@ const StartTicketTask = () => {
             }
 
             if (serverResponse.status == "200") {
-                toast.success(`Started the clock on ${serverResponse.ticketTime.start_task_name}`);
+                toast.success(`Started the clock on ${serverResponse.ticketTime.task_name}`);
 
                 // Refresh the ticket we are looking at
                 const selectedTicketResults = await getSelectedTicketData(selectedTicket.id, dispatch);
@@ -113,11 +113,11 @@ const StartTicketTask = () => {
                 {/* ================= START TASK ====================== */}
 
                 <label className="form-label">Start the clock on a new task</label>
-                <input {...register('start_task_name', {
+                <input {...register('task_name', {
                     required: true,
                     pattern: regexPatterns.alphaNumeric
                 })}
-                    className={errors.start_task_name && dirtyFields.start_task_name ? 'form-control is-invalid mb-3' : 'form-control mb-3'}
+                    className={errors.task_name && dirtyFields.task_name ? 'form-control is-invalid mb-3' : 'form-control mb-3'}
                     placeholder={"Task Description: (What are you going to do?)"} />
 
                 <Buttontabi type='submit' buttonClass={'logo mb-3'} title={!isPending ? "Start task" : "Submitting..."} disabled={!isValid} />
