@@ -55,7 +55,7 @@ const TicketDisplay = ({ id, closeTab, calledFrom }) => {
                 <>
                 <span>
 
-                    {calledFrom && calledFrom === "customer" && <span className={'float-end '}>Close<i className="las la-window-close tabi-hover" onClick={() => closeTab()}></i></span>}
+                    {calledFrom && calledFrom === "customer" && <span className={'float-end tabi-hover'}  onClick={() => closeTab()}>Close<i className="las la-window-close"></i></span>}
                     <h4 className="text-center baskerville-font mb-3">{selectedTicket.customer.customer_name} - {selectedTicket.title}</h4>
 
                 </span>

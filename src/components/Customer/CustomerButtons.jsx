@@ -9,7 +9,7 @@ import TicketForm from '../Forms/TicketForm';
 import { useSelector, useDispatch } from 'react-redux'
 
 
-const CustomerButtons = ({ recordType }) => {
+const CustomerButtons = ({ recordType, openNewTab }) => {
 
 
   // set which component is being shown
@@ -53,7 +53,7 @@ const CustomerButtons = ({ recordType }) => {
       {currentComponent === 'Contact' && <ContactForm recordType={recordType} closeComponent={closeComponent}></ContactForm>}
       {currentComponent === 'License' && <LicenseForm recordType={recordType} closeComponent={closeComponent}></LicenseForm>}
       {currentComponent === 'Picture' && <PictureForm recordType={recordType} closeComponent={closeComponent}></PictureForm>}
-      {currentComponent === 'Ticket' && <TicketForm recordType={recordType} closeComponent={closeComponent}></TicketForm>}
+      {currentComponent === 'Ticket' && <TicketForm recordType={recordType} closeComponent={closeComponent} openNewTab={openNewTab}></TicketForm>}
 
 
 

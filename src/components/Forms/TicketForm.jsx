@@ -16,7 +16,7 @@ import Loading from '../LoadingScreens/Loading.jsx'
 import {tabActions} from "../../store/TabDisplaySlice.js";
 import urls from "../../util/apiPaths.json";
 
-const TicketForm = ({ recordType, closeComponent }) => {
+const TicketForm = ({ recordType, closeComponent, openNewTab }) => {
 
     const loggedInUser = 4;
 
@@ -26,6 +26,7 @@ const TicketForm = ({ recordType, closeComponent }) => {
     const customerContacts = useSelector(state => state.scust.customer.contacts);
     const technicians = useSelector(state => state.technicians.technicians);
     const customerProjects = useSelector(state => state.projects.projects);
+    const [savedTicketId, setSavedTicketId] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -84,6 +85,8 @@ const TicketForm = ({ recordType, closeComponent }) => {
         if (isSubmitSuccessful) {
             reset();
             cancelTask();
+             console.log(savedTicketId)
+            openNewTab(savedTicketId);
         }
     }, [formState, reset])
 
@@ -120,10 +123,12 @@ const TicketForm = ({ recordType, closeComponent }) => {
             // Successful submit
             if (serverResponse.status == "200") {
                 toast.success(`Successfully added a new ticket for ${selectedCustomer.customer_name}`);
+                setSavedTicketId(serverResponse.ticket.id);
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    const custResults = await getSelectedCustomerData(selectedCustomer, dispatch);
+                    console.log("got in here")
+                    const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 }
 

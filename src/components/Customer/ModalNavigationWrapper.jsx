@@ -25,6 +25,12 @@ const ModalNavigationWrapper = () => {
         setKey("ticket");
     }
 
+    const openNewTab = (id) => {
+        setCurrentTicketId(id);
+         console.log(id)
+        setKey("ticket"); 
+    }
+
     const closeTab = () => {
         setCurrentTicketId(0);
         setKey("home");
@@ -42,7 +48,7 @@ const ModalNavigationWrapper = () => {
             >
                 
                 <Tab eventKey="home" title="Home">
-                    <CustomerButtons />
+                    <CustomerButtons openNewTab={openNewTab} recordType={"customer"}/>
                     <CustomerDisplay handleRowClick={handleRowClick}/>
                 </Tab>
 

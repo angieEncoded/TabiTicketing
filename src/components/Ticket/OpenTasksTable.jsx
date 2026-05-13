@@ -83,7 +83,6 @@ const OpenTasksTable = () => {
                 <th>Contact Name</th>
                 <th>Task Name</th>
                 <th>Start Time</th>
-                <th>Ticket Title</th>
                 <th>Ticket#</th>
               </tr>
             </thead>
@@ -95,8 +94,7 @@ const OpenTasksTable = () => {
                   <td>{ticketTask?.ticket?.customer?.customer_name}</td>
                   <td>{ticketTask?.ticket?.contact?.first_name} {ticketTask?.ticket?.contact?.last_name}</td>
                   <td>{ticketTask?.task_name}</td>
-                  <td>{new Date(ticketTask?.start_time).toLocaleTimeString('en-US')}</td>
-                  <td>{ticketTask?.ticket?.title}</td>
+                  <td> {new Date(ticketTask?.start_time).toLocaleDateString('en-US')} {new Date(ticketTask?.start_time).toLocaleTimeString('en-US')}</td>
                   <td>{ticketTask?.ticket?.id}</td>
                 </tr>
               )}

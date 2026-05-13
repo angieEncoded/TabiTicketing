@@ -12,7 +12,7 @@ const User = require("../models/User");
 const { Op } = require('sequelize');
 const logger = require('../util/logger');
 const { v4: uuidv4 } = require('uuid');
-const { validateNewCustomer, validateExistingCustomer } = require("../util/validationHelpers")
+const { validateNewCustomer, validateExistingCustomer, validateCustomerPut } = require("../util/validationHelpers")
 
 // /customers/*
 
@@ -48,11 +48,11 @@ router.get("/", async (req, res, next) => {
 router.post("/", validateNewCustomer, async (req, res, next) => {
     const data = req.body;
     try {
-        const results = await Customer.create({
+        const customer = await Customer.create({
             uuid: uuidv4(),
             ...data
         })
-        return res.json({ status: 200, message: "Successfully Added", results: results });
+        return res.json({ status: 200, message: "Successfully Added", customer: customer });
 
     } catch (error) {
         return res.json({ status: 500, message: error.message })
@@ -68,7 +68,7 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-
+        console.log(id)
         const customer = await Customer.findOne({
             where: { id: id },
             include: [
@@ -89,6 +89,36 @@ router.get("/:id", async (req, res, next) => {
     }
 })
 
+
+// Update a customer
+router.put("/:id", validateCustomerPut, async (req, res, next) => {
+
+    console.log("got into the put")
+    const data = req.body;
+    console.log(data)
+    if (data.contactId === '') {
+        data.contactId = null;
+    }
+
+    const { id } = req.params;
+
+    try {
+
+        const customer = await Customer.update(
+            { ...data },
+            {
+                where:
+                    { id: id }
+            }
+        );
+
+        return res.json({ status: 200, message: "Successfully updated", customer: customer });
+
+    } catch (error) {
+        return res.json({ status: 500, message: error.message })
+    }
+
+})
 
 
 module.exports = router;

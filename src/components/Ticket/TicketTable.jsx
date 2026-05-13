@@ -21,6 +21,7 @@ const TicketTable = () => {
 
     // Grab items from the slices
     const ticketsForTable = useSelector(state => state.ticket.tickets);
+    console.log(ticketsForTable)
     const dispatch = useDispatch();
 
 
@@ -44,7 +45,7 @@ const TicketTable = () => {
                 const ticketData = await fetch(`${urls.ticketAPI}`);
                 if (!ticketData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
                 const ticketDataJson = await ticketData.json();
-                dispatch(ticketsActions.loadTicketData(ticketDataJson));
+                dispatch(ticketsActions.loadTicketData(ticketDataJson.tickets));
                 setIsPending(false);
             } catch (error) {
                 setIsPending(false);

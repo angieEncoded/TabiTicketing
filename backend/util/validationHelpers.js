@@ -10,7 +10,10 @@ const { customerSchema,
     startTicketTaskSchema, 
     ticketCommentSchema
 } = require("./validationSchemas");
-const { ticketPutSchema 
+const { 
+    ticketPutSchema, 
+    customerPutSchema, 
+    addressPutSchema
 } = require("../util/validationSchemaForks");
 const fs = require("fs");
 
@@ -26,6 +29,16 @@ module.exports.validateNewCustomer = (req, res, next) => {
 
 module.exports.validateNewAddress = (req, res, next) => {
     const { error } = addressSchema.validate(req.body);
+    if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({status: 400, message: message })
+    } else {
+        next();
+    }
+}
+
+module.exports.validateAddressPut = (req, res, next) => {
+    const { error } = addressPutSchema.validate(req.body);
     if (error) {
         const message = error.details.map((element) => element.message).join(",");
         return res.json({status: 400, message: message })
@@ -139,6 +152,18 @@ module.exports.validateTicketPut = (req, res, next) => {
         next();
     }
 }
+
+module.exports.validateCustomerPut = (req, res, next) => {
+    const { error } = customerPutSchema.validate(req.body, { stripUnknown: true });
+        if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({status: 400, message: message })
+    } else {
+        next();
+    }
+}
+
+
 
 module.exports.validateStartTicketTask = (req, res, next) => {
     const { error } = startTicketTaskSchema.validate(req.body);

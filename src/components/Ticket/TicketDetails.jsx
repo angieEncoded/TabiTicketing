@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Buttontabi from '../Button/Buttontabi';
 import { useForm } from "react-hook-form"
 import regexPatterns from '../../util/regexPatterns';
-import { getSelectedTicketData, getSelectedCustomerData } from "../../util/helperFunctions";
+import { getSelectedTicketData, getSelectedCustomerData, getTicketQueueTableData } from "../../util/helperFunctions";
 
 const TicketDetails = () => {
 
@@ -61,8 +61,6 @@ const TicketDetails = () => {
             }
         }
 
-
-
         try {
             const results = await fetch(`${urls.ticketAPI}/${selectedTicket.id}`, {
                 method: "PUT",
@@ -92,8 +90,12 @@ const TicketDetails = () => {
                 if (selectedTicketResults.status !== 200) { toast.error(`${selectedTicketResults.status} - ${selectedTicketResults.message}`) }
 
                 // refresh the background customer
-                const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
+                const custResults = await getSelectedCustomerData(selectedTicket.customer.id, dispatch);
                 if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
+
+                // refresh the tickets table TODO
+                const ticketQueueResults = await getTicketQueueTableData(dispatch);
+                if (ticketQueueResults.status !== 200) { toast.error(`${ticketQueueResults.status} - ${ticketQueueResults.message}`) }
 
 
                 swapToNormalField();
@@ -131,12 +133,6 @@ const TicketDetails = () => {
                         <div className={"col-2"}><strong>Opened:</strong> </div>
                         <div className={"col-10"}>{new Date(selectedTicket.createdAt).toLocaleDateString('en-US')} {new Date(selectedTicket.createdAt).toLocaleTimeString('en-US')}</div>
                     </div>
-
-
-
-
-
-
 
                     {editingField && editingField === "title" ?
                         <div className="row mb-3">
@@ -309,7 +305,7 @@ const TicketDetails = () => {
                                             required: true,
                                             pattern: regexPatterns.alphaNumeric
                                         })}
-                                            defaultValue='OPEN'
+                                            defaultValue={selectedTicket.ticket_type}
                                             className={errors.ticket_type && dirtyFields.ticket_type ? 'form-select is-invalid' : 'form-select'}>
                                             <option value={"REMOTE"}>Remote</option>
                                             <option value={"BUILD"}>Build</option>

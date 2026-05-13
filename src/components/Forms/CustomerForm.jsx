@@ -9,6 +9,8 @@ import CustomerDisplay from "../Customer/CustomerDisplay";
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
+import ModalNavigationWrapper from "../Customer/ModalNavigationWrapper.jsx";
+
 const CustomerForm = () => {
 
     const [isPending, setIsPending] = useState(false);
@@ -81,9 +83,11 @@ const CustomerForm = () => {
             }
 
             if (serverResponse.status == "200") {
-                toast.success(`Successfully added ${serverResponse.results.customer_name}`);
+                console.log(serverResponse)
+                toast.success(`Successfully added ${serverResponse.customer.customer_name}`);
                 
-                const results = await getSelectedCustomerData(serverResponse.results.id, dispatch);
+                // update customer for display in the modal
+                const results = await getSelectedCustomerData(serverResponse.customer.id, dispatch);
                 if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
 
                 setIsPending(false);
@@ -113,8 +117,8 @@ const CustomerForm = () => {
             {/* Once we have created the customer open the main display form */}
             {showModal &&
 
-                <LargeModal showFormModal={showModal} hideFormModal={hideFormModal} >
-                    <CustomerDisplay recordType={'customer'}></CustomerDisplay>
+                <LargeModal showFormModal={showModal} hideFormModal={hideFormModal} title={selectedCustomer.customer_name}>
+                    <ModalNavigationWrapper></ModalNavigationWrapper>
                 </LargeModal>
             }
 

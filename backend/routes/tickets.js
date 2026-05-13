@@ -22,22 +22,31 @@ const Project = require("../models/Project");
 
 // /tickets
 
-
-
-
-
 // Fetch all open tickets
 router.get("/", async (req, res, next) => {
 
-    const tickets = await Ticket.findAll({
-        where: {
-            'status': {
-                [Op.ne]: 'CLOSED'
-            }
-        },
-        include: [Technician, Contact, Customer]
-    });
-    res.json(tickets);
+    try {
+
+        const tickets = await Ticket.findAll({
+            where: {
+                'status': {
+                    [Op.ne]: 'CLOSED'
+                }
+            },
+            include: [Technician, Contact, Customer]
+        });
+
+        // Handle if there are no tickets to fetch
+        if (tickets?.length < 1) {
+            return res.json({ status: "500", message: "There are no tickets to fetch." })
+        }
+
+        return res.json({ status: 200, message: "Successfully fetched", tickets });
+
+    } catch (error) {
+        return res.json({ status: "500", message: error.message })
+    }
+
 })
 
 
@@ -74,6 +83,7 @@ router.get("/tasks", async (req, res, next) => {
 // Fetch single ticket
 router.get("/:id", async (req, res, next) => {
     const { id } = req.params;
+    console.log(id)
 
     try {
         const ticket = await Ticket.findOne({
