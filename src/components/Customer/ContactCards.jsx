@@ -42,7 +42,11 @@ const ContactCards = () => {
 
     return (
         <>
-            {selectedCustomer.contacts?.length < 1 && <h4>There are no contacts for this customer</h4>}
+  <h5 className="text-center baskerville-font mb-3">Contacts</h5>
+
+                  {selectedCustomer?.contacts?.length < 1 && <p className="text-center">No contacts recorded for this customer.</p>}
+
+                  {selectedCustomer?.contacts?.length >= 1 &&
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {selectedCustomer.contacts?.map(contact => (
                     <div className="col" key={contact.id}>
@@ -108,6 +112,7 @@ const ContactCards = () => {
                     </div>
                 ))}
             </div>
+}
         </>
 
     )

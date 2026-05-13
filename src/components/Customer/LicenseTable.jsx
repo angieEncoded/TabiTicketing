@@ -50,9 +50,9 @@ const LicenseTable = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Licenses</h5>
 
-                    {selectedCustomer.licenses && selectedCustomer.licenses.length < 1 && <p className="text-center">No Licenses recorded for this customer.</p>}
+                    {selectedCustomer?.licenses?.length < 1 && <p className="text-center">No Licenses recorded for this customer.</p>}
 
-                    {selectedCustomer.licenses && selectedCustomer.licenses.length >= 1 &&
+                    {selectedCustomer?.licenses?.length >= 1 &&
                         <>
 
 

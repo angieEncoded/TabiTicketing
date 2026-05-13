@@ -46,56 +46,62 @@ const LicenseCards = () => {
 
     return (
         <>
-            {selectedCustomer.licenses?.length < 1 && <h4>There are no licenses for this customer</h4>}
-            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                {selectedCustomer.licenses?.map(license => (
-                    <div className="col" key={license.id}>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>{license.product_name}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">{license.vendor_name}</Card.Subtitle>
 
-                                <hr></hr>
-                                <ListGroup variant="flush">
+            <h5 className="text-center baskerville-font mb-3">Licenses</h5>
 
-                                    <ListGroup.Item>Download License Key: {license.license_key}
-                                
-                                        {license.license_key &&
-                                            <>
-                                                {clipboard && clipboard === `license_key_${license.id}` ?
-                                                    <span className="text-success">
-                                                        <i className="las la-check mx-2"></i></span> :
-                                                    <span className={"text-primary"}>
-                                                        <i className="lar la-copy tabi-hover mx-2"
-                                                            onClick={() => copyToClipboard(`license_key_${license.id}`, license.license_key)}></i>
-                                                    </span>}
-                                            </>
-                                        }
+            {selectedCustomer?.licenses?.length < 1 && <p className="text-center">No Licenses recorded for this customer.</p>}
 
+            {selectedCustomer?.licenses?.length >= 1 &&
 
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>License File:  
-                                        {license.license_file.split('.').pop() === 'txt' && <i className="las la-file-alt tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
-                                        {license.license_file.split('.').pop() === 'jpg' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
-                                        {license.license_file.split('.').pop() === 'png' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
-                                        {license.license_file.split('.').pop() === 'jpeg' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
-                                        {license.license_file.split('.').pop() === 'gif' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
-                                        {license.license_file.split('.').pop() === 'pdf' && <i className="las la-file-pdf tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
-                                    </ListGroup.Item>
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {selectedCustomer.licenses?.map(license => (
+                        <div className="col" key={license.id}>
+                            <Card>
+                                <Card.Body>
+                                    <Card.Title>{license.product_name}</Card.Title>
+                                    <Card.Subtitle className="mb-2 text-muted">{license.vendor_name}</Card.Subtitle>
+
+                                    <hr></hr>
+                                    <ListGroup variant="flush">
+
+                                        <ListGroup.Item>Download License Key: {license.license_key}
+
+                                            {license.license_key &&
+                                                <>
+                                                    {clipboard && clipboard === `license_key_${license.id}` ?
+                                                        <span className="text-success">
+                                                            <i className="las la-check mx-2"></i></span> :
+                                                        <span className={"text-primary"}>
+                                                            <i className="lar la-copy tabi-hover mx-2"
+                                                                onClick={() => copyToClipboard(`license_key_${license.id}`, license.license_key)}></i>
+                                                        </span>}
+                                                </>
+                                            }
 
 
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>License File:
+                                            {license?.license_file?.split('.').pop() === 'txt' && <i className="las la-file-alt tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
+                                            {license?.license_file?.split('.').pop() === 'jpg' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
+                                            {license?.license_file?.split('.').pop() === 'png' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
+                                            {license?.license_file?.split('.').pop() === 'jpeg' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
+                                            {license?.license_file?.split('.').pop() === 'gif' && <i className="las la-image tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
+                                            {license?.license_file?.split('.').pop() === 'pdf' && <i className="las la-file-pdf tabi-hover mx-3" onClick={() => downloadLicenseFile(license.license_file)}></i>}
+                                        </ListGroup.Item>
 
-                                    <ListGroup.Item>Email: {license.email}</ListGroup.Item>
-                                </ListGroup>
 
 
-                            </Card.Body>
-                        </Card>
-                    </div>
-                ))}
-            </div>
+                                        <ListGroup.Item>Email: {license.email}</ListGroup.Item>
+                                    </ListGroup>
 
 
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    ))}
+                </div>
+
+            }
 
         </>
 

@@ -44,7 +44,15 @@ const EquipmentCards = () => {
 
     return (
         <>
-            {selectedCustomer.equipment?.length < 1 && <h4>there is no equipment for this customer</h4>}
+            
+
+
+        <h5 className="text-center baskerville-font mb-3">Equipment</h5>
+
+        {selectedCustomer.equipment?.length < 1 && <p className="text-center">No Equipment recorded for this customer.</p>}
+
+
+
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {selectedCustomer.equipment?.map(equipment => (
                     <div className="col" key={equipment.id}>
