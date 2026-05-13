@@ -64,7 +64,7 @@ const LicenseCards = () => {
                                     <hr></hr>
                                     <ListGroup variant="flush">
 
-                                        <ListGroup.Item>Download License Key: {license.license_key}
+                                        <ListGroup.Item>License Key: {license.license_key}
 
                                             {license.license_key &&
                                                 <>

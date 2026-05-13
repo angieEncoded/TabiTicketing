@@ -59,7 +59,7 @@ const EquipmentCards = () => {
                         <Card>
                             <Card.Body>
                                 <Card.Title>{equipment.vendor} {equipment.model}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">{equipment.equipment_type}</Card.Subtitle>
+                                <Card.Subtitle className="mb-2 text-muted">{equipment.equipment_type} - {equipment.serial_number}</Card.Subtitle>
 
                                 <hr></hr>
                                 <ListGroup variant="flush">
