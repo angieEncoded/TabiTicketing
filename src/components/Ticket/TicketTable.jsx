@@ -21,7 +21,6 @@ const TicketTable = () => {
 
     // Grab items from the slices
     const ticketsForTable = useSelector(state => state.ticket.tickets);
-    console.log(ticketsForTable)
     const dispatch = useDispatch();
 
 

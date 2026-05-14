@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) => {
             include: {
                 model: Address,
                 where: {
-                    type: 'Billing'
+                    type: 'BILLING'
                 },
                 required: false
             }

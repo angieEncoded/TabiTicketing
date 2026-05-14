@@ -83,7 +83,7 @@ const OpenTicketTasks = () => {
                 <tr key={task.id}>
                   <td>{task.user.first_name} {task.user.last_name}</td>
                   <td>{task.task_name}</td>
-                  <td>{new Date(task.start_time).toLocaleTimeString('en-US')}</td>
+                  <td>{new Date(task.start_time).toLocaleDateString('en-US')} {new Date(task.start_time).toLocaleTimeString('en-US')}</td>
                   <td><Buttontabi buttonClass={'logo btn-sm'}
                     title={!isPending ? "Close task" : "Submitting..."}
                     onClick={() => closeTask(task.id)} /></td>

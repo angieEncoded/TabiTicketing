@@ -21,10 +21,12 @@ const CustomerTable = () => {
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState({});
 
     // Grab items from the slices
     const customersForTable = useSelector(state => state.cust.customers);
     const selectedCustomerForModal = useSelector(state => state.scust.customer);
+
 
     const dispatch = useDispatch();
 
@@ -60,20 +62,13 @@ const CustomerTable = () => {
     }, []);
 
     const handleRowClick = async (row) => {
-        setHasError(false);
-        setErrorMessage("");
-        setIsPending(true);
-
-        // let's do one query to the db and be done with it, everyone else can subscribe
-        const results = await getSelectedCustomerData(row.original.id, dispatch);
-        if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
-  
-        setIsPending(false);
+        setSelectedCustomer(row.original)
         setShowModal(true); // show the modal with the form
     }
 
     const closeModal = () => {
-        dispatch(selectedCustomerActions.clearCustomerData()); // clear the data
+        // dispatch(selectedCustomerActions.clearCustomerData()); // clear the data
+        setSelectedCustomer({})
         setShowModal(false); // close the modal
     }
 
@@ -85,10 +80,8 @@ const CustomerTable = () => {
             {!isPending && !hasError &&
 
                 <>
-
-            
                     <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomerForModal.customer_name}>
-                        <ModalNavigationWrapper />
+                        <ModalNavigationWrapper id={selectedCustomer.id} /> 
                     </LargeModal>
 
                     {customersForTable && customersForTable.length < 1 && <h3 className="text-center noticaText">There's no customers! Why don't you add some?</h3>}

@@ -129,9 +129,9 @@ const AddressForm = ({ recordType, closeComponent }) => {
                             </div>
                             <div className="col-12 col-md-9">
                                 <select {...register('type', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Billing' className={errors.type && dirtyFields.type ? 'form-select is-invalid' : 'form-select'}>
-                                    <option key={'Billing'} value={'Billing'}>Billing</option>
-                                    <option key={'Shipping'} value={'Shipping'}>Shipping</option>
-                                    <option key={'Other'} value={'Other'}>Other</option>
+                                    <option key={'BILLING'} value={'BILLING'}>Billing</option>
+                                    <option key={'SHIPPING'} value={'SHIPPING'}>Shipping</option>
+                                    <option key={'OTHER'} value={'OTHER'}>Other</option>
                                 </select>
                             </div>
                         </div>

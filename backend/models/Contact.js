@@ -14,6 +14,7 @@ const Contact = db.define('contact', {
     job_title: {type: Sequelize.TEXT, allowNull: true},
     email: {type: Sequelize.STRING, allowNull: true},
     notes: {type: Sequelize.TEXT, allowNull: true},
+    status:  {type: Sequelize.STRING, allowNull: false, defaultValue: 'ACTIVE'},
     added_by: {type: Sequelize.STRING, allowNull: false},
     updated_by: {type:Sequelize.STRING, allowNull: false},
     uuid: {type: Sequelize.UUID, allowNull: false},

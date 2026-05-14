@@ -7,6 +7,26 @@ const { validateNewContact } = require("../util/validationHelpers")
 
 // /contacts
 
+// Fetch all active contacts
+router.get("/", async (req, res, next) => {
+
+    const { customerId } = req.params
+    try {
+        const contacts = await Contact.findAll({ where:{'status':  'ACTIVE'} });
+     
+        if(contacts.length < 1){
+            return res.json({status: 500, message: "There are no contacts to fetch." })
+        }
+
+        return res.json({status: 200, message: "Successfully fetched", contacts: contacts});
+        
+    } catch (error) {
+        return res.json({ status: 500, message: error.message })
+    }
+
+})
+
+
 // fetch all active contacts for a customer
 router.get("/:customerId", async (req, res, next) => {
 

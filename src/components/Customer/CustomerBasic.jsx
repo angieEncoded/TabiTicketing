@@ -308,7 +308,7 @@ const CustomerBasic = ({ id }) => {
                                 </div>
                                 :
                                 <div className="row mb-2">
-                                    <div className="col-lg-4 d-none d-lg-block">Secondary Phone:
+                                    <div className="col-lg-4 d-none d-lg-block">Second Phone:
                                         {clipboard && clipboard === 'Phone2' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Phone2", selectedCustomerData.secondary_phone)}></i></span>}
                                     </div>
                                     <div className="col-lg-7">

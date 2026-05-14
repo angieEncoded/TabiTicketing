@@ -147,6 +147,29 @@ const getContactsData = async (customerId, dispatch) => {
 
 }
 
+// const contactsResults = await getContacts(selectedCustomer.id, dispatch);
+// if (contactsResults.status !== 200) { toast.error(`${contactsResults.status} - ${contactsResults.message}`) }
+const getAllContactsData = async () => {
+
+    try {
+        const contactsData = await fetch(`${urls.contactAPI}`);
+        if (!contactsData.ok) { 
+            return({status: contactsData.status, message: contactsData.statusText}) 
+        }
+        const contactsJSON = await contactsData.json();
+
+        if (contactsJSON.status === 200) {
+            return ({ status: 200, message: "Successfully Fetched", contacts: contactsJSON })
+        } else {
+            return contactsJSON;
+        }
+    } catch (error) {
+        return ({ status: error.status, message: error.message })
+    }
+
+}
+
+
 // Default snippet for this function
 const getSelectedContactData = async(dispatch) => {
     try {
@@ -226,5 +249,6 @@ export { formatRemainingSeconds,
     getTechnicianData, 
     getSelectedTicketData,
     getTicketTasksData,
-    getTicketQueueTableData
+    getTicketQueueTableData,
+    getAllContactsData
 }

@@ -167,6 +167,17 @@ const ContactForm = ({ recordType, closeComponent }) => {
                                     <input {...register('work_phone', { required: true, pattern: regexPatterns.phone })} className={errors.work_phone && dirtyFields.work_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Required)"} />
                                 </div>
                             </div>
+                            
+                            {/* ================= EXTENSION ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="form-label">Extension</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register('extension', { required: false, pattern: regexPatterns.extensions })} className={errors.extension && dirtyFields.extension ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 8009 (Optional)"} />
+                                </div>
+                            </div>
+
 
                             {/* ================= JOB TITLE ====================== */}
                             <div className="mb-3 row  align-items-center">
@@ -190,15 +201,7 @@ const ContactForm = ({ recordType, closeComponent }) => {
                                 </div>
                             </div>
 
-                            {/* ================= EXTENSION ====================== */}
-                            <div className="mb-3 row  align-items-center">
-                                <div className="col-12 col-md-3">
-                                    <label className="form-label">Extension</label>
-                                </div>
-                                <div className="col-12 col-md-9">
-                                    <input {...register('extension', { required: false, pattern: regexPatterns.extensions })} className={errors.extension && dirtyFields.extension ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 8009 (Optional)"} />
-                                </div>
-                            </div>
+
 
 
                         </div>

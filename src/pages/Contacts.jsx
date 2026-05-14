@@ -1,8 +1,9 @@
 import React from 'react'
+import AllContacts from '../components/MobileLayouts/AllContacts'
 
 const Contacts = () => {
   return (
-    <div>Contacts</div>
+    <AllContacts />
   )
 }
 

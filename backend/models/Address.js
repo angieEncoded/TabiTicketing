@@ -11,6 +11,8 @@ const Address = db.define('address', {
     state: {type: Sequelize.STRING, allowNull: false},
     zip: {type: Sequelize.STRING, allowNull: false},
     country: {type: Sequelize.STRING, allowNull: false},
+    added_by: {type: Sequelize.STRING, allowNull: false},
+    updated_by: {type:Sequelize.STRING, allowNull: false},
     uuid: {type: Sequelize.UUID, allowNull: false},
 }, {paranoid: true})
 

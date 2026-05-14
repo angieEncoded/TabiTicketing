@@ -18,7 +18,7 @@ import urls from "../../util/apiPaths.json";
 
 const TicketForm = ({ recordType, closeComponent, openNewTab }) => {
 
-    const loggedInUser = 4;
+    const loggedInUser = 3;
 
     const [isPending, setIsPending] = useState(true); // make sure component doesnt render before the use effect is done...
 
@@ -127,7 +127,6 @@ const TicketForm = ({ recordType, closeComponent, openNewTab }) => {
 
                 // Refresh the selected customer
                 if (recordType === 'customer') {
-                    console.log("got in here")
                     const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
                     if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
                 }
