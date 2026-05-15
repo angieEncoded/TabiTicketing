@@ -14,9 +14,9 @@ const CustomerBasic = ({ id }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [hasError, setHasError] = useState(false);
     const [isPending, setIsPending] = useState(false);
-    const [selectedCustomerData, setSelectedCustomerData] = useState({});
     const [clipboard, setClipboard] = useState(false);
     const [editingField, setEditingField] = useState("empty");
+
 
     const selectedCustomer = useSelector(state => state.scust.customer)
 
@@ -154,7 +154,7 @@ const CustomerBasic = ({ id }) => {
                     {editingField && editingField === "notes" ?
                         <div className="row mb-3">
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                {/* ================= CUSTOMER FRIENDLY SOLUTION ====================== */}
+                                {/* ================= NOTES ====================== */}
                                 <div className="mb-3 row  align-items-center">
                                     <div className="col-12 col-md-3">
                                         <label className="form-label">Notes</label>
@@ -273,7 +273,7 @@ const CustomerBasic = ({ id }) => {
 
                                 <div className="row mb-2">
                                     <div className="col-lg-4 d-none d-lg-block">Primary Phone:
-                                        {clipboard && clipboard === 'Phone' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Phone", selectedCustomerData.primary_phone)}></i></span>}
+                                        {clipboard && clipboard === 'Phone' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Phone", selectedCustomer.primary_phone)}></i></span>}
                                     </div>
                                     <div className="col-lg-7">
                                         <div>{selectedCustomer.primary_phone}</div>
@@ -309,7 +309,7 @@ const CustomerBasic = ({ id }) => {
                                 :
                                 <div className="row mb-2">
                                     <div className="col-lg-4 d-none d-lg-block">Second Phone:
-                                        {clipboard && clipboard === 'Phone2' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Phone2", selectedCustomerData.secondary_phone)}></i></span>}
+                                        {clipboard && clipboard === 'Phone2' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Phone2", selectedCustomer.secondary_phone)}></i></span>}
                                     </div>
                                     <div className="col-lg-7">
                                         <div>{selectedCustomer.secondary_phone}</div>
@@ -383,7 +383,7 @@ const CustomerBasic = ({ id }) => {
 
                                 <div className="row mb-2">
                                     <div className="col-lg-4 d-none d-lg-block">Website:
-                                        {clipboard && clipboard === 'Website' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Website", selectedCustomerData.website)}></i></span>}
+                                        {clipboard && clipboard === 'Website' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Website", selectedCustomer.website)}></i></span>}
                                     </div>
                                     <div className="col-lg-7">
                                         <div>{selectedCustomer.website}</div>
@@ -420,7 +420,7 @@ const CustomerBasic = ({ id }) => {
                                 :
                                 <div className="row mb-2">
                                     <div className="col-lg-4 d-none d-lg-block">Email:
-                                        {clipboard && clipboard === 'Email' ? <span className="text-success"> <i className="las la-check mx-2"></i>  </span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Email", selectedCustomerData.email)}></i></span>}
+                                        {clipboard && clipboard === 'Email' ? <span className="text-success"> <i className="las la-check mx-2"></i>  </span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("Email", selectedCustomer.email)}></i></span>}
                                     </div>
                                     <div className="col-lg-7">
                                         <div>{selectedCustomer.email}</div>

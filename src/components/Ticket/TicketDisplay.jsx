@@ -12,6 +12,7 @@ import OpenTicketTasks from './OpenTicketTasks.jsx'
 import TicketHistory from './TicketHistory.jsx'
 import AddTicketComment from "./AddTicketComment.jsx"
 import Buttontabi from '../Button/Buttontabi.jsx'
+import TicketContactInfo from './TicketContactInfo.jsx'
 
 const TicketDisplay = ({ id, closeTab, calledFrom }) => {
 
@@ -62,6 +63,7 @@ const TicketDisplay = ({ id, closeTab, calledFrom }) => {
 
                     <hr />
 
+                    <TicketContactInfo />
                     <OpenTicketTasks />
                     <TicketDetails />
                     <TicketCommentsTable />
