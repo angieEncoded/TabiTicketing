@@ -35,7 +35,6 @@ router.post('/:recordType/:id', validateNewAddress, async (req,res,next)=> {
         return res.json({status: 200, message: "You reached the server, but there was no command to execute" });
 
     } catch (error) {
-        console.log(error)
          return res.json({ status: "500", message: error.message })
     }
 

@@ -125,7 +125,7 @@ const LicenseTable = ({ recordType, id }) => {
 
                         </>
                     }
-
+                  <hr></hr>
                 </>
             }
 

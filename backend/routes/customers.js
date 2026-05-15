@@ -68,20 +68,22 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id;
-        console.log(id)
         const customer = await Customer.findOne({
             where: { id: id },
             include: [
                 {model: Ticket, where:{ status:  { [Op.ne]: 'CLOSED' }}, include: [User], required: false}, // required false to prevent fail in querying with empty values
                 Address, Contact, Equipment, License, Picture, Project
-            ]   
-                
+            ]        
         })
 
+
         if (customer) {
+
             return res.json({ status: 200, message: "Successfully Fetched", customer: customer.dataValues})
+
         }
         else {
+
             return res.json({ status: 400, message: "Record does not exist" })
         }
     } catch (error) {

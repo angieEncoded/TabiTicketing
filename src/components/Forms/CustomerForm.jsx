@@ -15,10 +15,11 @@ const CustomerForm = () => {
 
     const [isPending, setIsPending] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [customerId, setCustomerId] = useState(0);
 
-    const selectedCustomer = useSelector(state => state.scust.customer);
+    const selectedCustomerForModal = useSelector(state => state.scust.customer);
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // registration for the react form
     const {
@@ -83,12 +84,11 @@ const CustomerForm = () => {
             }
 
             if (serverResponse.status == "200") {
-                console.log(serverResponse)
                 toast.success(`Successfully added ${serverResponse.customer.customer_name}`);
-                
+                setCustomerId(serverResponse.customer.id);
                 // update customer for display in the modal
-                const results = await getSelectedCustomerData(serverResponse.customer.id, dispatch);
-                if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
+                // const results = await getSelectedCustomerData(serverResponse.customer.id, dispatch);
+                // if (results.status !== 200) { toast.error(`${results.status} - ${results.message}`) }
 
                 setIsPending(false);
                 return;
@@ -117,8 +117,8 @@ const CustomerForm = () => {
             {/* Once we have created the customer open the main display form */}
             {showModal &&
 
-                <LargeModal showFormModal={showModal} hideFormModal={hideFormModal} title={selectedCustomer.customer_name}>
-                    <ModalNavigationWrapper></ModalNavigationWrapper>
+                <LargeModal showFormModal={showModal} hideFormModal={hideFormModal} title={selectedCustomerForModal.customer_name}>
+                    <ModalNavigationWrapper id={customerId}></ModalNavigationWrapper>
                 </LargeModal>
             }
 

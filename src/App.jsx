@@ -23,6 +23,7 @@ import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
 import OpenTasks from './pages/OpenTasks';
 import KnowledgeBase from './pages/KnowledgeBase';
+import Home from './pages/Home';
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <Error />, // remember that this will not inherit layout. nav bars are added conditionally if used is a logged in user
     children: [
-      { path: "/", element: <CustomerTable /> },
+      { path: "/", element: <Home /> },
       { path: "/customers", element: <CustomerTable />  },
       { path: "/add-customer", element: <AddCustomer /> },
       { path: "/add-user", element: <AddUser /> },

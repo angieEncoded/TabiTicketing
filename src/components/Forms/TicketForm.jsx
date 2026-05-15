@@ -85,7 +85,6 @@ const TicketForm = ({ recordType, closeComponent, openNewTab }) => {
         if (isSubmitSuccessful) {
             reset();
             cancelTask();
-             console.log(savedTicketId)
             openNewTab(savedTicketId);
         }
     }, [formState, reset])
@@ -99,6 +98,22 @@ const TicketForm = ({ recordType, closeComponent, openNewTab }) => {
             added_by: 'SYSTEM',
             updated_by: 'SYSTEM'
         }
+
+
+
+
+
+        // Guardrails before even asking the server, check on the server as well
+        if (formData.status && formData.status === "CLOSED") {
+            if (formData.customer_solution === '') {
+                setIsPending(false)
+                toast.error("Please ensure that the Customer Friendly Solution field is filled out before closing the ticket.")
+                setError("root.serverError", { type: "500" }) // prevent the form from clearing
+                return;
+            }
+        }
+
+
 
         try {
             const results = await fetch(`${urls.ticketAPI}/${selectedCustomer.id}`, {

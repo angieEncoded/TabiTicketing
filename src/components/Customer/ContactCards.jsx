@@ -50,7 +50,7 @@ const ContactCards = () => {
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {selectedCustomer.contacts?.map(contact => (
                     <div className="col" key={contact.id}>
-                        <Card>
+                        <Card >
                             <Card.Body>
                                 <Card.Title>{contact.first_name} {contact.last_name}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">{contact.job_title}</Card.Subtitle>

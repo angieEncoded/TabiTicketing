@@ -31,7 +31,10 @@ const PicturesCarousel = ({recordType, id}) => {
 
                 <>
         
-                    <h5 className="text-center baskerville-font mb-3">Pictures</h5>
+
+
+
+                  <h5 className="text-center baskerville-font mb-3">Pictures</h5>
 
                   {selectedCustomer?.pictures?.length < 1 && <p className="text-center">No Pictures recorded for this customer.</p>}
 

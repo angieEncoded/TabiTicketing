@@ -11,6 +11,18 @@ import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { getCustomerTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
 
+
+const softwareVendor = [
+  { "name" :"Microsoft"}, 
+  { "name" : "Revo"},
+  { "name" : "Google"},
+  { "name" : "Microsystems"},
+  { "name" : "Municipal Software"},
+  { "name" : "Spatial Data SDL"},
+  { "name" : "Edmunds GovTech"}
+];
+
+
 const LicenseForm = ({recordType, closeComponent}) => {
 
     const [isPending, setIsPending] = useState(false);
@@ -130,13 +142,20 @@ const LicenseForm = ({recordType, closeComponent}) => {
                             </div>
                         </div>
 
+
                         {/* ================= VENDOR NAME ====================== */}
                         <div className="mb-3 row  align-items-center">
                             <div className="col-12 col-md-3">
                                 <label className="form-label">Vendor Name</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('vendor_name', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.vendor_name && dirtyFields.vendor_name ? 'form-control is-invalid' : 'form-control'} placeholder={"Vendor Name: (Required)"} />
+                                <select {...register('vendor_name', { required: true, pattern: regexPatterns.alphaNumeric })} 
+                                className={errors.vendor_name && dirtyFields.vendor_name ? 'form-select is-invalid' : 'form-select'}
+                                defaultValue={'Microsystems'}
+                                >
+                                  {/*  NOTE TO SELF CHANGE THIS TO ID WHEN ACTUALLY PULLING FROM DB*/}
+                                   {softwareVendor.map(vendor => <option key={vendor.name} value={vendor.name}>{vendor.name}</option>)}
+                                </select>
                             </div>
                         </div>
 

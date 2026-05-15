@@ -24,8 +24,12 @@ const equipmentType = [
 const equipmentVendor = [
   { "name" :"Lenovo"}, 
   { "name" : "Dell"},
+  { "name" : "HP"},
+  { "name" : "Sonicwall"},
+  { "name" : "Cisco"},
   { "name" : "Watchguard"}
 ];
+
 
 
 const EquipmentForm = ({recordType, closeComponent}) => {

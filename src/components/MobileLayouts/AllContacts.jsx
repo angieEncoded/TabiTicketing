@@ -65,7 +65,7 @@ const AllContacts = () => {
         globalFilterFn: 'includesString',
         initialState: {
             pagination: {
-                pageSize: 5
+                pageSize: 10
             }
         }
     })
@@ -89,7 +89,6 @@ const AllContacts = () => {
 
     return (
         <>
-            <h5 className="text-center baskerville-font mb-3">Contacts</h5>
 
             {contacts?.contacts?.length < 1 && <p className="text-center">No contacts recorded for this customer.</p>}
 
@@ -97,7 +96,10 @@ const AllContacts = () => {
 
                 <>
 
-                    <div className="row mb-3 g-3">
+
+
+
+                    <div className="row mb-3 g-3 mt-3">
                         <div className='col-auto ms-auto'>
                             <input className='form-control'
                                 onChange={e => table.setGlobalFilter(String(e.target.value))}
@@ -107,11 +109,9 @@ const AllContacts = () => {
                     </div>
 
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-
+                    <div className="row mt-3 mb-5 row-cols-1 row-cols-md-2 row-cols-xl-4 g-2">
                         {table.getRowModel().rows.map(row => (
-                            <div key={row.id} className="col">
+                            <div className="col">
                                 <Card>
                                     <Card.Body>
                                         <Card.Title>{row.original.first_name} {row.original.last_name}</Card.Title>
@@ -171,28 +171,32 @@ const AllContacts = () => {
 
                                     </Card.Body>
                                 </Card>
+                            </div>
 
-                                {/* Or map through cells if you want to keep it dynamic */}
-                                {/* {row.getVisibleCells().map(cell => (
-                            <div key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </div>
-                        ))} */}
-                            </div>
                         ))}
                     </div>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
                     {/* ITEMS PER PAGE */}
-                    <div className="row g-3">
+                    <div className="row g-3 mt-5">
 
 
-                        <div className="col">
-                            <div className="row">
-                                <div className="col-auto ms-start">
+                        <div className="col-12 col-md-4 justify-content-center justify-content-sm-start d-flex ">
                                     <div className="mb-3">
-                                        <select className={'form-select'}
+                                        <select className={'form-select w-auto'}
                                             value={table.getState().pagination.pageSize}
                                             onChange={e => {
                                                 table.setPageSize(Number(e.target.value))
@@ -205,11 +209,9 @@ const AllContacts = () => {
                                             ))}
                                         </select>
                                     </div>
-                                </div>
-                            </div>
                         </div>
 
-                        <div className="col text-center">
+                        <div className="col-12 col-md-4 text-center mb-5">
                             <button className='btn btn-sm btn-tabi-logo mx-1'
                                 onClick={() => table.firstPage()}
                                 disabled={!table.getCanPreviousPage()}
@@ -236,13 +238,14 @@ const AllContacts = () => {
                             </button>
                         </div>
 
-                        <div className="col"></div>
+                        <div className="col col-md-4"></div>
 
 
 
 
 
                     </div>
+
                 </>
 
 
