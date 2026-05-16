@@ -1,5 +1,5 @@
 import React from 'react';
-import OpenTasksTable from "../components/Ticket/OpenTasksTable.jsx";
+import OpenTasksTable from "../components/Tables/OpenTasksTable.jsx";
 
 const OpenTasks = () => {
   return (

@@ -9,6 +9,9 @@ import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 
 const ContactTable = ({ recordType, id }) => {
 
+    // Items to eventually be tied to preferences
+    const preferredPageSize = 5
+
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -26,7 +29,7 @@ const ContactTable = ({ recordType, id }) => {
         globalFilterFn: 'includesString',
         initialState: {
             pagination: {
-                pageSize: 5
+                pageSize: preferredPageSize
             }
         }
     })

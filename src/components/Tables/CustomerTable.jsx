@@ -1,68 +1,82 @@
-import { useEffect, useState } from 'react'
-import { ticketsActions } from '../../store/TicketSlice.js'
+import { useEffect, useState, useRef } from 'react'
+import { customersActions } from '../../store/CustomerSlice.js'
+import { selectedCustomerActions } from '../../store/SelectedCustomerSlice.js'
+import { contactsActions } from "../../store/ContactSlice.js";
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
 import LargeModal from "../Modal/LargeModal.jsx"
-import COLUMNS from '../Customer/columns/TicketColumns.jsx';
+import COLUMNS from './columns/CustomerColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
+// import CustomerDisplay from './CustomerDisplay.jsx'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-import urls from "../../util/apiPaths.json";
-import TicketDisplay from './TicketDisplay.jsx'
+import{ getCustomerTableData } from "../../util/helperFunctions.js";
+import {getSelectedCustomerData} from "../../util/helperFunctions.js"
+import CustomerDisplay from '../../pages/CustomerDisplay.jsx';
+import ModalNavigationWrapper from '../Customer/ModalNavigationWrapper.jsx';
 
-const TicketTable = () => {
+const CustomerTable = () => {
+
+    const preferredPageSize = 50
+
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isPending, setIsPending] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [selectedTicket, setSelectedTicket] = useState(false);
-
+    const [selectedCustomer, setSelectedCustomer] = useState({});
 
     // Grab items from the slices
-    const ticketsForTable = useSelector(state => state.ticket.tickets);
-    const dispatch = useDispatch();
+    const customersForTable = useSelector(state => state.cust.customers);
+    const selectedCustomerForModal = useSelector(state => state.scust.customer);
 
+
+    const dispatch = useDispatch();
 
     // !!! TODO - add default sorting 
     const table = useReactTable({
-        data: ticketsForTable,
+        data: customersForTable,
         columns: COLUMNS,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         globalFilterFn: 'includesString',
+                initialState: {
+            pagination: {
+                pageSize: preferredPageSize
+            }
+        }
     })
 
     // Initially populate the data
     useEffect(() => {
-        const getTableData = async () => {
+        // Wrap in an async
+        const getData = async() => {
             try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const ticketData = await fetch(`${urls.ticketAPI}`);
-                if (!ticketData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
-                const ticketDataJson = await ticketData.json();
-                dispatch(ticketsActions.loadTicketData(ticketDataJson.tickets));
-                setIsPending(false);
+                setIsPending(true)
+                const results = await getCustomerTableData(dispatch); // reach out to the helper function
+                if(results.status === 200){
+                    setIsPending(false);
+                } else {
+                    setIsPending(false);
+                    toast.error(`${results.status} ${results.message}`)
+                }
             } catch (error) {
                 setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
+                toast.error(error);
             }
         }
-        getTableData();
+        getData();
     }, []);
 
     const handleRowClick = async (row) => {
-        setSelectedTicket(row.original);
-        setShowModal(true);
+        setSelectedCustomer(row.original)
+        setShowModal(true); // show the modal with the form
     }
 
     const closeModal = () => {
-        setSelectedTicket({}); // clean up the state
+        // dispatch(selectedCustomerActions.clearCustomerData()); // clear the data
+        setSelectedCustomer({})
         setShowModal(false); // close the modal
     }
 
@@ -74,19 +88,18 @@ const TicketTable = () => {
             {!isPending && !hasError &&
 
                 <>
-
-                    <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={`${selectedTicket.title}`}>
-                        <TicketDisplay id={selectedTicket.id}></TicketDisplay>
+                    <LargeModal hideFormModal={closeModal} showFormModal={showModal} title={selectedCustomerForModal.customer_name}>
+                        <ModalNavigationWrapper id={selectedCustomer.id} /> 
                     </LargeModal>
 
-                    {ticketsForTable.length < 1 && <h3 className="text-center noticaText">There's no Tickets! Why don't you add some? I'm sure someone needs your help!</h3>}
+                    {customersForTable && customersForTable.length < 1 && <h3 className="text-center noticaText">There's no customers! Why don't you add some?</h3>}
 
-                    {ticketsForTable && ticketsForTable.length >= 1 &&
+                    {customersForTable && customersForTable.length >= 1 &&
 
                         <>
 
                             <div className="form-background mb-5 mx-auto">
-                                <h2 className="text-center noticaText">Currently Open Tickets</h2>
+                                <h2 className="text-center noticaText">All Active Customers</h2>
 
                                 <div className="row mb-3 g-3">
                                     <div className='col-auto ms-auto'>
@@ -113,15 +126,7 @@ const TicketTable = () => {
                                         {table.getRowModel().rows.map((row) => (
                                             <tr key={row.id} onClick={() => handleRowClick(row)}>
                                                 {row.getVisibleCells().map((cell) => (
-                                                    <td
-                                                        className={
-                                                        `${row.original.priority === 'LOW' && 'text-primary'} 
-                                                        ${row.original.priority === 'MEDIUM' && 'text-warning'}
-                                                        ${row.original.priority === 'HIGH' && 'text-danger'}
-                                                        ${row.original.priority === 'CRITICAL' && 'text-danger'}
-                                                        `
-                                                        }
-                                                        key={cell.id}>
+                                                    <td key={cell.id}>
                                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                     </td>
                                                 ))}
@@ -132,6 +137,8 @@ const TicketTable = () => {
 
                                 {/* ITEMS PER PAGE */}
                                 <div className="row g-3">
+
+
                                     <div className="col">
                                         <div className="row">
                                             <div className="col-auto ms-start">
@@ -198,4 +205,4 @@ const TicketTable = () => {
     )
 }
 
-export default TicketTable
+export default CustomerTable

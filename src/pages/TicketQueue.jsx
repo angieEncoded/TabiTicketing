@@ -1,4 +1,4 @@
-import TicketTable from "../components/Ticket/TicketTable"
+import TicketTable from "../components/Tables/TicketTable.jsx"
 
 const TicketQueue = () => {
   return (

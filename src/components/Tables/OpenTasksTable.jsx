@@ -1,11 +1,11 @@
 import React from 'react'
-import { getTicketTasksData } from "../../util/helperFunctions"
+import { getTicketTasksData } from "../../util/helperFunctions.js"
 import { toast } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import Loading from '../LoadingScreens/Loading.jsx'
 import { useState, useEffect } from 'react';
 import LargeModal from "../Modal/LargeModal.jsx"
-import TicketDisplay from './TicketDisplay.jsx'
+import TicketDisplay from '../Ticket/TicketDisplay.jsx'
 
 
 const OpenTasksTable = () => {

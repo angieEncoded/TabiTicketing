@@ -5,7 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { getAllContactsData } from "../../util/helperFunctions";
-import COLUMNS from '../Customer/columns/ContactColumns';
+import COLUMNS from '../Tables/columns/ContactColumns';
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 
 const AllContacts = () => {

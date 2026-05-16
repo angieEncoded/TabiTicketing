@@ -32,6 +32,7 @@ const equipmentVendor = [
 
 
 
+
 const EquipmentForm = ({recordType, closeComponent}) => {
 
     const [isPending, setIsPending] = useState(false);

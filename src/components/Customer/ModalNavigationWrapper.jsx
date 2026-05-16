@@ -3,10 +3,10 @@ import CustomerDisplay from './CustomerDisplay'
 import CustomerButtons from './CustomerButtons'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import ContactTable from './ContactTable';
+import ContactTable from '../Tables/ContactTable.jsx';
 import AddressDisplay from './AddressDisplay';
-import EquipmentTable from './EquipmentTable';
-import LicenseTable from './LicenseTable';
+import EquipmentTable from '../Tables/EquipmentTable';
+import LicenseTable from '../Tables/LicenseTable';
 import PicturesCarousel from './PicturesCarousel';
 import TicketDisplay from '../Ticket/TicketDisplay';
 import Buttontabi from '../Button/Buttontabi';

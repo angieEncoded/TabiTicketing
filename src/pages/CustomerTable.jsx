@@ -1,5 +1,5 @@
 // import { default as CustomerTableComponent } from "../../_ARCHIVES/CustomerTable"
-import {default as CustomerTableComponent} from '../components/Customer/CustomerTable'
+import {default as CustomerTableComponent} from '../components/Tables/CustomerTable'
 
 const CustomerTable = () => {
   return (
