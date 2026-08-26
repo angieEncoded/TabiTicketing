@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import Loading from '../LoadingScreens/Loading.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-import { getSelectedCustomerData, getCustomerTableData } from "../../util/helperFunctions";
+import { getSelectedCustomerData, getAllCustomers } from "../../util/helperFunctions";
 import { toast } from 'react-toastify';
 import Buttontabi from '../Button/Buttontabi';
 import { useForm } from "react-hook-form"

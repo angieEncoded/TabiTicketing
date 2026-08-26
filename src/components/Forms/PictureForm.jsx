@@ -8,7 +8,7 @@ import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
 import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-import { getCustomerTableData, getSelectedCustomerData } from "../../util/helperFunctions.js";
+import { getAllCustomers, getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
 
 const PictureForm = ({ recordType, closeComponent }) => {

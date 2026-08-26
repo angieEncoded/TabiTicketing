@@ -10,7 +10,7 @@ import COLUMNS from './columns/CustomerColumns.js'
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getFilteredRowModel } from '@tanstack/react-table'
 // import CustomerDisplay from './CustomerDisplay.jsx'
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
-import{ getCustomerTableData } from "../../util/helperFunctions.js";
+import{ getAllCustomers } from "../../util/helperFunctions.js";
 import {getSelectedCustomerData} from "../../util/helperFunctions.js"
 import CustomerDisplay from '../../pages/CustomerDisplay.jsx';
 import ModalNavigationWrapper from '../Customer/ModalNavigationWrapper.jsx';
@@ -54,7 +54,7 @@ const CustomerTable = () => {
         const getData = async() => {
             try {
                 setIsPending(true)
-                const results = await getCustomerTableData(dispatch); // reach out to the helper function
+                const results = await getAllCustomers(dispatch); // reach out to the helper function
                 if(results.status === 200){
                     setIsPending(false);
                 } else {

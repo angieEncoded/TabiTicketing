@@ -10,9 +10,18 @@ import urls from "../util/apiPaths.json";
 // Send in dispatcher for all these functions
 //================================================================
 
+
+
+const getMonthlyTicketReport = async(dispatch)=>{
+
+}
+
+
+
+
 // const customerTableResults = await getCustomerTableData(dispatch);
 // if (customerTableResults.status !== 200) { toast.error(`${customerTableResults.status} - ${customerTableResults.message}`) }
-const getCustomerTableData = async (dispatch) => {
+const getAllCustomers = async (dispatch) => {
 
     try {
         const customerData = await fetch(urls.customerAPI);
@@ -35,19 +44,21 @@ const getCustomerTableData = async (dispatch) => {
 // const ticketQueueResults = await getTicketQueueTableData(dispatch);
 // if (ticketQueueResults.status !== 200) { toast.error(`${ticketQueueResults.status} - ${ticketQueueResults.message}`) }
 const getTicketQueueTableData = async (dispatch) => {
-
     try {
         const ticketQueueData = await fetch(urls.ticketAPI);
         if (!ticketQueueData.ok) { 
             return({status: ticketQueueData.status, message: ticketQueueData.statusText}) 
         }
         const ticketQueueJson = await ticketQueueData.json();
+
         if (ticketQueueJson.status === 200) {
             await dispatch(ticketsActions.loadTicketData(ticketQueueJson.tickets));
             return ({ status: 200, message: "Successfully Fetched" })
         } else {
+
             return ticketQueueJson;
         }
+        
     } catch (error) {
         return ({ status: error.status, message: error.message })
     }
@@ -74,10 +85,6 @@ const getTicketTasksData = async(dispatch) => {
     }
 
 }
-
-
-
-
 
 
 // const custResults = await getSelectedCustomerData(selectedCustomer.id, dispatch);
@@ -243,7 +250,7 @@ const fancyFormat = (duration) => {
 
 export { formatRemainingSeconds, 
     fancyFormat, 
-    getCustomerTableData, 
+    getAllCustomers, 
     getSelectedCustomerData, 
     getContactsData, 
     getTechnicianData, 

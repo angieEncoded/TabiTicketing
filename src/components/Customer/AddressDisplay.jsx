@@ -8,7 +8,7 @@ import Buttontabi from '../Button/Buttontabi';
 import { useForm } from "react-hook-form"
 import regexPatterns from '../../util/regexPatterns';
 import urls from "../../util/apiPaths.json";
-import { getSelectedCustomerData, getCustomerTableData } from "../../util/helperFunctions";
+import { getSelectedCustomerData, getAllCustomers } from "../../util/helperFunctions";
 
 
 // LEFT OFF ON FIGURING OUT HOW TO PASS THE ID OF THE LOOPED ITEM FOR THE SUBMIT

@@ -8,6 +8,12 @@ const COLUMNS = [
         accessorKey: 'title',
         sortingFn: 'text',
     },
+    // {
+    //     header: 'User',
+    //     accessorKey: '',
+    //     sortingFn: 'text',
+    // },
+
     {
         header: 'Status',
         accessorKey: 'status',

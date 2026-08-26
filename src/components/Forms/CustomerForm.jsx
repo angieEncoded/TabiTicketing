@@ -10,12 +10,15 @@ import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
 import ModalNavigationWrapper from "../Customer/ModalNavigationWrapper.jsx";
+// import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input/input'
+import PhoneInput from 'react-phone-number-input/react-hook-form-input';
 
 const CustomerForm = () => {
 
     const [isPending, setIsPending] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [customerId, setCustomerId] = useState(0);
+
 
     const selectedCustomerForModal = useSelector(state => state.scust.customer);
 
@@ -25,6 +28,7 @@ const CustomerForm = () => {
     const {
         register,
         handleSubmit,
+        control,
         watch,
         reset,
         clearErrors,
@@ -150,8 +154,11 @@ const CustomerForm = () => {
                                     <label className="form-label">Primary Phone</label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input {...register('primary_phone', { required: true, pattern: regexPatterns.phone })} className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Required)"} />
-                                    {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
+
+
+                                <PhoneInput name="primary_phone" control={control} defaultCountry="US" className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'}  placeholder="Format (908) 888-8177"/>
+                                {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
+
                                 </div>
                             </div>
 
@@ -191,8 +198,8 @@ const CustomerForm = () => {
                                     <label className="form-label">Secondary Phone</label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input {...register('secondary_phone', { required: false, pattern: regexPatterns.phone })} className={errors.secondary_phone && dirtyFields.secondary_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
-                                    {/* {errors.secondary_phone  <span className="text-danger">This field is required</span>} */}
+                                <PhoneInput name="secondary_phone" control={control} defaultCountry="US" className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'}  placeholder="Format (908) 888-8177"/>
+                                {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
                                 </div>
                             </div>
 
@@ -202,8 +209,8 @@ const CustomerForm = () => {
                                     <label className="form-label">Fax</label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input {...register('fax', { required: false, pattern: regexPatterns.phone })} className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'} placeholder={"Fax Number (Optional)"} />
-                                    {/* {errors.fax  <span className="text-danger">This field is required</span>} */}
+                                <PhoneInput name="fax" control={control} defaultCountry="US" className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177"/>
+                                {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
                                 </div>
                             </div>
 

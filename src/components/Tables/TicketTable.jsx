@@ -9,6 +9,7 @@ import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getF
 import ErrorAlert from "../ErrorAlert/ErrorAlert.jsx"
 import urls from "../../util/apiPaths.json";
 import TicketDisplay from '../Ticket/TicketDisplay.jsx'
+import { getTicketQueueTableData } from "../../util/helperFunctions.js"
 
 const TicketTable = () => {
 
@@ -18,9 +19,11 @@ const TicketTable = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(false);
 
+    console.log()
 
     // Grab items from the slices
     const ticketsForTable = useSelector(state => state.ticket.tickets);
+
     const dispatch = useDispatch();
 
 
@@ -36,24 +39,23 @@ const TicketTable = () => {
 
     // Initially populate the data
     useEffect(() => {
-        const getTableData = async () => {
+        // Wrap in an async
+        const getData = async() => {
             try {
-                setHasError(false);
-                setErrorMessage("");
-                setIsPending(true);
-                const ticketData = await fetch(`${urls.ticketAPI}`);
-                if (!ticketData.ok) throw new Error("Failed to fetch customer data. Please check the server.");
-                const ticketDataJson = await ticketData.json();
-                dispatch(ticketsActions.loadTicketData(ticketDataJson.tickets));
-                setIsPending(false);
+                setIsPending(true)
+                const results = await getTicketQueueTableData(dispatch); // reach out to the helper function
+                if(results.status === 200){
+                    setIsPending(false);
+                } else {
+                    setIsPending(false);
+                    toast.error(`${results.status} ${results.message}`)
+                }
             } catch (error) {
                 setIsPending(false);
-                setHasError(true);
-                setErrorMessage(error.message);
-                toast.error(error.message);
+                toast.error(error);
             }
         }
-        getTableData();
+        getData();
     }, []);
 
     const handleRowClick = async (row) => {
@@ -79,9 +81,9 @@ const TicketTable = () => {
                         <TicketDisplay id={selectedTicket.id}></TicketDisplay>
                     </LargeModal>
 
-                    {ticketsForTable.length < 1 && <h3 className="text-center noticaText">There's no Tickets! Why don't you add some? I'm sure someone needs your help!</h3>}
+                    {ticketsForTable?.length < 1 && <h3 className="text-center noticaText">There's no Tickets! Why don't you add some? I'm sure someone needs your help!</h3>}
 
-                    {ticketsForTable && ticketsForTable.length >= 1 &&
+                    {ticketsForTable && ticketsForTable?.length >= 1 &&
 
                         <>
 

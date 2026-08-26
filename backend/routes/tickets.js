@@ -37,14 +37,14 @@ router.get("/", async (req, res, next) => {
         });
 
         // Handle if there are no tickets to fetch
-        if (tickets?.length < 1) {
-            return res.json({ status: "500", message: "There are no tickets to fetch." })
+        if (tickets.length < 1) {
+            return res.json({ status: 500, message: "There are no tickets to fetch." })
         }
 
         return res.json({ status: 200, message: "Successfully fetched", tickets });
 
     } catch (error) {
-        return res.json({ status: "500", message: error.message })
+        return res.json({ status: 500, message: error.message })
     }
 
 })
@@ -83,7 +83,6 @@ router.get("/tasks", async (req, res, next) => {
 // Fetch single ticket
 router.get("/:id", async (req, res, next) => {
     const { id } = req.params;
-    console.log(id)
 
     try {
         const ticket = await Ticket.findOne({
@@ -112,7 +111,7 @@ router.get("/:id", async (req, res, next) => {
 router.post("/:id", validateNewTicket, async (req, res, next) => {
 
     const data = req.body;
-    console.log(data)
+
 
     if (data.contactId === '') {
         data.contactId = null;

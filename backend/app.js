@@ -122,6 +122,7 @@ const pictureRoutes = require('./routes/pictures');
 const ticketRoutes = require('./routes/tickets');
 const userRoutes = require('./routes/users');
 const projectsRoutes = require("./routes/projects");
+const reportsRoutes = require("./routes/reports");
 
 app.use(cors({
     origin: "http://localhost:3000"
@@ -144,6 +145,7 @@ app.use('/pictures', pictureRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/users', userRoutes);
 app.use("/projects", projectsRoutes);
+app.use("/reports", reportsRoutes);
 // app.use('/users', userRoutes);
 // app.use('*', catchAllRoutes)
 
@@ -195,9 +197,3 @@ if (process.env.INDEV === "true") {
         })
         .catch(error => console.log(error))
 }
-
-
-
-
-
-

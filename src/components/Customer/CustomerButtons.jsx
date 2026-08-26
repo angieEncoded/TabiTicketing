@@ -32,7 +32,7 @@ const CustomerButtons = ({ recordType, openNewTab }) => {
 
 
   return (
-    <div className="container">
+    <>
 
       <div className="ms-start d-grid gap-2 d-md-block mb-3">
         <button className="btn btn-sm btn-tabi-logo mx-1 mb-3" onClick={() => handleButton('Address')} disabled={currentComponent === 'Address'}>Add Address</button>
@@ -55,10 +55,10 @@ const CustomerButtons = ({ recordType, openNewTab }) => {
       {currentComponent === 'Picture' && <PictureForm recordType={recordType} closeComponent={closeComponent}></PictureForm>}
       {currentComponent === 'Ticket' && <TicketForm recordType={recordType} closeComponent={closeComponent} openNewTab={openNewTab}></TicketForm>}
 
+    </>
 
 
 
-    </div>
   )
 }
 
