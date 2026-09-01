@@ -111,7 +111,7 @@ const AllContacts = () => {
 
                     <div className="row mt-3 mb-5 row-cols-1 row-cols-md-2 row-cols-xl-4 g-2">
                         {table.getRowModel().rows.map(row => (
-                            <div className="col">
+                            <div className="col" key={row.original.id}>
                                 <Card>
                                     <Card.Body>
                                         <Card.Title>{row.original.first_name} {row.original.last_name}</Card.Title>

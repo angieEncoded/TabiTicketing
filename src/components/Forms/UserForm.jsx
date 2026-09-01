@@ -1,21 +1,17 @@
 
 import { useForm } from "react-hook-form"
 import { useState, useEffect, use } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Buttontabi from "../Button/Buttontabi";
 import regexPatterns from "../../util/regexPatterns";
 import { toast } from "react-toastify";
-import LargeModal from '../Modal/LargeModal';
-import CustomerDisplay from "../Customer/CustomerDisplay";
-import { technicianActions } from "../../store/TechnicianSlice";
 import urls from "../../util/apiPaths.json";
+import PhoneInput from 'react-phone-number-input/react-hook-form-input';
 
 const UserForm = () => {
 
-
   const [isPending, setIsPending] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
 
   const dispatch = useDispatch();
 
@@ -23,6 +19,7 @@ const UserForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     watch,
     reset,
     clearErrors,
@@ -40,8 +37,6 @@ const UserForm = () => {
       setShowModal(true);
     }
   }, [formState, reset])
-
-
 
   const onSubmit = async (formData) => {
 
@@ -249,14 +244,14 @@ const UserForm = () => {
                 <div className="col-12 col-md-3">
                   <label className="form-label">Work Phone</label>
                 </div>
+
                 <div className="col-12 col-md-9">
-                  <input {...register('work_phone', {
-                    required: false,
-                    pattern: regexPatterns.phone
-                  })}
-                    className={errors.work_phone && dirtyFields.work_phone ? 'form-control is-invalid' : 'form-control'}
-                    placeholder={"Format: 908-310-7603 (Optional)"} />
+
+                  <PhoneInput name="work_phone" control={control} defaultCountry="US" className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'}  placeholder="Format (908) 888-8177"/>
+                  {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
+
                 </div>
+
               </div>
 
               {/* ================= EXTENSION ====================== */}
@@ -280,12 +275,10 @@ const UserForm = () => {
                   <label className="form-label">Cell Phone</label>
                 </div>
                 <div className="col-12 col-md-9">
-                  <input {...register('cell_phone', {
-                    required: false,
-                    pattern: regexPatterns.phone
-                  })}
-                    className={errors.cell_phone && dirtyFields.cell_phone ? 'form-control is-invalid' : 'form-control'}
-                    placeholder={"Format: 908-310-7603 (Required)"} />
+
+                  <PhoneInput name="cell_phone" control={control} defaultCountry="US" className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'}  placeholder="Format (908) 888-8177"/>
+                  {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
+
                 </div>
               </div>
               {/* ================= PERSONAL EMAIL ADDRESS ====================== */}

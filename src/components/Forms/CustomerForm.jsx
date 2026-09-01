@@ -1,16 +1,12 @@
-import { useForm } from "react-hook-form"
-import { useState, useEffect, use } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useForm, Controller  } from "react-hook-form"
+import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import Buttontabi from "../Button/Buttontabi";
 import regexPatterns from "../../util/regexPatterns";
 import { toast } from "react-toastify";
 import LargeModal from '../Modal/LargeModal';
-import CustomerDisplay from "../Customer/CustomerDisplay";
-import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-import { getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
 import ModalNavigationWrapper from "../Customer/ModalNavigationWrapper.jsx";
-// import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input/input'
 import PhoneInput from 'react-phone-number-input/react-hook-form-input';
 
 const CustomerForm = () => {
@@ -19,12 +15,8 @@ const CustomerForm = () => {
     const [showModal, setShowModal] = useState(false);
     const [customerId, setCustomerId] = useState(0);
 
-
     const selectedCustomerForModal = useSelector(state => state.scust.customer);
 
-    // const dispatch = useDispatch();
-
-    // registration for the react form
     const {
         register,
         handleSubmit,
@@ -112,11 +104,9 @@ const CustomerForm = () => {
     }
 
 
-
     return (
 
         <>
-
 
             {/* Once we have created the customer open the main display form */}
             {showModal &&
@@ -186,6 +176,42 @@ const CustomerForm = () => {
                                     {/* {errors.notes  <span className="text-danger">This field is required</span>} */}
                                 </div>
                             </div>
+
+
+
+                            {/* ================= EMAIL DOMAIN ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Email Domain</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("email_domain", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.email_domain && dirtyFields.email_domain ? 'form-control is-invalid' : 'form-control'} placeholder={"Email Domain (Optional)"} />
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>     
+
+                            {/* ================= EMAIL HOST ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Email Hosting Provider</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("email_host", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.email_host && dirtyFields.email_host ? 'form-control is-invalid' : 'form-control'} placeholder={"Email Hosting provider (Optional)"}/>
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>
+
+                            {/* ================= INTERNET SERVICE PROVIDER ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Internet Service Provider</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("isp", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.isp && dirtyFields.isp ? 'form-control is-invalid' : 'form-control'} placeholder={"Internet Service Provider (Optional)"} />
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>
+
                         </div>
 
 
@@ -237,7 +263,49 @@ const CustomerForm = () => {
                                     {/* {errors.website && <span className="text-danger">This field is required</span>} */}
                                 </div>
                             </div>
+                            {/* ================= MICROSOFT OFFICE SUITE ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Office Suite\Microsoft 365</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("office_suite", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.office_suite && dirtyFields.office_suite ? 'form-control is-invalid' : 'form-control'} placeholder={"Microsoft Office Suite (Optional)"} />
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>
+                            
+                            {/* ================= SERVER DOMAIN ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Server Domain</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("server_domain", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.server_domain && dirtyFields.server_domain ? 'form-control is-invalid' : 'form-control'} placeholder={"Server Domain (Optional)"} />
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>    
 
+                            {/* ================= PHONE SYSTEM ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Phone System</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("phone_system", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.phone_system && dirtyFields.phone_system ? 'form-control is-invalid' : 'form-control'} placeholder={"Phone System (Optional)"} />
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>
+
+                            {/* ================= DATA BACKUP ====================== */}
+                            <div className="mb-3 row  align-items-center">
+                                <div className="col-12 col-md-3">
+                                    <label className="col-form-label">Data Backup</label>
+                                </div>
+                                <div className="col-12 col-md-9">
+                                    <input {...register("data_backup", { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.data_backup && dirtyFields.data_backup ? 'form-control is-invalid' : 'form-control'} placeholder={"Data Backup System (Optional)"} />
+                                    {/* {errors.customer_name && <span className="text-danger">This field is required</span>} */}
+                                </div>
+                            </div>
                         </div>
                     </div>
 

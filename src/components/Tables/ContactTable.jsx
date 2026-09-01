@@ -52,9 +52,9 @@ const ContactTable = ({ recordType, id }) => {
                     <hr></hr>
                     <h5 className="text-center baskerville-font mb-3">Contacts</h5>
 
-                    {selectedCustomer.contacts && selectedCustomer.contacts.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
+                    {selectedCustomer.contacts && selectedCustomer.contacts?.length < 1 && <p className="text-center">No Contacts recorded for this customer.</p>}
 
-                    {selectedCustomer.contacts && selectedCustomer.contacts.length >= 1 &&
+                    {selectedCustomer.contacts && selectedCustomer.contacts?.length >= 1 &&
                         <>
 
                             <div className="row mb-3 g-3">
