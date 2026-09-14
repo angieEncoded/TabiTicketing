@@ -23,6 +23,7 @@ import Contacts from './pages/Contacts';
 import AllTickets from './pages/AllTickets';
 import OpenTasks from './pages/OpenTasks';
 import KnowledgeBase from './pages/KnowledgeBase';
+import Vendors from './pages/Vendors';
 import Home from './pages/Home';
 
 const router = createBrowserRouter([
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
       { path: "/contacts", element: <Contacts /> },
       { path: "/open-tasks", element: <OpenTasks /> },
       { path: "/testing", element: <Testing /> },
+      { path: "/vendors", element: <Vendors /> },
     ],
   },
 ]);

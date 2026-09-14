@@ -19,7 +19,7 @@ const getMonthlyTicketReport = async(dispatch)=>{
 
 
 
-// const customerTableResults = await getCustomerTableData(dispatch);
+// const customerTableResults = await getAllCustomers(dispatch);
 // if (customerTableResults.status !== 200) { toast.error(`${customerTableResults.status} - ${customerTableResults.message}`) }
 const getAllCustomers = async (dispatch) => {
 

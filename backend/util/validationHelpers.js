@@ -5,16 +5,20 @@ const { customerSchema,
     licenseSchema, 
     pictureSchema, 
     technicianSchema, 
+    firewallSchema,
     userSchema, 
     ticketSchema, 
     startTicketTaskSchema, 
     ticketCommentSchema
 } = require("./validationSchemas");
+
+
 const { 
     ticketPutSchema, 
     customerPutSchema, 
     addressPutSchema
 } = require("../util/validationSchemaForks");
+
 const fs = require("fs");
 
 module.exports.validateNewCustomer = (req, res, next) => {
@@ -66,6 +70,17 @@ module.exports.validateNewEquipment = (req, res, next) => {
         next();
     }
 }
+
+module.exports.validateNewFirewall = (req, res, next) => {
+    const { error } = firewallSchema.validate(req.body);
+        if (error) {
+        const message = error.details.map((element) => element.message).join(",");
+        return res.json({status: 400, message: message })
+    } else {
+        next();
+    }
+}
+
 
 module.exports.validateNewContact = (req, res, next) => {
     const { error } = contactSchema.validate(req.body);

@@ -16,6 +16,7 @@ const Customer = require('./models/Customer');
 const Contact = require('./models/Contact');
 const License = require('./models/License');
 const Equipment = require('./models/Equipment');
+const Firewall = require('./models/Firewall');
 const Ticket = require('./models/Ticket');
 const TicketComment = require('./models/TicketComment');
 const TicketTime = require('./models/TicketTime');
@@ -25,6 +26,7 @@ const Address = require('./models/Address');
 const Picture = require('./models/Picture');
 const Project = require('./models/Project');
 const OnSiteVisit = require("./models/OnSiteVisit");
+
 
 // A contact belongs to a customer
 Contact.belongsTo(Customer, { constraints: true, onDelete: 'NO ACTION' }); // A single contact belongs to a single customer
@@ -47,6 +49,20 @@ Customer.hasMany(Equipment);
 Contact.hasMany(Equipment);
 User.hasMany(Equipment);
 Ticket.hasMany(Equipment);
+
+
+// A router can belong to a customer, a user, and can be referenced by a ticket
+Firewall.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'});
+Firewall.belongsTo(Contact, {constraints:true, onDelete: 'NO ACTION'}); 
+Firewall.belongsTo(User, {constraints:true, onDelete: 'NO ACTION'}); 
+Firewall.belongsTo(Ticket, {constraints:true, onDelete: 'NO ACTION'})
+Customer.hasMany(Firewall);
+Contact.hasMany(Firewall);
+User.hasMany(Firewall);
+Ticket.hasMany(Firewall);
+
+
+
 
 // A ticket references a customer, a user, and a contact. History will be captured in a separate table
 Ticket.belongsTo(Customer, {constraints: true, onDelete: 'NO ACTION'}); // one ticket, one customer, one issue
@@ -117,6 +133,7 @@ const customerRoutes = require('./routes/customers');
 const addressRoutes = require('./routes/addresses');
 const contactRoutes = require('./routes/contacts');
 const equipmentRoutes = require('./routes/equipment');
+const firewallRoutes = require('./routes/firewalls');
 const licenseRoutes = require('./routes/licenses');
 const pictureRoutes = require('./routes/pictures');
 const ticketRoutes = require('./routes/tickets');
@@ -140,6 +157,7 @@ app.use('/customers', customerRoutes);
 app.use('/addresses', addressRoutes);
 app.use('/contacts', contactRoutes);
 app.use('/equipment', equipmentRoutes);
+app.use('/firewalls', firewallRoutes);
 app.use('/licenses', licenseRoutes);
 app.use('/pictures', pictureRoutes);
 app.use('/tickets', ticketRoutes);

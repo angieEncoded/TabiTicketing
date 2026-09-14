@@ -56,7 +56,8 @@ const optionalWebsiteCheck = (value) => {
     if (value.trim() === "") {
         return true;
     } else {
-        const re = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)/
+        // const re = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&=]*)/
+        const re = /^(https?:\/\/)?([\w.-]+)+(:[0-9]{1,5})?(\/.*)?$/i;
         return re.test(value.toString().trim())
     }
 

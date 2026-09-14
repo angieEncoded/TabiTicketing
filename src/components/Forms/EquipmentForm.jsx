@@ -3,12 +3,8 @@ import { useState, useEffect } from "react";
 import Buttontabi from "../Button/Buttontabi";
 import regexPatterns from "../../util/regexPatterns";
 import { toast } from "react-toastify";
-import usStates from '../../util/usStates.json';
-import countries from '../../util/countries.json';
 import { useSelector, useDispatch } from 'react-redux'
-import { customersActions } from '../../store/CustomerSlice.js'
-import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
-import { getAllCustomers, getSelectedCustomerData } from "../../util/helperFunctions.js";
+import { getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
 
 // TODO - enter this into the database and query from there, these are just examples
@@ -27,7 +23,8 @@ const equipmentVendor = [
   { "name" : "HP"},
   { "name" : "Sonicwall"},
   { "name" : "Cisco"},
-  { "name" : "Watchguard"}
+  { "name" : "Watchguard"},
+  { "name" : "Other - See Notes"}
 ];
 
 
@@ -36,8 +33,6 @@ const equipmentVendor = [
 const EquipmentForm = ({recordType, closeComponent}) => {
 
     const [isPending, setIsPending] = useState(false);
-
-
     const selectedCustomer = useSelector(state => state.scust.customer);
     const dispatch = useDispatch();
 
@@ -114,7 +109,7 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                 return;
             } else {
                 setIsPending(false);
-                toast.error(`${serverResponse.status} (Server Response)`);
+                toast.error(`${serverResponse.status} ${serverResponse.message}`);
                 return;
             }
         } catch (error) { // will capture if the server is down
@@ -153,7 +148,8 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <label className="form-label">Equipment Type</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <select {...register('equipment_type', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Laptop' className={errors.equipment_type && dirtyFields.equipment_type ? 'form-select is-invalid' : 'form-select'}>
+                                <select {...register('equipment_type', { required: true, pattern: regexPatterns.alphaNumeric })} 
+                                defaultValue='Laptop' className={errors.equipment_type && dirtyFields.equipment_type ? 'form-select is-invalid' : 'form-select'}>
                                   {/*  NOTE TO SELF CHANGE THIS TO ID WHEN ACTUALLY PULLING FROM DB*/}
                                    {equipmentType.map(type => <option key={type.name} value={type.name}>{type.name}</option>)}
                                 </select>
@@ -166,7 +162,8 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <label className="form-label">Equipment Vendor</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <select {...register('vendor', { required: true, pattern: regexPatterns.alphaNumeric })} defaultValue='Laptop' className={errors.vendor && dirtyFields.vendor ? 'form-select is-invalid' : 'form-select'}>
+                                <select {...register('vendor', { required: true, pattern: regexPatterns.alphaNumeric })} 
+                                defaultValue='Dell' className={errors.vendor && dirtyFields.vendor ? 'form-select is-invalid' : 'form-select'}>
                                    {equipmentVendor.map(vendor => <option key={vendor.name} value={vendor.name}>{vendor.name}</option>)}
                                 </select>
                             </div>
@@ -178,7 +175,8 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <label className="form-label">Model</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('model', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.model && dirtyFields.model ? 'form-control is-invalid' : 'form-control'} placeholder={"Model: (Required)"} />
+                                <input {...register('model', { required: true, pattern: regexPatterns.alphaNumeric })} 
+                                className={errors.model && dirtyFields.model ? 'form-control is-invalid' : 'form-control'} placeholder={"Model: (Required)"} />
                             </div>
                         </div>
                         {/* ================= SERIAL NUMBER ====================== */}
@@ -187,7 +185,7 @@ const EquipmentForm = ({recordType, closeComponent}) => {
                                 <label className="form-label">Serial Number</label>
                             </div>
                             <div className="col-12 col-md-9">
-                                <input {...register('serial_number', { required: true, pattern: regexPatterns.alphaNumeric })} className={errors.serial_number && dirtyFields.serial_number ? 'form-control is-invalid' : 'form-control'} placeholder={"Serial Number: (Required)"} />
+                                <input {...register('serial_number', { required: false, pattern: regexPatterns.alphaNumeric })} className={errors.serial_number && dirtyFields.serial_number ? 'form-control is-invalid' : 'form-control'} placeholder={"Serial Number: (Required)"} />
                             </div>
                         </div> 
 

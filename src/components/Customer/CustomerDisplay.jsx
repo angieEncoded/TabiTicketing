@@ -6,6 +6,8 @@ import EquipmentTable from '../Tables/EquipmentTable.jsx'
 import LicenseTable from '../Tables/LicenseTable.jsx'
 import PicturesCarousel from './PicturesCarousel.jsx'
 import CustomerTicketTable from '../Tables/CustomerTicketTable.jsx'
+import FirewallDisplay from './FirewallDisplay.jsx'
+import Servers from './Servers.jsx'
 
 const CustomerDisplay = ({handleRowClick}) => {
 
@@ -13,6 +15,8 @@ const CustomerDisplay = ({handleRowClick}) => {
     <>
       <CustomerBasic/>
       <AddressDisplay/>
+      <FirewallDisplay />
+      <Servers />
       <ContactTable/>
       <CustomerTicketTable handleRowClick={handleRowClick}/>
       <EquipmentTable/>

@@ -10,7 +10,6 @@ const { validateNewContact } = require("../util/validationHelpers")
 // Fetch all active contacts
 router.get("/", async (req, res, next) => {
 
-    const { customerId } = req.params
     try {
         const contacts = await Contact.findAll({ where:{'status':  'ACTIVE'} });
      
@@ -20,6 +19,8 @@ router.get("/", async (req, res, next) => {
 
         return res.json({status: 200, message: "Successfully fetched", contacts: contacts});
         
+
+
     } catch (error) {
         return res.json({ status: 500, message: error.message })
     }
@@ -56,6 +57,7 @@ router.post('/:recordType/:id', validateNewContact, async (req,res,next)=> {
         
         if(recordType === 'customer'){ 
             const customerContacts = await Contact.create({uuid: uuidv4(), customerId: id, ...data})
+            console.log(customerContacts);
             return res.json({status: 200, message: "Successfully saved", customerContacts: customerContacts });
         }
 

@@ -3,8 +3,8 @@ const Joi = require("joi");
 module.exports.customerSchema = Joi.object({
     customer_name: Joi.string().required(),
     primary_phone: Joi.string().required(),
-    secondary_phone: Joi.string().allow(''),
-    fax: Joi.string().allow(''),
+    secondary_phone: Joi.string().allow('').allow(null),
+    fax: Joi.string().allow('').allow(null),
     website: Joi.string().allow(''),
     email: Joi.string().allow(''),
     notes: Joi.string().allow(''),
@@ -12,13 +12,52 @@ module.exports.customerSchema = Joi.object({
     email_domain: Joi.string().allow(''),
     email_host: Joi.string().allow(''),
     isp: Joi.string().allow(''),
+    dns: Joi.string().allow(''),
+    hours: Joi.string().allow(''),
     office_suite: Joi.string().allow(''),
     server_domain: Joi.string().allow(''),
     phone_system: Joi.string().allow(''),
     data_backup: Joi.string().allow(''),
+    vpn_endpoint: Joi.string().allow(''),
     added_by: Joi.string().required(),
     updated_by: Joi.string().required(),
 });
+
+
+module.exports.firewallSchema = Joi.object({
+    purpose: Joi.string().required(),
+    status: Joi.string().required(),
+    vendor: Joi.string().required(),
+    model: Joi.string().required(),
+    serial_number: Joi.string().required(),
+    firmware_version: Joi.string().allow(''),
+
+    isp: Joi.string().allow(''), 
+    webui_address: Joi.string().allow(''),
+    isp_ip_type: Joi.string().allow(''),
+    external_ip_address: Joi.string().allow(''),
+    subnet_mask: Joi.string().allow(''),
+    gateway: Joi.string().allow(''),
+    primary_dns: Joi.string().allow(''),
+    secondary_dns: Joi.string().allow(''),
+    tertiary_dns: Joi.string().allow(''),
+    internal_ip_address: Joi.string().allow(''),
+    primary_subnet: Joi.string().allow(''),
+    secondary_subnet: Joi.string().allow(''),
+    dmz: Joi.string().allow(''),
+    wifi: Joi.string().allow(''),
+
+    notes: Joi.string().allow(''),
+    sold_date: Joi.date().allow(''),
+    purchase_date: Joi.date().allow(''),
+    warranty_expires: Joi.date().allow(''),
+    end_of_life: Joi.date().allow(''),
+    install_date: Joi.date().allow(''),
+
+    added_by: Joi.string().required(),
+    updated_by: Joi.string().required(),
+})
+
 
 module.exports.addressSchema = Joi.object({
     type: Joi.string().required(),
@@ -63,9 +102,9 @@ module.exports.contactSchema = Joi.object({
     first_name: Joi.string().required(),
     middle_name: Joi.string().allow(''),
     last_name: Joi.string().required(),
-    work_phone: Joi.string().required(),
+    work_phone: Joi.string().allow('').allow(null),
     extension: Joi.string().allow(''),
-    cell_phone: Joi.string().allow(''),
+    cell_phone: Joi.string().allow('').allow(null),
     fax: Joi.string().allow(''),
     job_title: Joi.string().required(),
     email: Joi.string().allow(''),

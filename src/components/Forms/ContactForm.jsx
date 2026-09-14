@@ -10,6 +10,7 @@ import { customersActions } from '../../store/CustomerSlice.js'
 import { selectedCustomerActions } from "../../store/SelectedCustomerSlice.js";
 import { getAllCustomers, getSelectedCustomerData } from "../../util/helperFunctions.js";
 import urls from "../../util/apiPaths.json";
+import PhoneInput from 'react-phone-number-input/react-hook-form-input';
 
 const salutations = [
     "",
@@ -38,6 +39,7 @@ const ContactForm = ({ recordType, closeComponent }) => {
         register,
         handleSubmit,
         reset,
+        control,
         clearErrors,
         formState,
         formState: { errors, isValid, dirtyFields, isSubmitSuccessful },
@@ -106,7 +108,7 @@ const ContactForm = ({ recordType, closeComponent }) => {
                 return;
             } else {
                 setIsPending(false);
-                toast.error(`${serverResponse.status} (Server Response)`);
+                toast.error(`${serverResponse.status} ${serverResponse.message}`);
                 return;
             }
         } catch (error) { // will capture if the server is down
@@ -164,7 +166,7 @@ const ContactForm = ({ recordType, closeComponent }) => {
                                     <label className="form-label">Work Phone</label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input {...register('work_phone', { required: true, pattern: regexPatterns.phone })} className={errors.work_phone && dirtyFields.work_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Required)"} />
+                                    <PhoneInput name="work_phone" control={control} defaultCountry="US" className={errors.work_phone && dirtyFields.work_phone ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177" />
                                 </div>
                             </div>
                             
@@ -236,7 +238,7 @@ const ContactForm = ({ recordType, closeComponent }) => {
                                     <label className="form-label">Cell Phone</label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input {...register('cell_phone', { required: false, pattern: regexPatterns.phone })} className={errors.cell_phone && dirtyFields.cell_phone ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
+                                    <PhoneInput name="cell_phone" control={control} defaultCountry="US" className={errors.cell_phone && dirtyFields.cell_phone ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177" />
                                 </div>
                             </div>
 
@@ -246,7 +248,7 @@ const ContactForm = ({ recordType, closeComponent }) => {
                                     <label className="form-label">Fax</label>
                                 </div>
                                 <div className="col-12 col-md-9">
-                                    <input {...register('fax', { required: false, pattern: regexPatterns.phone })} className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'} placeholder={"Format: 908-310-7603 (Optional)"} />
+                                    <PhoneInput name="fax" control={control} defaultCountry="US" className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177" />
                                 </div>
                             </div>
 

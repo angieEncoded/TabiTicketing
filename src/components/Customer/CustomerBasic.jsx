@@ -8,6 +8,8 @@ import Buttontabi from '../Button/Buttontabi';
 import { useForm } from "react-hook-form"
 import regexPatterns from '../../util/regexPatterns';
 import urls from "../../util/apiPaths.json";
+import PhoneInput from 'react-phone-number-input/react-hook-form-input';
+
 
 const CustomerBasic = ({ id }) => {
 
@@ -28,6 +30,7 @@ const CustomerBasic = ({ id }) => {
         handleSubmit,
         reset,
         clearErrors,
+        control,
         formState,
         setError,
         formState: { errors, isValid, dirtyFields, isSubmitSuccessful },
@@ -60,7 +63,7 @@ const CustomerBasic = ({ id }) => {
 
     const copyToClipboard = (type, value) => {
 
-        if (value === "") {
+        if (value === "" || value == null) {
             toast.warning("Nothing to copy");
             return;
         }
@@ -69,6 +72,7 @@ const CustomerBasic = ({ id }) => {
         if (type === "Phone") { setClipboard("Phone") }
         if (type === "Phone2") { setClipboard("Phone2") }
         if (type === "Website") { setClipboard("Website") }
+        if (type === "vpn_endpoint") { setClipboard("vpn_endpoint") }
 
         clipTimer.current = setTimeout(() => {
             setClipboard(false);
@@ -122,7 +126,7 @@ const CustomerBasic = ({ id }) => {
                 if (custResults.status !== 200) { toast.error(`${custResults.status} - ${custResults.message}`) }
 
                 // refresh the background table
-                const customerTableResults = await getCustomerTableData(dispatch);
+                const customerTableResults = await getAllCustomers(dispatch);
                 if (customerTableResults.status !== 200) { toast.error(`${customerTableResults.status} - ${customerTableResults.message}`) }
 
                 swapToNormalField();
@@ -183,7 +187,7 @@ const CustomerBasic = ({ id }) => {
                                 <div>{selectedCustomer.notes}</div>
                             </div>
                             <div className="col-2 ">
-                                <i className="las la-edit icon-hover"  onClick={() => swapToEditField("notes")}></i>
+                                <i className="las la-edit icon-hover" onClick={() => swapToEditField("notes")}></i>
                             </div>
                         </div>
 
@@ -255,12 +259,10 @@ const CustomerBasic = ({ id }) => {
                                             <div className="col-12 col-md-3">
                                                 <label className="form-label">Primary Phone</label>
                                             </div>
-                                            <div className="col-12 col-md-9">
-                                                <input {...register('primary_phone', { required: true, pattern: regexPatterns.phone })}
-                                                    className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'}
-                                                    placeholder={"Format: 908-310-7603 (Required)"}
-                                                    defaultValue={selectedCustomer.primary_phone} />
-                                            </div>
+
+
+                                            <PhoneInput name="primary_phone" control={control} defaultCountry="US" className={errors.primary_phone && dirtyFields.primary_phone ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177" defaultValue={selectedCustomer.primary_phone} />
+                                            {/* {errors.primary_phone  <span className="text-danger">This field is required</span>} */}
                                         </div>
 
                                         <div className="float-end">
@@ -294,10 +296,8 @@ const CustomerBasic = ({ id }) => {
                                                 <label className="form-label">Secondary Phone</label>
                                             </div>
                                             <div className="col-12 col-md-9">
-                                                <input {...register('secondary_phone', { required: false, pattern: regexPatterns.phone })}
-                                                    className={errors.secondary_phone && dirtyFields.secondary_phone ? 'form-control is-invalid' : 'form-control'}
-                                                    placeholder={"Format: 908-310-7603 (Optional)"}
-                                                    defaultValue={selectedCustomer.secondary_phone} />
+                                              <PhoneInput name="secondary_phone" control={control} defaultCountry="US" className={errors.secondary_phone && dirtyFields.secondary_phone ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177" defaultValue={selectedCustomer.secondary_phone} />
+
                                             </div>
                                         </div>
                                         <div className="float-end">
@@ -320,8 +320,165 @@ const CustomerBasic = ({ id }) => {
                             }
 
 
-                        </div>
 
+
+                            {editingField && editingField === "email_domain" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= EMAIL DOMAIN ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">Email Domain</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("email_domain", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.email_domain && dirtyFields.email_domain ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Email Domain (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.email_domain} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">Email Domain: </div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.email_domain}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("email_domain")}></i>
+                                    </div>
+                                </div>
+                            }
+
+                            {editingField && editingField === "email_host" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= Email Hosting Provider ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">Email Hosting Provider</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("email_host", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.email_host && dirtyFields.email_host ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Email Hosting Provider (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.email_host} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">Email Hosting Provider </div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.email_host}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("email_host")}></i>
+                                    </div>
+                                </div>
+                            }
+
+
+
+                            {editingField && editingField === "isp" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= Internet Service Provider ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">ISP</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("isp", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.isp && dirtyFields.isp ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Email Hosting Provider (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.isp} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">ISP </div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.isp}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("isp")}></i>
+                                    </div>
+                                </div>
+                            }
+
+
+                            {editingField && editingField === "data_backup" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= PHONE SYSTEM ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">Data Backup</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("data_backup", { required: false, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.data_backup && dirtyFields.data_backup ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Data Backup (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.data_backup} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">Data Backup</div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.data_backup}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("data_backup")}></i>
+                                    </div>
+                                </div>
+                            }
+
+
+
+
+
+                        </div>
+                        { /* ---------------------------------------------------------------------------------------------------------*/}
 
                         <div className="col-12 col-xl-6">
                             {editingField && editingField === "fax" ?
@@ -334,10 +491,7 @@ const CustomerBasic = ({ id }) => {
                                                 <label className="form-label">Fax</label>
                                             </div>
                                             <div className="col-12 col-md-9">
-                                                <input {...register('fax', { required: false, pattern: regexPatterns.phone })}
-                                                    className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'}
-                                                    placeholder={"Fax Number (Optional)"}
-                                                    defaultValue={selectedCustomer.fax} />
+                                              <PhoneInput name="fax" control={control} defaultCountry="US" className={errors.fax && dirtyFields.fax ? 'form-control is-invalid' : 'form-control'} placeholder="Format (908) 888-8177" defaultValue={selectedCustomer.fax} />
                                             </div>
                                         </div>
                                         <div className="float-end">
@@ -355,6 +509,46 @@ const CustomerBasic = ({ id }) => {
                                     <div className="col-lg-1"><i className="las la-edit icon-hover" onClick={() => swapToEditField("fax")}></i></div>
                                 </div>
                             }
+
+
+                            {editingField && editingField === "vpn_endpoint" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        {/* ================= VPN ENDPOINT ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">VPN Endpoint <span className={'text-danger'}></span></label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input  {...register('vpn_endpoint', { required: false, pattern: regexPatterns.website })}
+                                                    className={errors.vpn_endpoint && dirtyFields.vpn_endpoint ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"VPN Endpoint (Optional)"}
+                                                    defaultValue={selectedCustomer.vpn_endpoint} />
+
+                                            </div>
+                                        </div>
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">VPN Endpoint:
+                                        {clipboard && clipboard === 'vpn_endpoint' ? <span className="text-success"> <i className="las la-check mx-2"></i></span> : <span className={"text-primary"}><i className="lar la-copy tabi-hover mx-2" onClick={() => copyToClipboard("vpn_endpoint", selectedCustomer.vpn_endpoint)}></i></span>}
+                                    </div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.vpn_endpoint}</div>
+                                    </div>
+                                    <div className="col-lg-1"><i className="las la-edit icon-hover" onClick={() => swapToEditField("vpn_endpoint")}></i></div>
+                                </div>
+                            }
+
+
+
+
 
 
                             {editingField && editingField === "website" ?
@@ -391,6 +585,10 @@ const CustomerBasic = ({ id }) => {
                                     <div className="col-lg-1"><i className="las la-edit icon-hover" onClick={() => swapToEditField("website")}></i></div>
                                 </div>
                             }
+
+
+
+
 
 
                             {editingField && editingField === "email" ?
@@ -430,6 +628,159 @@ const CustomerBasic = ({ id }) => {
                                     </div>
                                 </div>
 
+                            }
+
+
+
+
+                            {editingField && editingField === "dns" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= dns Provider ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">DNS Provider</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("dns", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.dns && dirtyFields.dns ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"DNS Provider (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.dns} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">DNS Provider</div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.dns}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("dns")}></i>
+                                    </div>
+                                </div>
+                            }
+
+                            {editingField && editingField === "office_suite" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= OFFICE SUITE ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">Office Suite</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("office_suite", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.office_suite && dirtyFields.office_suite ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Office Suite (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.office_suite} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">Office Suite</div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.office_suite}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("office_suite")}></i>
+                                    </div>
+                                </div>
+                            }
+
+                            {editingField && editingField === "server_domain" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= SERVER DOMAIN ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">Server Domain</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("server_domain", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.server_domain && dirtyFields.server_domain ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Server Domain (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.server_domain} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">Server Domain</div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.server_domain}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("server_domain")}></i>
+                                    </div>
+                                </div>
+                            }
+
+
+
+                            {editingField && editingField === "phone_system" ?
+                                <div className="row mb-3">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                                        {/* ================= PHONE SYSTEM ====================== */}
+                                        <div className="mb-3 row  align-items-center">
+                                            <div className="col-12 col-md-3">
+                                                <label className="col-form-label">Phone System</label>
+                                            </div>
+                                            <div className="col-12 col-md-9">
+                                                <input {...register("phone_system", { required: true, pattern: regexPatterns.alphaNumeric })}
+                                                    className={errors.phone_system && dirtyFields.phone_system ? 'form-control is-invalid' : 'form-control'}
+                                                    placeholder={"Phone System (Optional)"}
+                                                    autoFocus={true}
+                                                    defaultValue={selectedCustomer.phone_system} />
+
+                                            </div>
+                                        </div>
+
+                                        <div className="float-end">
+                                            <Buttontabi type='button' buttonClass={'secondary btn-sm'} title={"Cancel"} onClick={swapToNormalField} />
+                                            <Buttontabi type='submit' buttonClass={'logo btn-sm'} title={!isPending ? "Save Edit" : "Submitting..."} />
+                                        </div>
+                                    </form>
+                                </div>
+                                :
+                                <div className="row mb-2">
+                                    <div className="col-lg-4 d-none d-lg-block">Phone System</div>
+                                    <div className="col-lg-7">
+                                        <div>{selectedCustomer.phone_system}</div>
+                                    </div>
+                                    <div className="col-lg-1">
+                                        <i className="las la-edit icon-hover" onClick={() => swapToEditField("phone_system")}></i>
+                                    </div>
+                                </div>
                             }
 
 

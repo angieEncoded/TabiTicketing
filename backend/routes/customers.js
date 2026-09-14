@@ -5,6 +5,7 @@ const Address = require("../models/Address");
 const Contact = require("../models/Contact");
 const Ticket = require("../models/Ticket");
 const Equipment = require("../models/Equipment");
+const Firewall = require("../models/Firewall");
 const License = require("../models/License");
 const Picture = require("../models/Picture");
 const Project = require("../models/Project");
@@ -47,6 +48,7 @@ router.get("/", async (req, res, next) => {
 // Add a new customer
 router.post("/", validateNewCustomer, async (req, res, next) => {
     const data = req.body;
+    console.log(data)
     try {
         const customer = await Customer.create({
             uuid: uuidv4(),
@@ -55,6 +57,7 @@ router.post("/", validateNewCustomer, async (req, res, next) => {
         return res.json({ status: 200, message: "Successfully Added", customer: customer });
 
     } catch (error) {
+        console.log(error)
         return res.json({ status: 500, message: error.message })
     }
 
@@ -72,7 +75,7 @@ router.get("/:id", async (req, res, next) => {
             where: { id: id },
             include: [
                 {model: Ticket, where:{ status:  { [Op.ne]: 'CLOSED' }}, include: [User], required: false}, // required false to prevent fail in querying with empty values
-                Address, Contact, Equipment, License, Picture, Project
+                Address, Contact, Equipment, License, Picture, Project, Firewall
             ]        
         })
 

@@ -6,7 +6,7 @@ const Equipment = db.define('equipment', {
     equipment_type: {type: Sequelize.STRING, allowNull: false},
     vendor: {type: Sequelize.STRING, allowNull: false},
     model: {type: Sequelize.STRING, allowNull: false},
-    serial_number: {type: Sequelize.STRING, allowNull: false},
+    serial_number: {type: Sequelize.STRING, allowNull: true},
     service_tag: {type: Sequelize.STRING, allowNull: true},
     os_type: {type: Sequelize.STRING, allowNull: true},
     os_version: {type: Sequelize.STRING, allowNull: true},

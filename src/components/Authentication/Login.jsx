@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { requiredNameCheck, requiredPasswordCheck, requiredTwoEfAyCheck } from '../../util/regExCheckers';
+import { requiredNameCheck, requiredPasswordCheck, requiredTwoEfAyCheck } from './regExCheckers';
 import useInput from '../../hooks/useInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticationActions } from '../../store/AuthenticationSlice';

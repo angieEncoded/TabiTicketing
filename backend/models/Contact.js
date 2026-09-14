@@ -7,7 +7,7 @@ const Contact = db.define('contact', {
     first_name: {type: Sequelize.STRING, allowNull: false},
     middle_name: {type: Sequelize.STRING, allowNull: true},
     last_name: {type: Sequelize.STRING, allowNull: false},
-    work_phone: {type: Sequelize.STRING, allowNull: false},
+    work_phone: {type: Sequelize.STRING, allowNull: true},
     extension: {type: Sequelize.STRING, allowNull: true},
     cell_phone: {type: Sequelize.STRING, allowNull: true},
     fax: {type: Sequelize.STRING, allowNull: true},
