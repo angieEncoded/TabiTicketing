@@ -46,7 +46,7 @@ const CustomerBasic = ({ id }) => {
         setEditingField("empty");
     }
 
-    // handle these two timers with a reference
+    // handle these timers with a reference
     const clipTimer = useRef(null);
 
     // Clean up any residuals on the clipboard
